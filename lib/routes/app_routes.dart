@@ -1,16 +1,20 @@
 import 'package:get/get.dart';
-import 'package:planiq/features/authentication/presentation/screens/login_screen.dart';
-import 'package:planiq/features/authentication/presentation/screens/sing_up_screen.dart';
-import 'package:planiq/features/splash_screen/presentation/screens/splash_screen.dart';
+import 'package:planiq/features/common/authentication/presentation/screens/login_screen.dart';
+import 'package:planiq/features/common/splash_screen/presentation/screens/splash_screen.dart';
+import 'package:planiq/features/employe_flow/landing/presentation/screens/landing_screen.dart';
 
 class AppRoute {
   static String loginScreen = "/loginScreen";
-  static String signUpScreen = "/signUpScreen";
   static String init = "/";
 
+  //Employe routes
+  static String landingPage = "/landingPage";
+
   static List<GetPage> routes = [
-    GetPage(name: loginScreen, page: () => const LoginScreen()),
     GetPage(name: init, page: () => SplashScreen()),
-    GetPage(name: signUpScreen, page: () => const SignUpScreen())
+    GetPage(name: loginScreen, page: () => const LoginScreen()),
+
+    //Employe Routes
+    GetPage(name: landingPage, page: () => EmployeLandingScreen())
   ];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_logo.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/body_padding.dart';
@@ -7,6 +8,7 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/custom_text_field.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/routes/app_routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -65,7 +67,9 @@ class LoginScreen extends StatelessWidget {
                     ),
                     VerticalSpace(height: 32.h),
                     CustomButton(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed(AppRoute.landingPage);
+                      },
                       title: "Log In",
                     )
                   ],

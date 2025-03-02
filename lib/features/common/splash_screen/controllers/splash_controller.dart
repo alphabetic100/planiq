@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planiq/features/authentication/presentation/screens/login_screen.dart';
+import 'package:planiq/features/common/authentication/presentation/screens/login_screen.dart';
 
 class SplashController extends GetxController {
   void navigateToHomeScreen() {
