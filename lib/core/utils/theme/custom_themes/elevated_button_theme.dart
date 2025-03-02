@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planiq/core/utils/constants/app_colors.dart';
 
 class AppElevatedButtonTheme {
   AppElevatedButtonTheme._();
@@ -14,13 +15,18 @@ class AppElevatedButtonTheme {
       style: ButtonStyle(
         elevation: const WidgetStatePropertyAll(0),
         foregroundColor: WidgetStateProperty.resolveWith<Color>(
-          (states) => states.contains(WidgetState.disabled) ? disabledTextColor : defaultTextColor,
+          (states) => states.contains(WidgetState.disabled)
+              ? disabledTextColor
+              : defaultTextColor,
         ),
         backgroundColor: WidgetStateProperty.resolveWith<Color>(
-          (states) => states.contains(WidgetState.disabled) ? disabledBackgroundColor : defaultBackgroundColor,
+          (states) => states.contains(WidgetState.disabled)
+              ? disabledBackgroundColor
+              : defaultBackgroundColor,
         ),
         side: WidgetStateProperty.all(BorderSide(color: borderColor)),
-        padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 18)),
+        padding:
+            const WidgetStatePropertyAll(EdgeInsets.symmetric(vertical: 18)),
         textStyle: const WidgetStatePropertyAll(
           TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
@@ -34,16 +40,8 @@ class AppElevatedButtonTheme {
   static final ElevatedButtonThemeData lightElevatedButtonTheme = _baseTheme(
     defaultTextColor: Colors.white,
     disabledTextColor: Colors.grey,
-    defaultBackgroundColor: Colors.blue,
+    defaultBackgroundColor: AppColors.primaryColor,
     disabledBackgroundColor: Colors.grey.shade300,
     borderColor: Colors.blue,
-  );
-
-  static final ElevatedButtonThemeData darkElevatedButtonTheme = _baseTheme(
-    defaultTextColor: Colors.white,
-    disabledTextColor: Colors.grey.shade600,
-    defaultBackgroundColor: Colors.blueGrey,
-    disabledBackgroundColor: Colors.grey.shade800,
-    borderColor: Colors.blueGrey,
   );
 }

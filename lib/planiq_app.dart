@@ -27,9 +27,8 @@ class PlaniqApp extends StatelessWidget {
           initialRoute: AppRoute.loginScreen,
           getPages: AppRoute.routes,
           initialBinding: ControllerBinder(),
-          themeMode: ThemeMode.system,
+          themeMode: ThemeMode.light,
           theme: _getLightTheme(),
-          darkTheme: _getDarkTheme(),
           defaultTransition:
               PlatformUtils.isIOS ? Transition.cupertino : Transition.fade,
           locale: Get.deviceLocale,
@@ -45,11 +44,5 @@ class PlaniqApp extends StatelessWidget {
     return PlatformUtils.isIOS
         ? AppTheme.lightTheme.copyWith(platform: TargetPlatform.iOS)
         : AppTheme.lightTheme;
-  }
-
-  ThemeData _getDarkTheme() {
-    return PlatformUtils.isIOS
-        ? AppTheme.darkTheme.copyWith(platform: TargetPlatform.iOS)
-        : AppTheme.darkTheme;
   }
 }

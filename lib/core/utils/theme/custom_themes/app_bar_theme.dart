@@ -32,7 +32,7 @@ class AppBarThemeData {
     backgroundColor: Colors.white,
     iconColor: Colors.black,
     titleColor: Colors.black,
-    surfaceTintColor: AppColors.primary,
+    surfaceTintColor: AppColors.primaryColor,
     elevation: 3,
   );
 
