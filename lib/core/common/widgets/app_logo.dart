@@ -6,15 +6,19 @@ class AppLogo extends StatelessWidget {
     super.key,
     this.height,
     this.width,
+    this.color,
   });
   final double? height;
   final double? width;
+
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Image.asset(
       ImagePath.appLogo,
       height: height,
       width: width,
+      color: color,
     );
   }
 }

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:planiq/core/common/widgets/app_logo.dart';
+import 'package:planiq/core/common/widgets/app_spacer.dart';
+import 'package:planiq/core/common/widgets/body_padding.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/custom_text_field.dart';
+import 'package:planiq/core/utils/constants/app_colors.dart';
+import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -9,35 +14,65 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 120,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: BodyPadding(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                VerticalSpace(height: 40.h),
+                AppLogo(
+                  color: AppColors.primaryColor,
+                  width: 150.w,
+                ),
+                VerticalSpace(height: 40.h),
+                CustomText(
+                  text:
+                      "Receive job assignments, track progress, and complete tasks easily.",
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18.sp,
+                  textAlign: TextAlign.center,
+                ),
+                CustomText(
+                  text: "Log in and get started!",
+                  color: Color(0xFF526366),
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w700,
+                ),
+                VerticalSpace(height: 60.h),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: "Enter ID",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    VerticalSpace(height: 8.h),
+                    CustomTextField(
+                      hintText: "Enter your id",
+                    ),
+                    VerticalSpace(height: 20.h),
+                    CustomText(
+                      text: "Password",
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    VerticalSpace(height: 8.h),
+                    CustomTextField(
+                      hintText: "Enter your password",
+                    ),
+                    VerticalSpace(height: 32.h),
+                    CustomButton(
+                      onTap: () {},
+                      title: "Log In",
+                    )
+                  ],
+                )
+              ],
             ),
-            CustomButton(onTap: () {}, child: Text("data")),
-            SizedBox(
-              height: 20,
-            ),
-            CustomButton(
-                isPrimary: false,
-                onTap: () {},
-                child: CustomText(text: "Log In")),
-            SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              hintText: "Enter your email",
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            CustomTextField(
-              isPassword: true,
-              hintText: "Enter your password",
-            ),
-          ],
+          ),
         ),
       ),
     );
