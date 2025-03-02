@@ -5,7 +5,7 @@ import 'package:planiq/features/authentication/presentation/screens/login_screen
 class SplashController extends GetxController {
   void navigateToHomeScreen() {
     Future.delayed(
-      const Duration(milliseconds: 1500),
+      const Duration(milliseconds: 1800),
       () {
         Get.offAll(
           () => const LoginScreen(),
