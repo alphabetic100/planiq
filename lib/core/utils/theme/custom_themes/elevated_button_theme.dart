@@ -42,6 +42,6 @@ class AppElevatedButtonTheme {
     disabledTextColor: Colors.grey,
     defaultBackgroundColor: AppColors.primaryColor,
     disabledBackgroundColor: Colors.grey.shade300,
-    borderColor: Colors.blue,
+    borderColor: Color(0xFF00768A),
   );
 }
