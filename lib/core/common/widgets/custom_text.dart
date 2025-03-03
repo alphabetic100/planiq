@@ -13,6 +13,7 @@ class CustomText extends StatelessWidget {
   final Color? decorationColor;
   final TextAlign? textAlign;
   final String? fontFamily;
+  final double? height;
   const CustomText({
     super.key,
     required this.text,
@@ -25,6 +26,7 @@ class CustomText extends StatelessWidget {
     this.decorationColor,
     this.textAlign,
     this.fontFamily,
+    this.height,
   });
 
   @override
@@ -33,6 +35,7 @@ class CustomText extends StatelessWidget {
       text,
       textAlign: textAlign ?? TextAlign.start,
       style: TextStyle(
+          height: height,
           fontFamily: fontFamily ?? GoogleFonts.figtree().fontFamily,
           decorationColor: decorationColor ?? AppColors.textPrimary,
           fontSize: fontSize ?? 16,
