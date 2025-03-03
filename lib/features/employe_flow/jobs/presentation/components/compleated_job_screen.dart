@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:planiq/core/common/widgets/body_padding.dart';
 import 'package:planiq/core/common/widgets/custom_job_card.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
