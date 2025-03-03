@@ -12,6 +12,7 @@ import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/image_path.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/checklist_item_widget.dart';
+import 'package:planiq/features/employe_flow/job_details/presentation/components/job_compleate_dialog.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
 
 class JobDetailsScreen extends StatelessWidget {
@@ -66,6 +67,20 @@ class JobDetailsScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
               VerticalSpace(height: 8),
+
+              //Image here if the job is accepted
+              Container(
+                height: 180,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        "https://s3-alpha-sig.figma.com/img/5539/7f99/3deccf2071acfcb200e647bfa0eee470?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=AEm1GffbVpE-aWJn1~~JPIRUbnL-hsNkNdFNdf0hCoNGu3fe2q04QjeXIdX4gVGptz7m-ExRj47AvrsngTEW-jt07-tiXfSNQVYb7Tc3liiUrOiwlWpf2D7BlpKk-pkSBcUvuJc02-~GBoS55bSKc17ecNCk~uawYalWJ4Sbs87Hm3YbNU2UAqOhPg2MFAsSdfjk2LfJu8SDMUVAKhqxS0blaqceIECIm7h16-0zxa0lcOilTkae4qrxGvDWAx6a46gdmjtYCxTkZFbqlRsQ~cNxk3iGiZGSSfxXub4wVSWlCmQYWnVoLs6~fEAagLnzDWCgZ54gagBe9qTFiZMWDQ__"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              VerticalSpace(height: 10),
               // Location
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +132,7 @@ class JobDetailsScreen extends StatelessWidget {
               // Map
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 16),
-                height: 150,
+                height: 180,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
@@ -336,7 +351,13 @@ class JobDetailsScreen extends StatelessWidget {
                   HorizontalSpace(width: 16.w),
                   Expanded(
                       child: CustomButton(
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return JobCompleateDialog();
+                          });
+                    },
                     title: "Accept",
                   ))
                 ],
