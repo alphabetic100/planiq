@@ -11,8 +11,10 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/image_path.dart';
+import 'package:planiq/features/employe_flow/job_details/presentation/components/additional_note_section.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/checklist_item_widget.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/job_compleate_dialog.dart';
+import 'package:planiq/features/employe_flow/job_details/presentation/components/report_issue_bottom_sheet.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
 
 class JobDetailsScreen extends StatelessWidget {
@@ -318,7 +320,8 @@ class JobDetailsScreen extends StatelessWidget {
                   ToolTagWidget(text: 'Scale'),
                 ],
               ),
-
+            
+              AdditionalNoteSection(),
               const SizedBox(height: 24),
 
               // Contact Persons
@@ -343,7 +346,13 @@ class JobDetailsScreen extends StatelessWidget {
                 children: [
                   Expanded(
                       child: CustomButton(
-                    onTap: () {},
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return ReportIssueBottomSheet();
+                          });
+                    },
                     title: "Decline",
                     titleColor: Color(0xFF526366),
                     isPrimary: false,
