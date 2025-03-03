@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/body_padding.dart';
+import 'package:planiq/core/common/widgets/contact_person_card.dart';
 import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_job_card.dart';
@@ -10,8 +11,8 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/image_path.dart';
-import 'package:planiq/features/employe_flow/jobs/presentation/components/job_details_screen/components/checklist_item_widget.dart';
-import 'package:planiq/features/employe_flow/jobs/presentation/components/job_details_screen/components/tool_tag_widget.dart';
+import 'package:planiq/features/employe_flow/job_details/presentation/components/checklist_item_widget.dart';
+import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
 
 class JobDetailsScreen extends StatelessWidget {
   const JobDetailsScreen({super.key});
@@ -260,12 +261,18 @@ class JobDetailsScreen extends StatelessWidget {
               ),
               VerticalSpace(height: 24),
               // Progress Checklist
-              Text(
-                'Progress Checklist',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+              CustomText(
+                text: 'Progress Checklist',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+              VerticalSpace(height: 8),
+              CustomText(
+                text:
+                    "Please ensure all steps are completed before marking the task as finished.*",
+                color: Color(0xFFD76067),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
               ),
               VerticalSpace(height: 16),
               // Checklist Items
@@ -275,8 +282,8 @@ class JobDetailsScreen extends StatelessWidget {
                   text: 'System diagnostic performed', isCompleted: true),
               ChecklistItemWidget(text: 'Filters replaced', isCompleted: true),
               ChecklistItemWidget(
-                  text: 'Performance test conducted', isCompleted: true),
-              ChecklistItemWidget(text: 'Area Cleaned', isCompleted: true),
+                  text: 'Performance test conducted', isCompleted: false),
+              ChecklistItemWidget(text: 'Area Cleaned', isCompleted: false),
               ChecklistItemWidget(text: 'Receive Payment', isCompleted: false),
 
               // Required Tools
@@ -300,14 +307,14 @@ class JobDetailsScreen extends StatelessWidget {
               const SizedBox(height: 24),
 
               // Contact Persons
-              ContactPerson(
+              ContactPersonCard(
                 name: 'David Brown',
                 role: 'Customer',
                 avatarText: 'D',
                 avatarColor: Colors.grey,
               ),
               VerticalSpace(height: 20),
-              ContactPerson(
+              ContactPersonCard(
                 name: 'Jhon Smith',
                 role: 'Facility Manager',
                 avatarText: 'D',
@@ -339,84 +346,6 @@ class JobDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ContactPerson extends StatelessWidget {
-  final String name;
-  final String role;
-  final String? avatarText;
-  final Color? avatarColor;
-  final String? avatarImage;
-
-  const ContactPerson({
-    super.key,
-    required this.name,
-    required this.role,
-    this.avatarText,
-    this.avatarColor,
-    this.avatarImage,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        // Avatar
-        if (avatarImage != null)
-          CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage(avatarImage!),
-          )
-        else
-          CircleAvatar(
-            radius: 20,
-            backgroundColor: avatarColor ?? Colors.blue,
-            child: Text(
-              avatarText ?? '',
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        const SizedBox(width: 12),
-        // Name and role
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              name,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-              ),
-            ),
-            Text(
-              role,
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 14,
-              ),
-            ),
-          ],
-        ),
-        const Spacer(),
-        // Call icon
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFF0D8496),
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(
-            Icons.phone,
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
-      ],
     );
   }
 }

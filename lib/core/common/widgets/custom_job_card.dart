@@ -6,7 +6,7 @@ import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/features/employe_flow/jobs/presentation/components/job_details_screen/job_details_screen.dart';
+import 'package:planiq/features/employe_flow/job_details/presentation/screens/job_details_screen.dart';
 
 class CustomJobCard extends StatelessWidget {
   final String title;
