@@ -56,7 +56,7 @@ class EmployeProfileScreen extends StatelessWidget {
             color: Color(0xFFF5F5F5),
           ),
           ProfileOptionCard(
-            onTap: () => Get.to(() => LanguageOptinsScreen()),
+            onTap: () => Get.to(() => LanguageSelectionScreen()),
             leading: Icon(
               Icons.language,
               color: Color(0xFF526366),
