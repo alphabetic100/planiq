@@ -33,6 +33,8 @@ class CustomButton extends StatelessWidget {
       width: width ?? double.maxFinite,
       child: ElevatedButton(
         style: ButtonStyle(
+          overlayColor:
+              WidgetStatePropertyAll(AppColors.primaryColor.withOpacity(0.3)),
           padding: WidgetStatePropertyAll(EdgeInsets.all(padding ?? 8)),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(

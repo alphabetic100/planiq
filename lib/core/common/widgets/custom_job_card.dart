@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
@@ -58,28 +59,33 @@ class CustomJobCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.55,
+                  width: MediaQuery.of(context).size.width * 0.52,
                   child: CustomText(
                     text: title,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF0F2326),
-                    textOverflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 8.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.secondaryColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text(
-                    status,
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Color(0xFF0D9EB5),
+                HorizontalSpace(width: 5.w),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 8.0),
+                    decoration: BoxDecoration(
+                      color: status == "Compleated"
+                          ? AppColors.primaryColor
+                          : statusColor(status).withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: CustomText(
+                        text: status,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                        color: statusColor(status),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),
@@ -162,10 +168,12 @@ class CustomJobCard extends StatelessWidget {
                   title: "View Details",
                   titleColor: AppColors.primaryColor,
                 )),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: CustomButton(onTap: onStartJob, title: "Start Job"),
-                ),
+                if (status == "Starting soon") ...[
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: CustomButton(onTap: onStartJob, title: "Start Job"),
+                  ),
+                ],
               ],
             ),
           ],
@@ -184,5 +192,21 @@ class CustomJobCard extends StatelessWidget {
     final minute = timeOfDay.minute.toString().padLeft(2, '0');
     final period = timeOfDay.period == DayPeriod.am ? 'AM' : 'PM';
     return '$hour:$minute $period';
+  }
+
+  Color statusColor(String status) {
+    switch (status) {
+      case "Starting soon":
+      case "Scheduled":
+        return Color(0xFF0D9EB5);
+      case "Compleated":
+        return AppColors.white;
+      case "Work In Progress":
+        return Color(0xFF16A34A);
+      case "New Assignment":
+        return Color(0xFF00238A);
+      default:
+        return Color(0xFF0D9EB5);
+    }
   }
 }

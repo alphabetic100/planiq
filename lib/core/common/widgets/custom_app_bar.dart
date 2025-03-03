@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
+import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
@@ -26,13 +27,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       forceMaterialTransparency: false,
-      surfaceTintColor: Colors.transparent,
-      backgroundColor: backgroundColor ?? Color(0xFFFAFAFC),
+      surfaceTintColor: AppColors.primaryColor,
+      backgroundColor: backgroundColor ?? AppColors.primaryColor,
       title: title.isNotEmpty
           ? CustomText(
               text: title,
-              fontSize: (18),
-              color: AppColors.black,
+              fontSize: (20.sp),
+              color: AppColors.white,
+              fontWeight: FontWeight.w600,
             )
           : null,
       centerTitle: centerTitle,

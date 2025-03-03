@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/core/utils/constants/image_path.dart';
 
 class HomeProfileCard extends StatelessWidget {
   const HomeProfileCard({super.key});
@@ -22,6 +23,8 @@ class HomeProfileCard extends StatelessWidget {
           child: ListTile(
             leading: CircleAvatar(
               radius: 30.w,
+              backgroundColor: AppColors.secondaryColor,
+              backgroundImage: AssetImage(ImagePath.appLogo),
             ),
             title: CustomText(
               text: "Welcome Back, David",
