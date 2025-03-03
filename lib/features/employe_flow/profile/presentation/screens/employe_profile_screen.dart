@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/features/employe_flow/profile/presentation/components/change_password_screen.dart';
+import 'package:planiq/features/employe_flow/profile/presentation/components/language_optins_screen.dart';
+import 'package:planiq/features/employe_flow/profile/presentation/components/profile_details_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_option_card.dart';
 
 class EmployeProfileScreen extends StatelessWidget {
@@ -20,6 +24,9 @@ class EmployeProfileScreen extends StatelessWidget {
         children: [
           VerticalSpace(height: 20.h),
           ListTile(
+            onTap: () {
+              Get.to(() => ProfileDetailsScreen());
+            },
             leading: CircleAvatar(
               radius: 35.w,
               backgroundColor: AppColors.secondaryColor,
@@ -49,6 +56,7 @@ class EmployeProfileScreen extends StatelessWidget {
             color: Color(0xFFF5F5F5),
           ),
           ProfileOptionCard(
+            onTap: () => Get.to(() => LanguageOptinsScreen()),
             leading: Icon(
               Icons.language,
               color: Color(0xFF526366),
@@ -59,8 +67,9 @@ class EmployeProfileScreen extends StatelessWidget {
             color: Color(0xFFF5F5F5),
           ),
           ProfileOptionCard(
+            onTap: () => Get.to(() => ChangePasswordScreen()),
             leading: Icon(
-              Icons.language,
+              Icons.lock_outline,
               color: Color(0xFF526366),
             ),
             title: "Change Password",
@@ -69,6 +78,7 @@ class EmployeProfileScreen extends StatelessWidget {
             color: Color(0xFFF5F5F5),
           ),
           ProfileOptionCard(
+            onTap: () {},
             leading: Icon(
               Icons.logout,
               color: AppColors.error,
