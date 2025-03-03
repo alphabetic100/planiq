@@ -58,7 +58,7 @@ class TaskOverviewSection extends StatelessWidget {
                       color: Color(0xFF00768A),
                     ),
                     CustomText(
-                      text: "Compleated",
+                      text: "Scheduled",
                       color: Color(0xFF00768A),
                     ),
                   ],
