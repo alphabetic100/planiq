@@ -20,9 +20,9 @@ class SuperAdminLandingScreen extends StatelessWidget {
         controller: superController.pageController,
         children: [
           AdminOverviewScreen(),
+          AdminNotificationScreen(),
           AdminJobsScreen(),
           AdminUsersScreen(),
-          AdminNotificationScreen(),
         ],
       ),
     );

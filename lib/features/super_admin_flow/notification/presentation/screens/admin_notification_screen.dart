@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planiq/features/super_admin_flow/notification/presentation/widget/admin_notification_card.dart';
 
 class AdminNotificationScreen extends StatelessWidget {
   const AdminNotificationScreen({super.key});
@@ -6,9 +7,22 @@ class AdminNotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text("Admin Notification Screen"),
-      ),
-    );
+        body: Column(
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return AdminNotificationCard(
+                taskId: '123546',
+                userId: '12535',
+                date: DateTime.now(),
+                onTap: () {
+                  print('Another notification tapped');
+                },
+              );
+            })
+      ],
+    ));
   }
 }
