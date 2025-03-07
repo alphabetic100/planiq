@@ -20,6 +20,7 @@ class CustomJobCard extends StatelessWidget {
   final TimeOfDay endTime;
   final VoidCallback onViewDetails;
   final VoidCallback onStartJob;
+  final bool isFromAdmin;
 
   const CustomJobCard({
     super.key,
@@ -34,6 +35,7 @@ class CustomJobCard extends StatelessWidget {
     required this.endTime,
     required this.onViewDetails,
     required this.onStartJob,
+    this.isFromAdmin = false,
   });
 
   @override
@@ -79,7 +81,7 @@ class CustomJobCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 8.0),
                       decoration: BoxDecoration(
-                        color: status == "Compleated"
+                        color: (!isFromAdmin && status == "Compleated")
                             ? AppColors.primaryColor
                             : statusColor(status).withOpacity(0.2),
                         borderRadius: BorderRadius.circular(15),
@@ -89,7 +91,9 @@ class CustomJobCard extends StatelessWidget {
                           text: status,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
-                          color: statusColor(status),
+                          color: (!isFromAdmin && status == "Compleated")
+                              ? AppColors.white
+                              : statusColor(status),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -208,12 +212,16 @@ Color statusColor(String status) {
     case "Starting soon":
     case "Scheduled":
       return Color(0xFF0D9EB5);
-    case "Compleated":
-      return AppColors.white;
+    // case "Compleated":
+    //   return AppColors.white;
     case "Work In Progress":
+    case "Assigned":
       return Color(0xFF16A34A);
     case "New Assignment":
+    case "Compleated":
       return Color(0xFF00238A);
+    case "Unassigned":
+      return Color(0xFF8A0000);
     default:
       return Color(0xFF0D9EB5);
   }

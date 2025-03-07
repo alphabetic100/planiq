@@ -4,17 +4,20 @@ import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton(
-      {super.key,
-      this.height,
-      this.width,
-      required this.onTap,
-      required this.title,
-      this.color,
-      this.radious,
-      this.padding,
-      this.isPrimary = true,
-      this.titleColor = AppColors.white});
+  const CustomButton({
+    super.key,
+    this.height,
+    this.width,
+    required this.onTap,
+    required this.title,
+    this.color,
+    this.radious,
+    this.padding,
+    this.isPrimary = true,
+    this.titleColor = AppColors.white,
+    this.isChild = false,
+    this.child,
+  });
 
   final double? height;
   final double? width;
@@ -25,6 +28,9 @@ class CustomButton extends StatelessWidget {
   final double? padding;
   final bool isPrimary;
   final Color titleColor;
+  final bool isChild;
+
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +51,14 @@ class CustomButton extends StatelessWidget {
               color ?? (isPrimary ? AppColors.primaryColor : AppColors.white)),
         ),
         onPressed: onTap,
-        child: CustomText(
-          text: title,
-          color: titleColor,
-          fontSize: 16.sp,
-          fontWeight: FontWeight.w600,
-        ),
+        child: isChild
+            ? child
+            : CustomText(
+                text: title,
+                color: titleColor,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w600,
+              ),
       ),
     );
   }

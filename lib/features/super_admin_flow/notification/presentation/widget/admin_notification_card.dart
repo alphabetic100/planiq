@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:planiq/core/utils/constants/app_colors.dart';
+import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class AdminNotificationCard extends StatelessWidget {
   final String taskId;
   final String userId;
   final DateTime date;
+  final bool isAccepted;
   final VoidCallback? onTap;
 
   const AdminNotificationCard({
@@ -12,6 +15,7 @@ class AdminNotificationCard extends StatelessWidget {
     required this.taskId,
     required this.userId,
     required this.date,
+    required this.isAccepted,
     this.onTap,
   });
 
@@ -24,23 +28,22 @@ class AdminNotificationCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Bell icon in a light green circle
             Container(
-              width: 48.0,
-              height: 48.0,
-              decoration: const BoxDecoration(
-                color: Color(0xFFF0FFF0), // Light green background
+              width: 35.0.w,
+              height: 35.0.h,
+              decoration: BoxDecoration(
+                color: isAccepted ? Color(0xFFF1FFF5) : Color(0xFFFFF1F1),
                 shape: BoxShape.circle,
               ),
-              child: const Center(
+              child: Center(
                 child: Icon(
                   Icons.notifications_active,
-                  color: Color(0xFF22C55E), // Green bell icon
-                  size: 28.0,
+                  color: isAccepted ? Color(0xFF22C55E) : Color(0xFFA31616),
+                  size: 20.0,
                 ),
               ),
             ),
-            const SizedBox(width: 16.0),
+            SizedBox(width: 16.0.w),
             // Text content
             Expanded(
               child: Column(
@@ -49,18 +52,18 @@ class AdminNotificationCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Task assignment accepted',
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 18.0.sp,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       Text(
                         DateFormat('MMM d, yyyy').format(date),
-                        style: const TextStyle(
-                          fontSize: 20.0,
+                        style: TextStyle(
+                          fontSize: 12.0.sp,
                           color: Color(0xFF64748B), // Slate gray color
                         ),
                       ),
@@ -69,9 +72,9 @@ class AdminNotificationCard extends StatelessWidget {
                   const SizedBox(height: 16.0),
                   RichText(
                     text: TextSpan(
-                      style: const TextStyle(
-                        fontSize: 22.0,
-                        color: Color(0xFF64748B), // Slate gray color
+                      style: TextStyle(
+                        fontSize: 16.0.sp,
+                        color: Color(0xFF526366),
                       ),
                       children: [
                         const TextSpan(text: 'Task #'),
