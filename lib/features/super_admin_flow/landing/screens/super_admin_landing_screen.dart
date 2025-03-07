@@ -18,6 +18,7 @@ class SuperAdminLandingScreen extends StatelessWidget {
       body: PageView(
         onPageChanged: (value) => superController.currentPage.value = value,
         controller: superController.pageController,
+        physics: NeverScrollableScrollPhysics(),
         children: [
           AdminOverviewScreen(),
           AdminNotificationScreen(),

@@ -36,6 +36,7 @@ class CustomText extends StatelessWidget {
       textAlign: textAlign ?? TextAlign.start,
       style: TextStyle(
           height: height,
+          decoration: decoration,
           fontFamily: fontFamily ?? GoogleFonts.figtree().fontFamily,
           decorationColor: decorationColor ?? AppColors.textPrimary,
           fontSize: fontSize ?? 16,
