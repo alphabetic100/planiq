@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
-import 'package:planiq/core/common/widgets/custom_text_field.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
-import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/features/super_admin_flow/employe/controller/add_new_employe_controller.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/labeled_text_field.dart';
 
-class AddNewEmployeeScreen extends StatelessWidget {
-  AddNewEmployeeScreen({super.key});
+class EditEmployeeDetailsScreen extends StatelessWidget {
+  EditEmployeeDetailsScreen({super.key});
 
   final AddNewEmployeeController controller =
       Get.put(AddNewEmployeeController());
@@ -18,10 +15,17 @@ class AddNewEmployeeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        appbarHeight: 70.h,
-        title: 'Add New Employee',
-        backButton: true,
+      appBar: AppBar(
+        backgroundColor: Color(0xFF0B7A8A),
+        title: Text(
+          'Edit Employee Details',
+          style: TextStyle(color: Colors.white),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -82,47 +86,51 @@ class AddNewEmployeeScreen extends StatelessWidget {
               // Name field
               LabeledTextField(
                 label: 'Name :',
-                controller: TextEditingController(),
+                controller: TextEditingController(text: controller.name.value),
                 onChanged: (value) => controller.name.value = value,
               ),
 
               // User ID field
               LabeledTextField(
                 label: 'User ID :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.userId.value),
                 onChanged: (value) => controller.userId.value = value,
               ),
 
               // Password field
               LabeledTextField(
                 label: 'Password :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.password.value),
                 onChanged: (value) => controller.password.value = value,
-                obscureText: true,
               ),
 
               // Designation field
               LabeledTextField(
                 label: 'Designation :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.designation.value),
                 onChanged: (value) => controller.designation.value = value,
               ),
 
               // Date of Birth field
               LabeledTextField(
                 label: 'Date of Birth :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.dateOfBirth.value),
                 onChanged: (value) => controller.dateOfBirth.value = value,
               ),
 
               // Gender field
               LabeledTextField(
                 label: 'Gender :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.gender.value),
                 onChanged: (value) => controller.gender.value = value,
               ),
 
-              // Specialization field
+              // Specialization field with multiple choices
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Row(
@@ -142,25 +150,41 @@ class AddNewEmployeeScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CustomTextField(
-                            controller: TextEditingController(),
-                            onChange: (value) {},
-                          ),
-                          SizedBox(height: 8),
                           Obx(() => Column(
                                 children: List.generate(
                                   controller.specializations.length,
-                                  (index) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child:
-                                        Text(controller.specializations[index]),
+                                  (index) => Container(
+                                    margin: EdgeInsets.only(bottom: 8),
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0xFFDDDDDD)),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Text(
+                                              controller.specializations[index],
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.delete_outline,
+                                              color: Colors.red),
+                                          onPressed: () => controller
+                                              .removeSpecialization(index),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               )),
-                          SizedBox(height: 8),
                           CustomButton(
                             onTap: () {
-                              // Implementation for adding a specialization field
+                              // Implementation for adding a field
                               showDialog(
                                 context: context,
                                 builder: (context) {
@@ -234,21 +258,23 @@ class AddNewEmployeeScreen extends StatelessWidget {
               // Role field
               LabeledTextField(
                 label: 'Role :',
-                controller: TextEditingController(),
+                controller: TextEditingController(text: controller.role.value),
                 onChanged: (value) => controller.role.value = value,
               ),
 
               // Service Length field
               LabeledTextField(
                 label: 'Service Length :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.serviceLength.value),
                 onChanged: (value) => controller.serviceLength.value = value,
               ),
 
               // Department field
               LabeledTextField(
                 label: 'Department :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.department.value),
                 onChanged: (value) => controller.department.value = value,
               ),
 
@@ -268,28 +294,32 @@ class AddNewEmployeeScreen extends StatelessWidget {
               // Joining Date field
               LabeledTextField(
                 label: 'Joining Date :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.joiningDate.value),
                 onChanged: (value) => controller.joiningDate.value = value,
               ),
 
               // Work Location field
               LabeledTextField(
                 label: 'Work Location :',
-                controller: TextEditingController(),
+                controller:
+                    TextEditingController(text: controller.workLocation.value),
                 onChanged: (value) => controller.workLocation.value = value,
               ),
 
               // Employment Type field
               LabeledTextField(
                 label: 'Employment Type :',
-                controller: TextEditingController(),
+                controller: TextEditingController(
+                    text: controller.employmentType.value),
                 onChanged: (value) => controller.employmentType.value = value,
               ),
 
               SizedBox(height: 24),
 
-              // Add Employee button
-              CustomButton(onTap: () {}, title: "Add Employee"),
+              // Save Changes button
+              CustomButton(
+                  onTap: () => controller.saveChanges(), title: "Save Changes"),
 
               SizedBox(height: 40),
             ],

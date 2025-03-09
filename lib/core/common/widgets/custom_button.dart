@@ -17,6 +17,7 @@ class CustomButton extends StatelessWidget {
     this.titleColor = AppColors.white,
     this.isChild = false,
     this.child,
+    this.bordercolor,
   });
 
   final double? height;
@@ -29,6 +30,7 @@ class CustomButton extends StatelessWidget {
   final bool isPrimary;
   final Color titleColor;
   final bool isChild;
+  final Color? bordercolor;
 
   final Widget? child;
 
@@ -39,6 +41,9 @@ class CustomButton extends StatelessWidget {
       width: width ?? double.maxFinite,
       child: ElevatedButton(
         style: ButtonStyle(
+          side: WidgetStatePropertyAll(BorderSide(
+            color: bordercolor ?? AppColors.primaryColor,
+          )),
           overlayColor:
               WidgetStatePropertyAll(AppColors.primaryColor.withOpacity(0.3)),
           padding: WidgetStatePropertyAll(EdgeInsets.all(padding ?? 8)),

@@ -4,7 +4,7 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
-import 'package:planiq/features/super_admin_flow/employe/presentation/screen/employe_profile_screen.dart';
+import 'package:planiq/features/super_admin_flow/employe/presentation/screen/employe_profile_details_screen.dart';
 
 class EmployeeCard extends StatelessWidget {
   const EmployeeCard({
