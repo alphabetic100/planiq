@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/custom_text_field.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
 
 class TaskDetailFields extends StatelessWidget {
   const TaskDetailFields({super.key});
@@ -26,10 +26,7 @@ class TaskDetailFields extends StatelessWidget {
         ),
         VerticalSpace(height: 8),
         CustomTextField(
-          prefixIcon: Icon(
-            Icons.location_on,
-            color: AppColors.textPrimary,
-          ),
+          prefixIcon: Image.asset(IconPath.locationIcon),
         ),
         VerticalSpace(height: 16),
         CustomText(
@@ -39,10 +36,7 @@ class TaskDetailFields extends StatelessWidget {
         VerticalSpace(height: 8),
         CustomTextField(
           readOnly: true,
-          prefixIcon: Icon(
-            Icons.calendar_month,
-            color: AppColors.textPrimary,
-          ),
+          prefixIcon: Image.asset(IconPath.calendarIcon),
         ),
         VerticalSpace(height: 16),
         CustomText(
@@ -52,10 +46,7 @@ class TaskDetailFields extends StatelessWidget {
         VerticalSpace(height: 8),
         CustomTextField(
           readOnly: true,
-          prefixIcon: Icon(
-            Icons.timelapse,
-            color: AppColors.textPrimary,
-          ),
+          prefixIcon: Image.asset(IconPath.timerIcon),
         ),
         VerticalSpace(height: 16),
         CustomText(
@@ -65,10 +56,7 @@ class TaskDetailFields extends StatelessWidget {
         VerticalSpace(height: 8),
         CustomTextField(
           readOnly: true,
-          prefixIcon: Icon(
-            Icons.location_on,
-            color: AppColors.textPrimary,
-          ),
+          prefixIcon: Image.asset(IconPath.locationIcon),
         ),
         VerticalSpace(height: 16),
         CustomText(
@@ -107,7 +95,6 @@ class TaskDetailFields extends StatelessWidget {
         CustomTextField(
           maxLines: 4,
         ),
-      
       ],
     );
   }

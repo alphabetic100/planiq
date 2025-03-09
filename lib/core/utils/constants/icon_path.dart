@@ -10,4 +10,9 @@ class IconPath {
   static const String usersIcon = "$_basePath/users.png";
   static const String menueIcon = "$_basePath/menu.png";
   static const String excelIcon = "$_basePath/excel.png";
+
+  static const String calendarIcon = "$_basePath/calendar.png";
+  static const String locationIcon = "$_basePath/location.png";
+  static const String phoneIcon = "$_basePath/phone.png";
+  static const String timerIcon = "$_basePath/timer.png";
 }
