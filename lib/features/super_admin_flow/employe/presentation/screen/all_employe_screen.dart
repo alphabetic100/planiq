@@ -22,7 +22,7 @@ class AllEmployeListScreen extends StatelessWidget {
       appBar: CustomAppBar(
         appbarHeight: 70.h,
         title: "Employee",
-        backButton: true,
+        backButton: false,
       ),
       body: BodyPadding(
         child: Obx(

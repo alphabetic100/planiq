@@ -12,7 +12,7 @@ class SuperNavBar extends StatelessWidget {
     'Overview',
     'Notification',
     'Jobs',
-    'Profile',
+    'Employee',
   ];
   final List<Image> activeIcons = [
     Image.asset(
