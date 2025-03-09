@@ -137,9 +137,7 @@ class TaskExtraDetails extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.only(bottom: 16.0),
                     child: Container(
-                      width: taskController.taskToolsList[index].length > 15
-                          ? null
-                          : 150,
+                      // Container will now adapt to content size
                       padding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
@@ -147,23 +145,28 @@ class TaskExtraDetails extends StatelessWidget {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize:
+                            MainAxisSize.min, // This is the key change
                         children: [
-                          HorizontalSpace(width: 20.w),
-                          Expanded(
-                            child: CustomText(
-                              text: taskController.taskToolsList[index],
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF526366),
-                            ),
+                          CustomText(
+                            text: taskController.taskToolsList[index],
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF526366),
                           ),
+                          const SizedBox(
+                              width: 8), // Small space between text and icon
                           IconButton(
-                              onPressed: () {
-                                taskController.deleteTools(
-                                    taskController.taskToolsList[index]);
-                              },
-                              icon: Icon(Icons.delete_forever))
+                            onPressed: () {
+                              taskController.deleteTools(
+                                  taskController.taskToolsList[index]);
+                            },
+                            icon: Icon(Icons.delete_forever),
+                            padding:
+                                EdgeInsets.zero, // Reduce padding of IconButton
+                            constraints:
+                                BoxConstraints(), // Minimize constraints
+                          )
                         ],
                       ),
                     ),
