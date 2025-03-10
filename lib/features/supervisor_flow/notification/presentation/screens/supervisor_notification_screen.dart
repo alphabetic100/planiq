@@ -9,14 +9,16 @@ import 'package:planiq/core/common/widgets/custom_calendar_widget.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/features/super_admin_flow/notification/presentation/widget/admin_notification_card.dart';
+import 'package:planiq/features/supervisor_flow/notification/presentation/widget/supervisor_notification_card.dart';
 
-class AdminNotificationScreen extends StatelessWidget {
-  AdminNotificationScreen({super.key});
+class SupervisorNotificationScreen extends StatelessWidget {
+  SupervisorNotificationScreen({super.key});
   final List statusCatagories = [
     "All",
-    "Accepted",
-    "Rejected",
+    "My Notification",
+    "Scheduled",
+    "WIP",
+    "Completed"
   ];
   final List dateCatagories = [
     "Today",
@@ -134,14 +136,17 @@ class AdminNotificationScreen extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 10,
                   itemBuilder: (context, index) {
-                    return AdminNotificationCard(
-                      taskId: '123546',
-                      userId: '12535',
-                      isAccepted: index % 2 == 0,
-                      date: DateTime.now(),
-                      onTap: () {
-                        log('Another notification tapped');
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: SupervisorNotificationCard(
+                        taskId: '123546',
+                        userId: '12535',
+                        isAccepted: index % 2 == 0,
+                        date: DateTime.now(),
+                        onTap: () {
+                          log('Another notification tapped');
+                        },
+                      ),
                     );
                   }),
             )

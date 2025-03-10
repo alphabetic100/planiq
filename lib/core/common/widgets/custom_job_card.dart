@@ -21,6 +21,7 @@ class CustomJobCard extends StatelessWidget {
   final VoidCallback onViewDetails;
   final VoidCallback onStartJob;
   final bool isFromAdmin;
+  final bool isSupervisor;
 
   const CustomJobCard({
     super.key,
@@ -36,6 +37,7 @@ class CustomJobCard extends StatelessWidget {
     required this.onViewDetails,
     required this.onStartJob,
     this.isFromAdmin = false,
+    this.isSupervisor = false,
   });
 
   @override
@@ -180,7 +182,7 @@ class CustomJobCard extends StatelessWidget {
                     title: "View Details",
                     titleColor: AppColors.primaryColor,
                   )),
-                  if (status == "Starting soon") ...[
+                  if (!isSupervisor && status == "Starting soon") ...[
                     const SizedBox(width: 8),
                     Expanded(
                       child:
