@@ -4,8 +4,11 @@ import 'package:planiq/core/common/widgets/custom_job_card.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class AllJobsList extends StatelessWidget {
-  const AllJobsList({super.key});
-
+  const AllJobsList({
+    super.key,
+    this.isFromAdmin = false,
+  });
+  final bool isFromAdmin;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,7 +22,7 @@ class AllJobsList extends StatelessWidget {
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16.0.h),
                   child: CustomJobCard(
-                    isFromAdmin: true,
+                    isFromAdmin: false,
                     title: 'Emergency Pipe Repair',
                     status: index % 3 == 1
                         ? "Scheduled"

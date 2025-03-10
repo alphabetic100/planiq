@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_logo.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
@@ -8,12 +9,14 @@ import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/features/super_admin_flow/overview/presentation/widget/expanded_overview_card.dart';
+import 'package:planiq/features/supervisor_flow/landing/controller/supervisor_landing_controller.dart';
+import 'package:planiq/features/supervisor_flow/report_box/presentation/screen/report_box_view.dart';
 import 'package:planiq/routes/app_routes.dart';
 
 class SupervisorOverviewDrawer extends StatelessWidget {
-  const SupervisorOverviewDrawer({super.key});
-  // final SuperLandingController landingController =
-  //     Get.put(SuperLandingController());
+  SupervisorOverviewDrawer({super.key});
+  final SupervisorLandingController landingController =
+      Get.put(SupervisorLandingController());
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +112,7 @@ class SupervisorOverviewDrawer extends StatelessWidget {
                   isExpanded: false,
                   title: "Report Box",
                   onSelect: () {
-                    // landingController.changePage(3);
+                    Get.to(() => ReportBoxView());
                   },
                 ),
                 ExpandedOverviewCard(
@@ -117,7 +120,7 @@ class SupervisorOverviewDrawer extends StatelessWidget {
                   isExpanded: false,
                   title: "Profile",
                   onSelect: () {
-                    // Get.to(() => AdminProfileScreen());
+                    landingController.changePage(3);
                   },
                 )
               ],

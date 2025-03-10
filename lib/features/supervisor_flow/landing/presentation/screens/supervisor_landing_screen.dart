@@ -16,6 +16,7 @@ class SupervisorLandingScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: SupervisonrNavBar(),
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         onPageChanged: (value) => landingController.currentPage.value = value,
         controller: landingController.pageController,
         children: [
