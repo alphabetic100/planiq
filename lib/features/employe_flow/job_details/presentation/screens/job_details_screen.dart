@@ -12,14 +12,18 @@ import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/image_path.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/additional_note_section.dart';
+import 'package:planiq/features/employe_flow/job_details/presentation/components/aditional_admin_part.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/checklist_item_widget.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/job_compleate_dialog.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/report_issue_bottom_sheet.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
 
 class JobDetailsScreen extends StatelessWidget {
-  const JobDetailsScreen({super.key});
-
+  const JobDetailsScreen({
+    super.key,
+    this.isFromAdmin = false,
+  });
+  final bool isFromAdmin;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,6 +65,9 @@ class JobDetailsScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              if (isFromAdmin) ...[
+                AditionalAdminPart(),
+              ],
               VerticalSpace(height: 20.h),
               // Job Title
               CustomText(
@@ -283,14 +290,16 @@ class JobDetailsScreen extends StatelessWidget {
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
-              VerticalSpace(height: 8),
-              CustomText(
-                text:
-                    "Please ensure all steps are completed before marking the task as finished.*",
-                color: Color(0xFFD76067),
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
+              if (!isFromAdmin) ...[
+                VerticalSpace(height: 8),
+                CustomText(
+                  text:
+                      "Please ensure all steps are completed before marking the task as finished.*",
+                  color: Color(0xFFD76067),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
               VerticalSpace(height: 16),
               // Checklist Items
               ChecklistItemWidget(
@@ -320,7 +329,7 @@ class JobDetailsScreen extends StatelessWidget {
                   ToolTagWidget(text: 'Scale'),
                 ],
               ),
-            
+
               AdditionalNoteSection(),
               const SizedBox(height: 24),
 
@@ -342,35 +351,44 @@ class JobDetailsScreen extends StatelessWidget {
               const SizedBox(height: 40),
 
               // Action Buttons
-              Row(
-                children: [
-                  Expanded(
-                      child: CustomButton(
-                    onTap: () {
-                      showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return ReportIssueBottomSheet();
-                          });
-                    },
-                    title: "Decline",
-                    titleColor: Color(0xFF526366),
+              if (!isFromAdmin) ...[
+                Row(
+                  children: [
+                    Expanded(
+                        child: CustomButton(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return ReportIssueBottomSheet();
+                            });
+                      },
+                      title: "Decline",
+                      titleColor: Color(0xFF526366),
+                      isPrimary: false,
+                    )),
+                    HorizontalSpace(width: 16.w),
+                    Expanded(
+                        child: CustomButton(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return JobCompleateDialog();
+                            });
+                      },
+                      title: "Accept",
+                    ))
+                  ],
+                ),
+              ] else ...[
+                CustomButton(
                     isPrimary: false,
-                  )),
-                  HorizontalSpace(width: 16.w),
-                  Expanded(
-                      child: CustomButton(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return JobCompleateDialog();
-                          });
-                    },
-                    title: "Accept",
-                  ))
-                ],
-              ),
+                    titleColor: Color(0xFF526366),
+                    bordercolor: AppColors.borderColor,
+                    onTap: () {},
+                    title: "Edit Task")
+              ],
               const SizedBox(height: 40),
             ],
           ),

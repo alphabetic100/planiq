@@ -11,6 +11,7 @@ import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/all_jobs_list.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/assigned_job_list.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/compleated_jobs_list.dart';
+import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/job_screen_top_bar.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/unassigned_job_list.dart';
 
 class AdminJobsScreen extends StatefulWidget {
@@ -35,7 +36,7 @@ class _AdminJobsScreenState extends State<AdminJobsScreen>
     return Scaffold(
       appBar: CustomAppBar(
         appbarHeight: 70.h,
-        title: "Notification",
+        title: "Job",
         actions: [
           PopupMenuButton(
             color: AppColors.white,
@@ -153,6 +154,7 @@ class _AdminJobsScreenState extends State<AdminJobsScreen>
             ],
           ),
           VerticalSpace(height: 20),
+          BodyPadding(child: JobScreenTopBar(onSearch: (value) {})),
           Expanded(
             child: BodyPadding(
               child: TabBarView(

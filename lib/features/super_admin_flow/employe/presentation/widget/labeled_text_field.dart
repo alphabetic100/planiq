@@ -22,16 +22,16 @@ class LabeledTextField extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            width: 120,
+            width: 125,
             child: Text(
               label,
               style: TextStyle(
                 fontSize: 16.sp,
-                color: Color(0xFF575757),
+                color: Color(0xff526366),
               ),
             ),
           ),
-          HorizontalSpace(width: 10.w),
+          HorizontalSpace(width: 8.w),
           Expanded(
             child: CustomTextField(
               controller: controller,

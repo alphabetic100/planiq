@@ -1,16 +1,22 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_logo.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/features/super_admin_flow/admin_profile/presentation/screens/admin_profile_screen.dart';
+import 'package:planiq/features/super_admin_flow/landing/controllers/super_landing_controller.dart';
 import 'package:planiq/features/super_admin_flow/overview/presentation/widget/expanded_overview_card.dart';
 import 'package:planiq/routes/app_routes.dart';
 
 class AdminOverviewDrawer extends StatelessWidget {
-  const AdminOverviewDrawer({super.key});
+  AdminOverviewDrawer({super.key});
+  final SuperLandingController landingController =
+      Get.put(SuperLandingController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +35,11 @@ class AdminOverviewDrawer extends StatelessWidget {
                 Spacer(),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
-                  leading: CircleAvatar(),
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage(
+                      IconPath.profileIcon,
+                    ),
+                  ),
                   title: CustomText(
                     text: "David Batista",
                     color: AppColors.white,
@@ -58,13 +68,13 @@ class AdminOverviewDrawer extends StatelessWidget {
             child: Column(
               children: [
                 ExpandedOverviewCard(
-                  isSelected: true,
+                  isSelected: landingController.currentPage.value == 0,
                   isExpanded: false,
                   title: "Overview",
                   onSelect: () {},
                 ),
                 ExpandedOverviewCard(
-                  isSelected: false,
+                  isSelected: landingController.currentPage.value == 1,
                   isExpanded: true,
                   title: "Notification",
                   options: [
@@ -82,7 +92,7 @@ class AdminOverviewDrawer extends StatelessWidget {
                   },
                 ),
                 ExpandedOverviewCard(
-                  isSelected: false,
+                  isSelected: landingController.currentPage.value == 2,
                   isExpanded: true,
                   title: "Jobs",
                   options: [
@@ -106,16 +116,20 @@ class AdminOverviewDrawer extends StatelessWidget {
                   onSelect: () {},
                 ),
                 ExpandedOverviewCard(
-                  isSelected: false,
+                  isSelected: landingController.currentPage.value == 3,
                   isExpanded: false,
                   title: "Employees",
-                  onSelect: () {},
+                  onSelect: () {
+                    landingController.changePage(3);
+                  },
                 ),
                 ExpandedOverviewCard(
                   isSelected: false,
                   isExpanded: false,
                   title: "Profile",
-                  onSelect: () {},
+                  onSelect: () {
+                    Get.to(() => AdminProfileScreen());
+                  },
                 )
               ],
             ),

@@ -9,8 +9,9 @@ import 'package:planiq/features/super_admin_flow/employe/presentation/screen/emp
 class EmployeeCard extends StatelessWidget {
   const EmployeeCard({
     super.key,
+    this.isBlocklist = false,
   });
-
+  final bool isBlocklist;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,7 +58,7 @@ class EmployeeCard extends StatelessWidget {
                   Get.to(() => EmployeProfileDetailsScreen());
                 },
                 child: Text(
-                  "View Details",
+                  isBlocklist ? "Unblock" : "View Details",
                   style: TextStyle(
                     color: AppColors.primaryColor,
                     fontWeight: FontWeight.w500,

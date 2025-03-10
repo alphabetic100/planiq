@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
+import 'package:planiq/core/common/widgets/custom_text_field.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
+import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/features/super_admin_flow/employe/controller/add_new_employe_controller.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/labeled_text_field.dart';
 
@@ -11,6 +14,7 @@ class EditEmployeeDetailsScreen extends StatelessWidget {
 
   final AddNewEmployeeController controller =
       Get.put(AddNewEmployeeController());
+  final TextEditingController specializationCT = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -142,14 +146,20 @@ class EditEmployeeDetailsScreen extends StatelessWidget {
                         'Specialization :',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Color(0xFF575757),
+                          color: Color(0xFF526366),
                         ),
                       ),
                     ),
+                    HorizontalSpace(width: 10.w),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          CustomTextField(
+                            controller: specializationCT,
+                            onChange: (value) {},
+                          ),
+                          SizedBox(height: 8),
                           Obx(() => Column(
                                 children: List.generate(
                                   controller.specializations.length,
@@ -166,7 +176,9 @@ class EditEmployeeDetailsScreen extends StatelessWidget {
                                           child: Padding(
                                             padding: const EdgeInsets.all(12.0),
                                             child: Text(
-                                              controller.specializations[index],
+                                              controller
+                                                  .specializations.reversed
+                                                  .toList()[index],
                                               style: TextStyle(fontSize: 16),
                                             ),
                                           ),
@@ -184,37 +196,10 @@ class EditEmployeeDetailsScreen extends StatelessWidget {
                               )),
                           CustomButton(
                             onTap: () {
+                              controller
+                                  .addSpecialization(specializationCT.text);
+                              specializationCT.clear();
                               // Implementation for adding a field
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  final textController =
-                                      TextEditingController();
-                                  return AlertDialog(
-                                    title: Text('Add Specialization'),
-                                    content: TextField(
-                                      controller: textController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Enter specialization',
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          controller.addSpecialization(
-                                              textController.text);
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('Add'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
                             },
                             title: "",
                             isChild: true,

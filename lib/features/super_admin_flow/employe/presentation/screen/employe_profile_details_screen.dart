@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/body_padding.dart';
 import 'package:planiq/core/common/widgets/custom_app_bar.dart';
@@ -7,14 +10,27 @@ import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_details_card.dart';
+import 'package:planiq/features/super_admin_flow/employe/controller/employee_profile_controller.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/employe_profile_overview.dart';
 
 class EmployeProfileDetailsScreen extends StatelessWidget {
   EmployeProfileDetailsScreen({super.key});
+  final EmployeeProfileController employeeController =
+      Get.put(EmployeeProfileController());
   final List<String> profileSpecialization = [
     "Drain Cleaning",
     "Installation",
     "Pipe Repair"
+  ];
+  final List<String> iconPath = [
+    IconPath.editIcon,
+    IconPath.blockIcon,
+    IconPath.shildICon,
+  ];
+  final List<String> titles = [
+    "Edit Details",
+    "Block Employee",
+    "Make Supervisor",
   ];
   @override
   Widget build(BuildContext context) {
@@ -23,6 +39,36 @@ class EmployeProfileDetailsScreen extends StatelessWidget {
         appbarHeight: 70.h,
         backButton: true,
         title: "Profile Details",
+        actions: [
+          PopupMenuButton<int>(
+            iconColor: AppColors.white,
+            color: AppColors.white,
+            onSelected: (int value) {
+              log("Selected action: ${titles[value]}");
+              employeeController.handleProfileAction(titles[value]);
+            },
+            itemBuilder: (context) => List.generate(
+              titles.length,
+              (index) => PopupMenuItem<int>(
+                value: index,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      iconPath[index],
+                    ),
+                    SizedBox(width: 10.w),
+                    CustomText(
+                      text: titles[index],
+                      fontSize: 14.sp,
+                      color: AppColors.textSecondary,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

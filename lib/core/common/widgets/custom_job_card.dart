@@ -42,7 +42,9 @@ class CustomJobCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => JobDetailsScreen());
+        Get.to(() => JobDetailsScreen(
+              isFromAdmin: isFromAdmin,
+            ));
       },
       child: Container(
         decoration: BoxDecoration(

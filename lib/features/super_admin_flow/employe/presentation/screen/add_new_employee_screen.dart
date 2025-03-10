@@ -14,7 +14,7 @@ class AddNewEmployeeScreen extends StatelessWidget {
 
   final AddNewEmployeeController controller =
       Get.put(AddNewEmployeeController());
-
+  final TextEditingController specializationCT = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,7 +134,7 @@ class AddNewEmployeeScreen extends StatelessWidget {
                         'Specialization :',
                         style: TextStyle(
                           fontSize: 16,
-                          color: Color(0xFF575757),
+                          color: Color(0xFF526366),
                         ),
                       ),
                     ),
@@ -143,17 +143,41 @@ class AddNewEmployeeScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomTextField(
-                            controller: TextEditingController(),
+                            controller: specializationCT,
                             onChange: (value) {},
                           ),
                           SizedBox(height: 8),
                           Obx(() => Column(
                                 children: List.generate(
                                   controller.specializations.length,
-                                  (index) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child:
-                                        Text(controller.specializations[index]),
+                                  (index) => Container(
+                                    margin: EdgeInsets.only(bottom: 8),
+                                    decoration: BoxDecoration(
+                                      border:
+                                          Border.all(color: Color(0xFFDDDDDD)),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Text(
+                                              controller
+                                                  .specializations.reversed
+                                                  .toList()[index],
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.delete_outline,
+                                              color: Colors.red),
+                                          onPressed: () => controller
+                                              .removeSpecialization(index),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               )),
@@ -161,36 +185,9 @@ class AddNewEmployeeScreen extends StatelessWidget {
                           CustomButton(
                             onTap: () {
                               // Implementation for adding a specialization field
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  final textController =
-                                      TextEditingController();
-                                  return AlertDialog(
-                                    title: Text('Add Specialization'),
-                                    content: TextField(
-                                      controller: textController,
-                                      decoration: InputDecoration(
-                                        hintText: 'Enter specialization',
-                                      ),
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () => Navigator.pop(context),
-                                        child: Text('Cancel'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          controller.addSpecialization(
-                                              textController.text);
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('Add'),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
+                              controller
+                                  .addSpecialization(specializationCT.text);
+                              specializationCT.clear();
                             },
                             title: "",
                             isChild: true,
