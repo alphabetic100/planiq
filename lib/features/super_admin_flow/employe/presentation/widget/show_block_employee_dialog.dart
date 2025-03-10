@@ -4,6 +4,7 @@ import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/features/super_admin_flow/users/presentation/screens/all_block_list_screen.dart';
 
 class ShowBlockEmployeeDialog extends StatelessWidget {
   const ShowBlockEmployeeDialog({super.key});
@@ -42,6 +43,7 @@ class ShowBlockEmployeeDialog extends StatelessWidget {
                   color: Color(0xFFFF2C2C),
                   onTap: () {
                     Get.back();
+                    Get.to(() => AllBlockListScreen());
                   },
                   title: "Block",
                 )),
