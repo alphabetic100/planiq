@@ -68,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                     VerticalSpace(height: 32.h),
                     CustomButton(
                       onTap: () {
-                        Get.toNamed(AppRoute.superLandingScreen);
+                        Get.toNamed(AppRoute.supervisorLandingScreen);
                       },
                       title: "Log In",
                     )
