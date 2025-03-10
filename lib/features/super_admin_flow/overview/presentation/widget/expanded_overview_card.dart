@@ -40,8 +40,13 @@ class _ExpandedOverviewCardState extends State<ExpandedOverviewCard> {
             duration: Duration(milliseconds: 300),
             padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
             decoration: BoxDecoration(
-              color:
-                  widget.isSelected ? AppColors.secondaryColor : widget.color,
+              color: widget.options == null
+                  ? widget.isSelected
+                      ? AppColors.secondaryColor
+                      : widget.color
+                  : _extendCard
+                      ? AppColors.secondaryColor
+                      : widget.color,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
