@@ -4,13 +4,14 @@ import 'package:planiq/core/common/widgets/custom_job_card.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class AssignedJobList extends StatelessWidget {
-  const AssignedJobList({super.key});
+  const AssignedJobList({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-     
         VerticalSpace(height: 20),
         Expanded(
           child: ListView.builder(
