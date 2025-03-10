@@ -21,7 +21,7 @@ class SupervisorLandingScreen extends StatelessWidget {
         children: [
           SupervisorOverviewScreen(),
           SupervisorNotificationScreen(),
-          SupervisorJobScreen(),
+          SupervisorJobsScreen(),
           SupervisorProfileScreen(),
         ],
       ),

@@ -140,7 +140,7 @@ class AdminNotificationScreen extends StatelessWidget {
                       isAccepted: index % 2 == 0,
                       date: DateTime.now(),
                       onTap: () {
-                        print('Another notification tapped');
+                        log('Another notification tapped');
                       },
                     );
                   }),

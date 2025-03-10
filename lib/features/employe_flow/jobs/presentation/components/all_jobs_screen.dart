@@ -4,7 +4,11 @@ import 'package:planiq/core/common/widgets/custom_job_card.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class AllJobsScreen extends StatelessWidget {
-  AllJobsScreen({super.key});
+  AllJobsScreen({
+    super.key,
+    this.isSupervisor = false,
+  });
+  final bool isSupervisor;
   final List status = [
     "Starting soon",
     "Compleated",
@@ -35,6 +39,7 @@ class AllJobsScreen extends StatelessWidget {
                 endTime: const TimeOfDay(hour: 12, minute: 30),
                 onViewDetails: () {},
                 onStartJob: () {},
+                isSupervisor: isSupervisor,
               ),
             ),
           );

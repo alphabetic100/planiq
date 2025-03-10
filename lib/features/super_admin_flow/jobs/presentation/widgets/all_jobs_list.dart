@@ -21,7 +21,11 @@ class AllJobsList extends StatelessWidget {
                   child: CustomJobCard(
                     isFromAdmin: true,
                     title: 'Emergency Pipe Repair',
-                    status: index % 2 == 0 ? 'Compleated' : "Assigned",
+                    status: index % 3 == 1
+                        ? "Scheduled"
+                        : index % 2 == 0
+                            ? 'Compleated'
+                            : "Assigned",
                     address: '9641 Sunset Blvd',
                     city: 'Beverly Hills',
                     state: 'California',
