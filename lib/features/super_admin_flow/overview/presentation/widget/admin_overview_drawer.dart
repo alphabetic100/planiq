@@ -8,6 +8,7 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/features/super_admin_flow/admin_profile/presentation/screens/admin_profile_screen.dart';
 import 'package:planiq/features/super_admin_flow/landing/controllers/super_landing_controller.dart';
 import 'package:planiq/features/super_admin_flow/overview/presentation/widget/expanded_overview_card.dart';
 import 'package:planiq/routes/app_routes.dart';
@@ -119,7 +120,6 @@ class AdminOverviewDrawer extends StatelessWidget {
                   isExpanded: false,
                   title: "Employees",
                   onSelect: () {
-                    // Get.back();
                     landingController.changePage(3);
                   },
                 ),
@@ -127,7 +127,9 @@ class AdminOverviewDrawer extends StatelessWidget {
                   isSelected: false,
                   isExpanded: false,
                   title: "Profile",
-                  onSelect: () {},
+                  onSelect: () {
+                    Get.to(() => AdminProfileScreen());
+                  },
                 )
               ],
             ),

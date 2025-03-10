@@ -5,6 +5,7 @@ import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_details_card.dart';
 
 class ProfileDetailsScreen extends StatelessWidget {
@@ -34,6 +35,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 55.w,
                       backgroundColor: AppColors.secondaryColor,
+                      backgroundImage: AssetImage(IconPath.profileIcon),
                     ),
                   ),
                   VerticalSpace(height: 40.h),
