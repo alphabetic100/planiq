@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'dart:developer';
+import 'package:get/get.dart';
+import 'package:planiq/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -62,7 +64,7 @@ class AuthService {
 
   // Navigate to the login screen (e.g., after logout or token expiry)
   static Future<void> goToLogin() async {
-    // Get.offAllNamed('/login');
+    Get.offAllNamed(AppRoute.loginScreen);
   }
 
   // Getter for token

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_logo.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
+import 'package:planiq/core/common/widgets/show_logout_dialog.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
@@ -135,27 +136,23 @@ class AdminOverviewDrawer extends StatelessWidget {
             ),
           ),
           Spacer(),
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: 60.h,
-              color: AppColors.white,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.logout_outlined,
-                    color: AppColors.error,
-                  ),
-                  HorizontalSpace(width: 5.w),
-                  CustomText(
-                    text: "Logout",
-                    color: Color(0xFFFC2D2D),
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                  )
-                ],
-              ),
+          ListTile(
+            onTap: () {
+              Get.dialog(ShowLogoutDialog());
+            },
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.logout,
+                  color: AppColors.error,
+                ),
+                HorizontalSpace(width: 10.w),
+                CustomText(
+                  text: "Logout",
+                  color: AppColors.error,
+                )
+              ],
             ),
           )
         ],
