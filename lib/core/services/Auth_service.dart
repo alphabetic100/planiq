@@ -20,6 +20,7 @@ class AuthService {
     // Load token and userId from SharedPreferences into private variables
     _token = _preferences.getString(_tokenKey);
     _role = _preferences.getString(_roleKey);
+    log("Auth Service Initialized");
   }
 
   // Check if a token exists in local storage

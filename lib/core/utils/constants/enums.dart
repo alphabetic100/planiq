@@ -14,4 +14,5 @@ enum PaymentMethods {
 }
 
 
+// ignore: constant_identifier_names
 enum Roles { SUPERADMIN, SUPERVISER, USER, ADMIN }

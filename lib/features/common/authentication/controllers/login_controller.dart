@@ -25,7 +25,7 @@ class LoginController extends GetxController {
     }
   }
 
-  void responseHandeller(ResponseData response) {
+  void responseHandeller(ResponseData response) async {
     if (response.responseData == null) {
     } else if (response.isSuccess) {
       final token = response.responseData["data"]["accessToken"];
@@ -33,7 +33,7 @@ class LoginController extends GetxController {
       log(response.responseData["data"]["accessToken"]);
       log(response.responseData["data"]["userData"]["role"]);
 
-      AuthService.saveToken(
+      await AuthService.saveToken(
         token,
         role,
       );
