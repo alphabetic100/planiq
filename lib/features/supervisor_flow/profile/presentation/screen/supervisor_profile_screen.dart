@@ -20,7 +20,6 @@ class SupervisorProfileScreen extends StatelessWidget {
       appBar: CustomAppBar(
         appbarHeight: 70.h,
         title: "Profile",
-        backButton: true,
       ),
       body: Column(
         children: [
