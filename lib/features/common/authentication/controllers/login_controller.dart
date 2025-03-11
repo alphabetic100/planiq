@@ -27,6 +27,7 @@ class LoginController extends GetxController {
       hideProgressIndicatro();
     } catch (e) {
       log("Seomething went wrong, error: $e");
+      errorSnakbar(errorMessage: "Something went wrong, please try againg");
     }
   }
 

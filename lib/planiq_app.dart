@@ -1,8 +1,10 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/bindings/controller_binder.dart';
+import 'package:planiq/core/localization/app_localizations.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/routes/app_routes.dart';
 
@@ -25,13 +27,15 @@ class PlaniqApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoute.init,
+          translations: AppTranslations(),
           getPages: AppRoute.routes,
           initialBinding: ControllerBinder(),
           themeMode: ThemeMode.light,
           theme: _getLightTheme(),
           defaultTransition:
               PlatformUtils.isIOS ? Transition.cupertino : Transition.fade,
-          locale: Get.deviceLocale,
+          locale: Get.locale ?? Locale('en'),
+          fallbackLocale: Locale('en'),
           builder: (context, child) => PlatformUtils.isIOS
               ? CupertinoTheme(data: const CupertinoThemeData(), child: child!)
               : child!,
