@@ -9,8 +9,8 @@ class AppValidator {
     // Regular expression for email validation
     // final emailRegExp = RegExp(r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-    if (value.length < 8) {
-      return 'ID must be at least 8 charecters long.';
+    if (value.length < 6) {
+      return 'ID must be at least 6 charecters long.';
     }
 
     return null;
