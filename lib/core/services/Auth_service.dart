@@ -1,22 +1,28 @@
 // ignore_for_file: file_names
 
 import 'dart:developer';
+import 'package:get/get.dart';
+import 'package:planiq/routes/app_routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   static const String _tokenKey = 'token';
+  static const String _roleKey = "role";
 
   // Singleton instance for SharedPreferences
   static late SharedPreferences _preferences;
 
   // Private variables to hold token and userId
   static String? _token;
+  static String? _role;
 
   // Initialize SharedPreferences (call this during app startup)
   static Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
     // Load token and userId from SharedPreferences into private variables
     _token = _preferences.getString(_tokenKey);
+    _role = _preferences.getString(_roleKey);
+    log("Auth Service Initialized");
   }
 
   // Check if a token exists in local storage
@@ -25,11 +31,16 @@ class AuthService {
   }
 
   // Save the token and user ID to local storage
-  static Future<void> saveToken(String token, String id) async {
+  static Future<void> saveToken(
+    String token,
+    String role,
+  ) async {
     try {
       await _preferences.setString(_tokenKey, token);
-      // Update private variables
+      await _preferences.setString(_roleKey, role);
+
       _token = token;
+      _role = role;
     } catch (e) {
       log('Error saving token: $e');
     }
@@ -43,6 +54,7 @@ class AuthService {
 
       // Reset private variables
       _token = null;
+      _role = null;
       // Redirect to the login screen
       await goToLogin();
     } catch (e) {
@@ -52,9 +64,10 @@ class AuthService {
 
   // Navigate to the login screen (e.g., after logout or token expiry)
   static Future<void> goToLogin() async {
-    // Get.offAllNamed('/login');
+    Get.offAllNamed(AppRoute.loginScreen);
   }
 
   // Getter for token
   static String? get token => _token;
+  static String? get role => _role;
 }

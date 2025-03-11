@@ -103,7 +103,7 @@ class CustomBottomNavBar extends StatelessWidget {
               icon: controller.currentPage.value == index
                   ? activeIcons[index]
                   : inActiveIcons[index],
-              label: labels[index],
+              label: labels[index].tr,
             );
           },
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 
@@ -32,7 +33,7 @@ class CustomText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      text,
+      text.tr,
       textAlign: textAlign ?? TextAlign.start,
       style: TextStyle(
           height: height,
