@@ -1,16 +1,16 @@
 class AppValidator {
   AppValidator._();
 
-  static String? validateEmail(String? value) {
+  static String? validateID(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Email is required.';
+      return 'ID is required.';
     }
 
     // Regular expression for email validation
-    final emailRegExp = RegExp(r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$');
+    // final emailRegExp = RegExp(r'^[\w\-.]+@([\w-]+\.)+[\w-]{2,4}$');
 
-    if (!emailRegExp.hasMatch(value)) {
-      return 'Invalid email address.';
+    if (value.length < 8) {
+      return 'ID must be at least 8 charecters long.';
     }
 
     return null;
@@ -22,26 +22,26 @@ class AppValidator {
     }
 
     // Check for minimum password length
-    if (value.length < 6) {
-      return 'Password must be at least 6 characters long.';
+    if (value.length < 8) {
+      return 'Password must be at least 8 characters long.';
     }
 // Check for uppercase letters
-    if (!value.contains(RegExp(r'[A-Z]'))) {
-      return 'Password must contain at least one uppercase letter.';
-    }
+    // if (!value.contains(RegExp(r'[A-Z]'))) {
+    //   return 'Password must contain at least one uppercase letter.';
+    // }
 
 // Check for numbers
-    if (!value.contains(RegExp(r'[0-9]'))) {
-      return 'Password must contain at least one number.';
-    }
+    // if (!value.contains(RegExp(r'[0-9]'))) {
+    //   return 'Password must contain at least one number.';
+    // }
 
 // Check for special characters
-    if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      return 'Password must contain at least one special character.';
-    }
+    // if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+    //   return 'Password must contain at least one special character.';
+    // }
     return null;
-
   }
+
   static String? validatePhoneNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number is required.';
@@ -56,6 +56,4 @@ class AppValidator {
 
     return null;
   }
-
-
 }

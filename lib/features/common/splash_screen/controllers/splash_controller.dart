@@ -8,7 +8,7 @@ class SplashController extends GetxController {
       const Duration(milliseconds: 1800),
       () {
         Get.offAll(
-          () => const LoginScreen(),
+          () => LoginScreen(),
           // transition: Transition.fade,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,

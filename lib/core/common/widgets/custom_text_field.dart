@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 
@@ -16,22 +17,23 @@ class CustomTextField extends StatefulWidget {
     this.onTap,
     this.readOnly = false,
     this.suffixIcon,
-    this.isPhoneField = false, // New flag to handle phone input
+    this.isPhoneField = false,
+    this.numberOnly = false,
   });
 
   final String? hintText;
   final TextEditingController? controller;
-  final String? Function(String?)? validator;
+  final String? Function(String? value)? validator;
   final bool isPassword;
   final int maxLines;
   final double? radius;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-  final Function(String)? onChange;
+  final Function(String value)? onChange;
   final VoidCallback? onTap;
   final bool readOnly;
   final bool isPhoneField;
-  
+  final bool numberOnly;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -99,6 +101,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
               )
             : widget.suffixIcon,
       ),
+      inputFormatters: widget.numberOnly
+          ? [
+              FilteringTextInputFormatter.digitsOnly,
+            ]
+          : [],
     );
   }
 }
