@@ -4,6 +4,6 @@ import 'package:planiq/planiq_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await LocalService.init();  
+  await LocalService.init();
   runApp(PlaniqApp());
 }

@@ -64,7 +64,7 @@ class AppHelperFunctions {
     return DateFormat(format).format(date);
   }
 
-static  String? convertDateFormat(String? inputDate) {
+  static String? convertDateFormat(String? inputDate) {
     if (inputDate == null) return null;
 
     try {
@@ -78,6 +78,20 @@ static  String? convertDateFormat(String? inputDate) {
     }
   }
 
+ 
+static String? backendFomater(String? inputDate) {
+  if (inputDate == null) return null;
+
+  try {
+    // Parse the input date with the format "yyyy-MM-dd HH:mm:ss.SSS"
+    DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(inputDate);
+
+    // Format the date to "dd/MM/yyyy"
+    return DateFormat("dd/MM/yyyy").format(dateTime);
+  } catch (e) {
+    return null; // Return null if parsing fails
+  }
+}
   static List<T> removeDuplicates<T>(List<T> list) {
     return list.toSet().toList();
   }

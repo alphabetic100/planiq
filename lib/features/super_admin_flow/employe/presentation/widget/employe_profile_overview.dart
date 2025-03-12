@@ -8,7 +8,12 @@ import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/screen/edit_employe_details_screen.dart';
 
 class EmployeProfileOverview extends StatelessWidget {
-  EmployeProfileOverview({super.key});
+  EmployeProfileOverview(
+      {super.key,
+      required this.totalJob,
+      required this.compleated,
+      required this.scheduled,
+      required this.declined});
   final List<Map<String, String>> overviews = [
     {
       "title": "Total Job",
@@ -27,6 +32,11 @@ class EmployeProfileOverview extends StatelessWidget {
       "value": "2",
     },
   ];
+  final String totalJob;
+  final String compleated;
+  final String scheduled;
+  final String declined;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -55,7 +65,13 @@ class EmployeProfileOverview extends StatelessWidget {
                     ),
                     VerticalSpace(height: 10.h),
                     CustomText(
-                      text: overviews[index]["value"]!,
+                      text: index == 0
+                          ? totalJob
+                          : index == 1
+                              ? compleated
+                              : index == 2
+                                  ? scheduled
+                                  : declined,
                       fontSize: 28.sp,
                       fontWeight: FontWeight.w700,
                       color: getKOverviewColors(index),

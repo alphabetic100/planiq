@@ -16,12 +16,13 @@ class CustomJobCard extends StatelessWidget {
   final String state;
   final String zipCode;
   final DateTime dateTime;
-  final TimeOfDay startTime;
-  final TimeOfDay endTime;
+  final TimeOfDay? startTime;
+  final TimeOfDay? endTime;
   final VoidCallback onViewDetails;
   final VoidCallback onStartJob;
   final bool isFromAdmin;
   final bool isSupervisor;
+  final String? time;
 
   const CustomJobCard({
     super.key,
@@ -32,8 +33,9 @@ class CustomJobCard extends StatelessWidget {
     required this.state,
     required this.zipCode,
     required this.dateTime,
-    required this.startTime,
-    required this.endTime,
+    this.startTime,
+    this.endTime,
+    this.time,
     required this.onViewDetails,
     required this.onStartJob,
     this.isFromAdmin = false,
@@ -161,7 +163,7 @@ class CustomJobCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    '${_formatTimeOfDay(startTime)} - ${_formatTimeOfDay(endTime)}',
+                    time ?? "",
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.normal,
@@ -202,13 +204,6 @@ class CustomJobCard extends StatelessWidget {
     final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     return days[dateTime.weekday - 1];
   }
-
-  String _formatTimeOfDay(TimeOfDay timeOfDay) {
-    final hour = timeOfDay.hourOfPeriod == 0 ? 12 : timeOfDay.hourOfPeriod;
-    final minute = timeOfDay.minute.toString().padLeft(2, '0');
-    final period = timeOfDay.period == DayPeriod.am ? 'AM' : 'PM';
-    return '$hour:$minute $period';
-  }
 }
 
 Color statusColor(String status) {
@@ -222,7 +217,7 @@ Color statusColor(String status) {
     case "Assigned":
       return Color(0xFF16A34A);
     case "New Assignment":
-    case "Compleated":
+    case "Completed":
       return Color(0xFF00238A);
     case "Unassigned":
       return Color(0xFF8A0000);

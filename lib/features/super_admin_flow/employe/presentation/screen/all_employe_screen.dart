@@ -100,24 +100,29 @@ class AllEmployeListScreen extends StatelessWidget {
                       child: CustomText(text: "No employe list"),
                     );
                   } else {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount:
-                          employeeController.employes.value!.data.data.length,
-                      itemBuilder: (context, index) {
-                        final employe =
-                            employeeController.employes.value!.data.data[index];
-                        log(employe.toString());
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: EmployeeCard(
-                            profileImage: employe.profileImage,
-                            name: employe.name,
-                            employeID: employe.id,
-                            role: employe.role,
-                          ),
-                        );
-                      },
+                    return RefreshIndicator(
+                      color: AppColors.primaryColor,
+                      backgroundColor: AppColors.secondaryColor,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount:
+                            employeeController.employes.value!.data.data.length,
+                        itemBuilder: (context, index) {
+                          final employe = employeeController
+                              .employes.value!.data.data[index];
+                          log(employe.toString());
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: EmployeeCard(
+                              profileImage: employe.profileImage,
+                              name: employe.name,
+                              employeID: employe.id,
+                              role: employe.role,
+                            ),
+                          );
+                        },
+                      ),
+                      onRefresh: () => employeeController.getAllEmployes(),
                     );
                   }
                 })),
