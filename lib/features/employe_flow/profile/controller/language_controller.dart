@@ -7,11 +7,11 @@ class LanguageController extends GetxController {
 
   @override
   void onInit() async {
-    await LocalService.init(); // Initialize shared preferences
-    String? savedLanguage = LocalService.getLocale(); // Get the saved language
+    await LocalService.init();
+    String? savedLanguage = LocalService.getLocale();
     if (savedLanguage != null) {
-      selectedLanguage.value = savedLanguage; // Set the selected language
-      updateLocale(savedLanguage); // Update the locale
+      selectedLanguage.value = savedLanguage;
+      updateLocale(savedLanguage);
     }
     super.onInit();
   }
@@ -21,23 +21,20 @@ class LanguageController extends GetxController {
     Locale locale;
     switch (language) {
       case "French":
-        locale = const Locale('fr'); // Set locale for French
+        locale = const Locale('fr');
         break;
       case "Dutch":
-        locale = const Locale('nl'); // Set locale for Dutch
+        locale = const Locale('nl');
         break;
       default:
-        locale = const Locale('en'); // Default to English
+        locale = const Locale('en');
         break;
     }
 
-    // Update the app's locale
     Get.updateLocale(locale);
 
-    // Update selected language
     selectedLanguage.value = language;
 
-    // Save the selected language in shared preferences for persistence
     LocalService.saveLocale(language);
   }
 }
