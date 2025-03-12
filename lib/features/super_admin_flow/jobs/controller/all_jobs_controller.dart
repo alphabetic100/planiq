@@ -31,6 +31,21 @@ class AllJobsController extends GetxController {
     }
   }
 
+  Future<void> refreshAllJob(String url) async {
+    try {
+      final response =
+          await networkCaller.getRequest(url, token: AuthService.token);
+
+      if (response.isSuccess) {
+        jobs.value = AllJobsListModel.fromJson(response.responseData);
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
   void toggleExpanded() {
     if (searchController.text.isEmpty) {
       isExpanded.value = !isExpanded.value;
