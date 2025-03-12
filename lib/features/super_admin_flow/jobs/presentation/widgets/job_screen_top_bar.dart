@@ -5,13 +5,13 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/features/super_admin_flow/add_new_task/presentation/screens/add_new_task_screen.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/search_button.dart';
-import 'package:planiq/features/super_admin_flow/jobs/controller/jobs_controller.dart';
+import 'package:planiq/features/super_admin_flow/jobs/controller/all_jobs_controller.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/task_search_bar.dart';
 
 class JobScreenTopBar extends StatelessWidget {
   JobScreenTopBar({super.key, required this.onSearch});
   final Function(String value) onSearch;
-  final JobsController jobsController = Get.put(JobsController());
+  final AllJobsController jobsController = Get.put(AllJobsController());
   @override
   Widget build(BuildContext context) {
     return Obx(

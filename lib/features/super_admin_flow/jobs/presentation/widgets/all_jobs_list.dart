@@ -1,47 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_job_card.dart';
+import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/features/super_admin_flow/jobs/controller/all_jobs_controller.dart';
+import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
 
 class AllJobsList extends StatelessWidget {
-  const AllJobsList({
+  AllJobsList({
     super.key,
     this.isFromAdmin = false,
   });
   final bool isFromAdmin;
+
+  final AllJobsController jobsController = Get.find<AllJobsController>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         VerticalSpace(height: 20),
-        Expanded(
-          child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 15,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(bottom: 16.0.h),
-                  child: CustomJobCard(
-                    isFromAdmin: false,
-                    title: 'Emergency Pipe Repair',
-                    status: index % 3 == 1
-                        ? "Scheduled"
-                        : index % 2 == 0
-                            ? 'Compleated'
-                            : "Assigned",
-                    address: '9641 Sunset Blvd',
-                    city: 'Beverly Hills',
-                    state: 'California',
-                    zipCode: '90210',
-                    dateTime: DateTime(2025, 1, 22),
-                    startTime: const TimeOfDay(hour: 10, minute: 0),
-                    endTime: const TimeOfDay(hour: 12, minute: 30),
-                    onViewDetails: () {},
-                    onStartJob: () {},
-                  ),
-                );
-              }),
-        )
+        Expanded(child: Obx(() {
+          if (jobsController.jobs.value == null) {
+            return SizedBox.shrink();
+          } else if (jobsController.jobs.value!.data.jobs.isEmpty) {
+            return Center(
+              child: CustomText(text: "No Jobs Found"),
+            );
+          } else {
+            return ListView.builder(
+                shrinkWrap: true,
+                itemCount: jobsController.jobs.value!.data.jobs.length,
+                itemBuilder: (context, index) {
+                  final job = jobsController.jobs.value!.data.jobs[index];
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 16.0.h),
+                    child: CustomJobCard(
+                      isFromAdmin: true,
+                      title: job.title,
+                      status: decodeStatus(job.status),
+                      address: job.location,
+                      city: '',
+                      state: '',
+                      zipCode: '',
+                      dateTime: DateTime.parse(job.date),
+                      time: job.time,
+                      onViewDetails: () {},
+                      onStartJob: () {},
+                    ),
+                  );
+                });
+          }
+        }))
       ],
     );
   }
