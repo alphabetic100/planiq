@@ -9,29 +9,51 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/core/utils/helpers/app_helper.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_details_card.dart';
 import 'package:planiq/features/super_admin_flow/employe/controller/employee_profile_controller.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/employe_profile_overview.dart';
 
-class EmployeProfileDetailsScreen extends StatelessWidget {
-  EmployeProfileDetailsScreen({super.key});
+class EmployeProfileDetailsScreen extends StatefulWidget {
+  const EmployeProfileDetailsScreen({super.key, required this.employeeID});
+  final String employeeID;
+
+  @override
+  State<EmployeProfileDetailsScreen> createState() =>
+      _EmployeProfileDetailsScreenState();
+}
+
+class _EmployeProfileDetailsScreenState
+    extends State<EmployeProfileDetailsScreen> {
   final EmployeeProfileController employeeController =
       Get.put(EmployeeProfileController());
+
   final List<String> profileSpecialization = [
     "Drain Cleaning",
     "Installation",
     "Pipe Repair"
   ];
+
   final List<String> iconPath = [
     IconPath.editIcon,
     IconPath.blockIcon,
     IconPath.shildICon,
   ];
+
   final List<String> titles = [
     "Edit Details",
     "Block Employee",
     "Make Supervisor",
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      employeeController.getProfileDetails(widget.employeeID);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,9 +95,12 @@ class EmployeProfileDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            BodyPadding(
-              child: SingleChildScrollView(
-                child: Column(
+            BodyPadding(child: Obx(() {
+              if (employeeController.profile.value == null) {
+                return SizedBox.shrink();
+              } else {
+                final profile = employeeController.profile.value!.data;
+                return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     VerticalSpace(height: 20.h),
@@ -83,20 +108,36 @@ class EmployeProfileDetailsScreen extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 55.w,
                         backgroundColor: AppColors.secondaryColor,
-                        backgroundImage: AssetImage(IconPath.profileIcon),
+                        backgroundImage: profile.profileImage.isNotEmpty
+                            ? NetworkImage(profile.profileImage)
+                            : AssetImage(IconPath.profileIcon),
                       ),
                     ),
                     VerticalSpace(height: 40.h),
                     CustomText(text: "Personal Details :"),
                     VerticalSpace(height: 20.h),
-                    ProfileDetailsCard(title: "Name :", data: "David Andrew"),
-                    VerticalSpace(height: 8.h),
-                    ProfileDetailsCard(title: "User ID", data: "11226"),
-                    VerticalSpace(height: 8.h),
-                    ProfileDetailsCard(title: "Designation :", data: "Plumber"),
+                    ProfileDetailsCard(
+                        title: "Name :",
+                        data: profile.name.isEmpty ? "Guest" : profile.name),
                     VerticalSpace(height: 8.h),
                     ProfileDetailsCard(
-                        title: "Date of Birth :", data: "24/08/1996"),
+                        title: "User ID",
+                        data: profile.id.isNotEmpty
+                            ? profile.personId
+                            : "XXXXXX"),
+                    VerticalSpace(height: 8.h),
+                    ProfileDetailsCard(
+                        title: "Designation :",
+                        data: profile.designation.isNotEmpty
+                            ? profile.designation
+                            : "N/A"),
+                    VerticalSpace(height: 8.h),
+                    ProfileDetailsCard(
+                      title: "Date of Birth :",
+                      data: AppHelperFunctions.backendFomater(
+                              profile.dateOfBirth.toString()) ??
+                          "N/A",
+                    ),
                     VerticalSpace(height: 8.h),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +154,7 @@ class EmployeProfileDetailsScreen extends StatelessWidget {
                             spacing: 8.w,
                             runSpacing: 8.h,
                             children:
-                                profileSpecialization.map((specialization) {
+                                profile.specialization.map((specialization) {
                               return IntrinsicWidth(
                                 child: Container(
                                   height: 30.h,
@@ -144,13 +185,23 @@ class EmployeProfileDetailsScreen extends StatelessWidget {
                     ),
                     CustomText(text: "Job Details :"),
                     VerticalSpace(height: 10.h),
-                    ProfileDetailsCard(title: "Role :", data: "Senior Plumber"),
+                    ProfileDetailsCard(
+                        title: "Role :",
+                        data: profile.job[0].role.isNotEmpty
+                            ? profile.job[0].role
+                            : "N/A"),
                     VerticalSpace(height: 8.h),
                     ProfileDetailsCard(
-                        title: "Service Length :", data: "2 Years 3 Months"),
+                        title: "Service Length :",
+                        data: profile.job[0].serviceLength.isNotEmpty
+                            ? profile.job[0].serviceLength
+                            : "N/A"),
                     VerticalSpace(height: 8.h),
                     ProfileDetailsCard(
-                        title: "Department :", data: "Plumbing Operations"),
+                        title: "Department :",
+                        data: profile.job[0].department.isNotEmpty
+                            ? profile.job[0].department
+                            : "Plumbing Operations"),
                     VerticalSpace(height: 10.h),
                     Divider(
                       color: Color(0xFFF1F2F6),
@@ -158,21 +209,36 @@ class EmployeProfileDetailsScreen extends StatelessWidget {
                     CustomText(text: "Administrative Info :"),
                     VerticalSpace(height: 10.h),
                     ProfileDetailsCard(
-                        title: "Joining Date :", data: "01/04/2023"),
+                        title: "Joining Date :",
+                        data: AppHelperFunctions.backendFomater(profile
+                                .administrative[0].joinDate
+                                .toString()) ??
+                            "N/A"),
                     VerticalSpace(height: 8.h),
                     ProfileDetailsCard(
-                        title: "Work Location :", data: "New York City, NY"),
+                        title: "Work Location :",
+                        data: profile.administrative[0].location.isNotEmpty
+                            ? profile.administrative[0].location
+                            : "N/A"),
                     VerticalSpace(height: 8.h),
                     ProfileDetailsCard(
-                        title: "Employment Type :", data: "Permanent"),
+                        title: "Employment Type :",
+                        data: profile.administrative[0].employeeType.isNotEmpty
+                            ? profile.administrative[0].employeeType
+                            : "N/A"),
                     VerticalSpace(height: 24.h),
                     CustomText(text: "Project Overview"),
                     VerticalSpace(height: 20.h),
-                    EmployeProfileOverview(),
+                    EmployeProfileOverview(
+                      totalJob: profile.totalJobs.toString(),
+                      compleated: profile.completedJobs.toString(),
+                      scheduled: profile.accepted.toString(),
+                      declined: profile.decline.toString(),
+                    ),
                   ],
-                ),
-              ),
-            ),
+                );
+              }
+            })),
           ],
         ),
       ),

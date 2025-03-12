@@ -70,7 +70,11 @@ class EmployeeCard extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(() => EmployeProfileDetailsScreen());
+                  isBlocklist
+                      ? null
+                      : Get.to(() => EmployeProfileDetailsScreen(
+                            employeeID: employeID,
+                          ));
                 },
                 child: Text(
                   isBlocklist ? "Unblock" : "View Details",
