@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
@@ -15,6 +16,7 @@ class UnAssignedJobsController extends GetxController {
     try {
       final response =
           await networkCaller.getRequest(url, token: AuthService.token);
+
       if (response.isSuccess) {
         jobs.value = AllJobsListModel.fromJson(response.responseData);
       } else {
@@ -29,6 +31,8 @@ class UnAssignedJobsController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getJobList(AppUrls.unAssigned);
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      getJobList(AppUrls.unAssigned);
+    });
   }
 }

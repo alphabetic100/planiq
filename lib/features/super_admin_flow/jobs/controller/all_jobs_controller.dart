@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
@@ -16,8 +17,10 @@ class AllJobsController extends GetxController {
 
   Future<void> getJobList(String url) async {
     try {
+      showProgressIndicator();
       final response =
           await networkCaller.getRequest(url, token: AuthService.token);
+      hideProgressIndicatro();
       if (response.isSuccess) {
         jobs.value = AllJobsListModel.fromJson(response.responseData);
       } else {
@@ -38,6 +41,8 @@ class AllJobsController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getJobList(AppUrls.allJobs);
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      getJobList(AppUrls.allJobs);
+    });
   }
 }
