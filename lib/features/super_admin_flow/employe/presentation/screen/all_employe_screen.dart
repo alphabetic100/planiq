@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -85,18 +87,40 @@ class AllEmployeListScreen extends StatelessWidget {
                   color: AppColors.textSecondary,
                 ),
                 VerticalSpace(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: 20,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: EmployeeCard(),
-                      );
-                    },
-                  ),
-                ),
+                Expanded(child: Obx(() {
+                  if (employeeController.employes.value == null) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ),
+                    );
+                  } else if (employeeController
+                      .employes.value!.data.data.isEmpty) {
+                    return Center(
+                      child: CustomText(text: "No employe list"),
+                    );
+                  } else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount:
+                          employeeController.employes.value!.data.data.length,
+                      itemBuilder: (context, index) {
+                        final employe =
+                            employeeController.employes.value!.data.data[index];
+                        log(employe.toString());
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: EmployeeCard(
+                            profileImage: employe.profileImage,
+                            name: employe.name,
+                            employeID: employe.id,
+                            role: employe.role,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                })),
               ]
             ],
           ),
