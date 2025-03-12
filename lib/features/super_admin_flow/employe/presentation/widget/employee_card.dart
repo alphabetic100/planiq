@@ -10,8 +10,17 @@ class EmployeeCard extends StatelessWidget {
   const EmployeeCard({
     super.key,
     this.isBlocklist = false,
+    required this.profileImage,
+    required this.name,
+    required this.employeID,
+    required this.role,
   });
   final bool isBlocklist;
+  final String profileImage;
+  final String name;
+  final String employeID;
+  final String role;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,23 +29,25 @@ class EmployeeCard extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           leading: CircleAvatar(
             radius: 30.w,
-            backgroundImage: AssetImage(
-              IconPath.profileIcon,
-            ),
+            backgroundImage: profileImage.isNotEmpty
+                ? NetworkImage(profileImage)
+                : AssetImage(
+                    IconPath.profileIcon,
+                  ),
             backgroundColor: Colors.grey.shade200,
           ),
           title: Text.rich(
             TextSpan(
               children: [
                 TextSpan(
-                    text: "Aemon Targaryen",
+                    text: name,
                     style: TextStyle(
                       fontSize: 16.sp,
                       color: AppColors.textPrimary,
                       fontWeight: FontWeight.bold,
                     )),
                 TextSpan(
-                    text: " (Manager Admin)",
+                    text: " ($role)",
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: AppColors.textSecondary,
@@ -47,11 +58,15 @@ class EmployeeCard extends StatelessWidget {
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomText(
-                text: "Employee ID: 12548",
-                fontSize: 12.sp,
-                fontWeight: FontWeight.normal,
-                color: AppColors.textSecondary,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.45,
+                child: CustomText(
+                  text: "Employee ID: $employeID",
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.textSecondary,
+                  textOverflow: TextOverflow.ellipsis,
+                ),
               ),
               GestureDetector(
                 onTap: () {

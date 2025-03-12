@@ -48,6 +48,8 @@ class LoginController extends GetxController {
       successSnakbr(successMessage: "Welcome back! $userName");
     } else if (response.statusCode == 404) {
       errorSnakbar(errorMessage: "ID or Passord incorrect");
+    } else {
+      errorSnakbar(errorMessage: response.errorMessage);
     }
   }
 
@@ -57,7 +59,7 @@ class LoginController extends GetxController {
         return Get.offAllNamed(AppRoute.superLandingScreen);
       case "USER":
         return Get.offAllNamed(AppRoute.landingPage);
-      case " SUPERVISER":
+      case "SUPERVISER":
         return Get.offAllNamed(AppRoute.supervisorLandingScreen);
     }
   }

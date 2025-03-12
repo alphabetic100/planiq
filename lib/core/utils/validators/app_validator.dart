@@ -1,6 +1,13 @@
 class AppValidator {
   AppValidator._();
 
+  static String? validateField(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field is required.';
+    }
+    return null;
+  }
+
   static String? validateID(String? value) {
     if (value == null || value.isEmpty) {
       return 'ID is required.';
