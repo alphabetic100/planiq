@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
@@ -5,6 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
+import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
+import 'package:planiq/core/services/Auth_service.dart';
+import 'package:planiq/core/utils/constants/app_urls.dart';
+import 'package:planiq/core/utils/helpers/app_helper.dart';
 
 class NewTaskController extends GetxController {
   final ImagePicker _picker = ImagePicker();
@@ -15,8 +21,8 @@ class NewTaskController extends GetxController {
   var images = <File>[].obs;
   RxString title = "".obs;
   RxString location = "".obs;
-  RxString date = "sdfe".obs;
-  RxString time = "sdfe".obs;
+  RxString date = "".obs;
+  RxString time = "".obs;
   RxString mapLink = "".obs;
   RxString description = "".obs;
   RxString paymentRate = "".obs;
@@ -29,8 +35,13 @@ class NewTaskController extends GetxController {
 
 // Create Task
   Future<void> createNewTask() async {
-    log("message");
     try {
+      Dio dioClient = Dio(BaseOptions(
+        connectTimeout: Duration(seconds: 12),
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      ));
       final requestBody = {
         "title": title.value,
         "location": location.value,
@@ -48,8 +59,34 @@ class NewTaskController extends GetxController {
         "managerName": managerName.value,
         "managerPhone": managerNumber.value,
       };
+      final bodyData = jsonEncode(requestBody);
+      List<dio.MultipartFile> imageList = [];
+      for (var image in images) {
+        String fileName = AppHelperFunctions.generateUniqueFileName(image.path);
+        dio.MultipartFile file = await dio.MultipartFile.fromFile(
+          image.path,
+          filename: fileName,
+        );
+        imageList.add(file);
+      }
 
-      log("Selected request body: $requestBody");
+      final formData = dio.FormData.fromMap(
+        {
+          "bodyData": bodyData,
+          "image": imageList,
+        },
+      );
+
+      final response = await dioClient.post(AppUrls.allJobs,
+          data: formData,
+          options: Options(headers: {
+            "Authorization": AuthService.token,
+            'Content-Type': 'multipart/form-data',
+          }));
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log(response.data.toString());
+      }
     } catch (e) {
       log("something went wrong, error: $e");
     }

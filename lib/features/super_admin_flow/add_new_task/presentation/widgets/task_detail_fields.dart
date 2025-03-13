@@ -60,7 +60,9 @@ class TaskDetailFields extends StatelessWidget {
             readOnly: true,
             prefixIcon: Image.asset(IconPath.calendarIcon),
             controller: TextEditingController()
-              ..text = AppHelperFunctions.formatDate(taskController.date.value),
+              ..text = taskController.date.value.isNotEmpty
+                  ? AppHelperFunctions.formatDate(taskController.date.value)
+                  : "",
             onTap: () {
               showDialog(
                   context: context,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -101,6 +103,22 @@ class AppHelperFunctions {
     String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
 
     return formattedDate;
+  }
+
+  // Function to generate a unique file name based on the current timestamp and original file name
+  static String generateUniqueFileName(String filePath) {
+    // Get the original file name from the path
+    String fileName = filePath.split('/').last;
+
+    // Generate a unique string using the current timestamp and a random number
+    String uniqueString =
+        '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
+
+    // Get the file extension
+    String fileExtension = fileName.split('.').last;
+
+    // Combine unique string with the file extension to generate a unique file name
+    return '$uniqueString.$fileExtension';
   }
 
   static List<T> removeDuplicates<T>(List<T> list) {
