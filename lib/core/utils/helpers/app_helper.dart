@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AppHelperFunctions {
   AppHelperFunctions._();
@@ -78,20 +81,47 @@ class AppHelperFunctions {
     }
   }
 
- 
-static String? backendFomater(String? inputDate) {
-  if (inputDate == null) return null;
+  static String? backendFomater(String? inputDate) {
+    if (inputDate == null) return null;
 
-  try {
-    // Parse the input date with the format "yyyy-MM-dd HH:mm:ss.SSS"
-    DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(inputDate);
+    try {
+      // Parse the input date with the format "yyyy-MM-dd HH:mm:ss.SSS"
+      DateTime dateTime =
+          DateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(inputDate);
 
-    // Format the date to "dd/MM/yyyy"
-    return DateFormat("dd/MM/yyyy").format(dateTime);
-  } catch (e) {
-    return null; // Return null if parsing fails
+      // Format the date to "dd/MM/yyyy"
+      return DateFormat("dd/MM/yyyy").format(dateTime);
+    } catch (e) {
+      return null; // Return null if parsing fails
+    }
   }
-}
+
+  static String formatDate(String inputDate) {
+    // Parse the input string into a DateTime object
+    DateTime dateTime = DateTime.parse(inputDate);
+
+    // Format the DateTime object into "dd/MM/yyyy"
+    String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+
+    return formattedDate;
+  }
+
+  // Function to generate a unique file name based on the current timestamp and original file name
+  static String generateUniqueFileName(String filePath) {
+    // Get the original file name from the path
+    String fileName = filePath.split('/').last;
+
+    // Generate a unique string using the current timestamp and a random number
+    String uniqueString =
+        '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(1000)}';
+
+    // Get the file extension
+    String fileExtension = fileName.split('.').last;
+
+    // Combine unique string with the file extension to generate a unique file name
+    return '$uniqueString.$fileExtension';
+  }
+
   static List<T> removeDuplicates<T>(List<T> list) {
     return list.toSet().toList();
   }
@@ -106,5 +136,24 @@ static String? backendFomater(String? inputDate) {
       wrappedList.add(Row(children: rowChildren));
     }
     return wrappedList;
+  }
+
+  static Future<void> launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
+  static Future<void> makePhoneCall(String phoneNumber) async {
+    final Uri uri = Uri(scheme: 'tel', path: phoneNumber);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw Exception('Could not launch call to $phoneNumber');
+    }
   }
 }

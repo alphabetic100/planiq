@@ -25,6 +25,7 @@ class EmployeHomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomJobCard(
+                  id: "",
                   title: 'Emergency Pipe Repair',
                   status: 'Starting soon',
                   address: '9641 Sunset Blvd',

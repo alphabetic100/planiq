@@ -53,6 +53,7 @@ class ReportViewCard extends StatelessWidget {
         ),
         VerticalSpace(height: 16.h),
         CustomJobCard(
+          id: "",
           title: 'Emergency Pipe Repair',
           status: 'Scheduled',
           address: '9641 Sunset Blvd',

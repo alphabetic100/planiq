@@ -15,29 +15,34 @@ class UnassignedJobList extends StatelessWidget {
       Get.put(UnAssignedJobsController());
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        VerticalSpace(height: 20),
-        Expanded(child: Obx(() {
-          if (jobsController.jobs.value == null) {
-            return SizedBox.shrink();
-          } else if (jobsController.jobs.value!.data.jobs.isEmpty) {
-            return Center(
-              child: CustomText(text: "No Jobs Found"),
-            );
-          } else {
-            return RefreshIndicator(
-              color: AppColors.primaryColor,
-              backgroundColor: AppColors.secondaryColor,
-              onRefresh: () => jobsController.getJobList(AppUrls.unAssigned),
-              child: ListView.builder(
+    return RefreshIndicator(
+      color: AppColors.primaryColor,
+      backgroundColor: AppColors.secondaryColor,
+      onRefresh: () => jobsController.getJobList(AppUrls.unAssigned),
+      child: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
+        children: [
+          VerticalSpace(height: 20),
+          Expanded(child: Obx(() {
+            if (jobsController.jobs.value == null) {
+              return SizedBox.shrink();
+            } else if (jobsController.jobs.value!.data.jobs.isEmpty) {
+              return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child: CustomText(text: "No Jobs Found"),
+                  ));
+            } else {
+              return ListView.builder(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   itemCount: jobsController.jobs.value!.data.jobs.length,
                   itemBuilder: (context, index) {
                     final job = jobsController.jobs.value!.data.jobs[index];
                     return Padding(
                       padding: EdgeInsets.only(bottom: 16.0.h),
                       child: CustomJobCard(
+                        id: job.id,
                         isFromAdmin: true,
                         title: job.title,
                         status: decodeStatus(job.status),
@@ -51,11 +56,11 @@ class UnassignedJobList extends StatelessWidget {
                         onStartJob: () {},
                       ),
                     );
-                  }),
-            );
-          }
-        }))
-      ],
+                  });
+            }
+          }))
+        ],
+      ),
     );
   }
 }

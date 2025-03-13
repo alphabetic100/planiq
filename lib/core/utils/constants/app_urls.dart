@@ -8,4 +8,5 @@ class AppUrls {
   static const String assigned = "$_baseUrl/jobs?search=ASSIGNED";
   static const String unAssigned = "$_baseUrl/jobs?search=UNASSIGNED";
   static const String compleated = "$_baseUrl/jobs?search=COMPLETED";
+  static const String allTaskStatus = "$_baseUrl/jobs/task-status";
 }

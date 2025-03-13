@@ -23,7 +23,7 @@ class CustomJobCard extends StatelessWidget {
   final bool isFromAdmin;
   final bool isSupervisor;
   final String? time;
-
+  final String id;
   const CustomJobCard({
     super.key,
     required this.title,
@@ -40,6 +40,7 @@ class CustomJobCard extends StatelessWidget {
     required this.onStartJob,
     this.isFromAdmin = false,
     this.isSupervisor = false,
+    required this.id,
   });
 
   @override
@@ -48,6 +49,7 @@ class CustomJobCard extends StatelessWidget {
       onTap: () {
         Get.to(() => JobDetailsScreen(
               isFromAdmin: isFromAdmin,
+              jobId: id,
             ));
       },
       child: Container(

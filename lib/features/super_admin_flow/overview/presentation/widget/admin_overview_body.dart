@@ -1,28 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/features/super_admin_flow/overview/controller/admin_overview_controller.dart';
 
 class AdminOverviewBody extends StatelessWidget {
   AdminOverviewBody({super.key});
-  final List<Map<String, String>> overviews = [
-    {
-      "title": "Total Task",
-      "value": "1,254",
-    },
-    {
-      "title": "Assigned Task",
-      "value": "852",
-    },
-    {
-      "title": "Unassigned Task",
-      "value": "487",
-    },
-    {
-      "title": "Completed Task",
-      "value": "524",
-    },
+  final List overviews = [
+    "Total Task",
+    "Assigned Task",
+    "Unassigned Task",
+    "Completed Task",
   ];
+  final AdminOverviewController overviewController =
+      Get.put(AdminOverviewController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,24 +42,42 @@ class AdminOverviewBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                      text: overviews[index]["title"]!,
+                      text: overviews[index],
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: getOverviewColors(index),
                     ),
                     VerticalSpace(height: 10.h),
-                    CustomText(
-                      text: overviews[index]["value"]!,
-                      fontSize: 28.sp,
-                      fontWeight: FontWeight.w700,
-                      color: getOverviewColors(index),
+                    Obx(
+                      () => CustomText(
+                        text: overviewController.taskStatus.value != null
+                            ? index == 0
+                                ? overviewController
+                                    .taskStatus.value!.data.total
+                                    .toString()
+                                : index == 1
+                                    ? overviewController
+                                        .taskStatus.value!.data.assigned
+                                        .toString()
+                                    : index == 3
+                                        ? overviewController
+                                            .taskStatus.value!.data.unassigned
+                                            .toString()
+                                        : overviewController
+                                            .taskStatus.value!.data.completed
+                                            .toString()
+                            : "0",
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w700,
+                        color: getOverviewColors(index),
+                      ),
                     ),
                   ],
                 ),
               ),
             );
           },
-        )
+        ),
       ],
     );
   }

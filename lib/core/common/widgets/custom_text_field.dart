@@ -19,6 +19,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixIcon,
     this.isPhoneField = false,
     this.numberOnly = false,
+    this.keyboardType,
   });
 
   final String? hintText;
@@ -34,7 +35,7 @@ class CustomTextField extends StatefulWidget {
   final bool readOnly;
   final bool isPhoneField;
   final bool numberOnly;
-
+  final TextInputType? keyboardType;
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -53,8 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator: widget.validator,
       obscureText: widget.isPassword ? _obscureText : false,
       obscuringCharacter: "*",
-      keyboardType:
-          widget.isPhoneField ? TextInputType.phone : TextInputType.text,
+      keyboardType: widget.keyboardType,
       style: GoogleFonts.figtree(color: AppColors.black),
       decoration: InputDecoration(
         prefixIcon: widget.prefixIcon,

@@ -14,12 +14,14 @@ class EmployeeCard extends StatelessWidget {
     required this.name,
     required this.employeID,
     required this.role,
+    required this.id,
   });
   final bool isBlocklist;
   final String profileImage;
   final String name;
   final String employeID;
   final String role;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +75,7 @@ class EmployeeCard extends StatelessWidget {
                   isBlocklist
                       ? null
                       : Get.to(() => EmployeProfileDetailsScreen(
-                            employeeID: employeID,
+                            employeeID: id,
                           ));
                 },
                 child: Text(

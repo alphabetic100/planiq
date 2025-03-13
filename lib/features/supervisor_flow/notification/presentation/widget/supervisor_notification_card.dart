@@ -97,6 +97,7 @@ class SupervisorNotificationCard extends StatelessWidget {
             ),
             VerticalSpace(height: 20.h),
             CustomJobCard(
+              id: "",
               title: 'Emergency Pipe Repair',
               status: 'Starting soon',
               address: '9641 Sunset Blvd',

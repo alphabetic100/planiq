@@ -26,12 +26,12 @@ class AllBlockListScreen extends StatelessWidget {
                 itemCount: 20,
                 itemBuilder: (context, index) {
                   return EmployeeCard(
-                    isBlocklist: true,
-                    profileImage: "employe.profileImage",
-                    name: "employe.name",
-                    employeID: "employe.id",
-                    role: " employe.role",
-                  );
+                      isBlocklist: true,
+                      profileImage: "employe.profileImage",
+                      name: "employe.name",
+                      employeID: "employe.id",
+                      role: " employe.role",
+                      id: "");
                 },
               ),
             )
