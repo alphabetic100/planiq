@@ -49,7 +49,7 @@ class NewTaskController extends GetxController {
         "time": time.value,
         "locationLink": location.value,
         "description": description.value,
-        "rate": "\$${paymentRate.value}",
+        "rate": paymentRate.value,
         "duration": duration.value,
         "note": adminNote.value,
         "progress": taskChecklist,

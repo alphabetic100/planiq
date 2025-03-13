@@ -28,6 +28,7 @@ class AllJobsScreen extends StatelessWidget {
                 bottom: 20.h,
               ),
               child: CustomJobCard(
+                id: "",
                 title: 'Emergency Pipe Repair',
                 status: status[index],
                 address: '9641 Sunset Blvd',

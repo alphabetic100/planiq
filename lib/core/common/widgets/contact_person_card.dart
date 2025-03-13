@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:planiq/core/utils/helpers/app_helper.dart';
 
 class ContactPersonCard extends StatelessWidget {
   final String name;
@@ -6,6 +7,7 @@ class ContactPersonCard extends StatelessWidget {
   final String? avatarText;
   final Color? avatarColor;
   final String? avatarImage;
+  final String phoneNumber;
 
   const ContactPersonCard({
     super.key,
@@ -14,6 +16,7 @@ class ContactPersonCard extends StatelessWidget {
     this.avatarText,
     this.avatarColor,
     this.avatarImage,
+    required this.phoneNumber,
   });
 
   @override
@@ -61,16 +64,21 @@ class ContactPersonCard extends StatelessWidget {
         ),
         const Spacer(),
         // Call icon
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: const Color(0xFF0D8496),
-            shape: BoxShape.circle,
-          ),
-          child: const Icon(
-            Icons.phone,
-            color: Colors.white,
-            size: 20,
+        GestureDetector(
+          onTap: () {
+            AppHelperFunctions.makePhoneCall(phoneNumber);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color(0xFF0D8496),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.phone,
+              color: Colors.white,
+              size: 20,
+            ),
           ),
         ),
       ],

@@ -8,10 +8,10 @@ class TimeRangePickerDialog extends StatefulWidget {
   const TimeRangePickerDialog({super.key, required this.onTimeSelected});
 
   @override
-  _TimeRangePickerDialogState createState() => _TimeRangePickerDialogState();
+  TimeRangePickerDialogState createState() => TimeRangePickerDialogState();
 }
 
-class _TimeRangePickerDialogState extends State<TimeRangePickerDialog> {
+class TimeRangePickerDialogState extends State<TimeRangePickerDialog> {
   TimeOfDay? startTime;
   TimeOfDay? endTime;
 

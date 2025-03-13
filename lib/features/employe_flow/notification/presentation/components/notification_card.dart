@@ -55,6 +55,7 @@ class NotificationCard extends StatelessWidget {
         ),
         VerticalSpace(height: 10.h),
         CustomJobCard(
+          id: "",
           title: 'Emergency Pipe Repair',
           status: 'Starting soon',
           address: '9641 Sunset Blvd',

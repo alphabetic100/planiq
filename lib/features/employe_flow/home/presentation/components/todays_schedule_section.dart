@@ -25,6 +25,7 @@ class TodaysScheduleSection extends StatelessWidget {
               return Padding(
                 padding: EdgeInsets.only(bottom: 20.0.h),
                 child: CustomJobCard(
+                  id: "",
                   title: 'Emergency Pipe Repair',
                   status: 'Scheduled',
                   address: '9641 Sunset Blvd',

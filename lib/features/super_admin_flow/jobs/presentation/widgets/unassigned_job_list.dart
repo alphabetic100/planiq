@@ -42,6 +42,7 @@ class UnassignedJobList extends StatelessWidget {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 16.0.h),
                       child: CustomJobCard(
+                        id: job.id,
                         isFromAdmin: true,
                         title: job.title,
                         status: decodeStatus(job.status),
