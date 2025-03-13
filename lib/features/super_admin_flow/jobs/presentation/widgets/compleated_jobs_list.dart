@@ -15,22 +15,26 @@ class CompleatedJobsList extends StatelessWidget {
       Get.put(CompleatedJobsController());
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        VerticalSpace(height: 20),
-        Expanded(child: Obx(() {
-          if (jobsController.jobs.value == null) {
-            return SizedBox.shrink();
-          } else if (jobsController.jobs.value!.data.jobs.isEmpty) {
-            return Center(
-              child: CustomText(text: "No Jobs Found"),
-            );
-          } else {
-            return RefreshIndicator(
-              color: AppColors.primaryColor,
-              backgroundColor: AppColors.secondaryColor,
-              onRefresh: () => jobsController.getJobList(AppUrls.compleated),
-              child: ListView.builder(
+    return RefreshIndicator(
+      color: AppColors.primaryColor,
+      backgroundColor: AppColors.secondaryColor,
+      onRefresh: () => jobsController.getJobList(AppUrls.compleated),
+      child: ListView(
+        physics: AlwaysScrollableScrollPhysics(),
+        children: [
+          VerticalSpace(height: 20),
+          Expanded(child: Obx(() {
+            if (jobsController.jobs.value == null) {
+              return SizedBox.shrink();
+            } else if (jobsController.jobs.value!.data.jobs.isEmpty) {
+              return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child: CustomText(text: "No Jobs Found"),
+                  ));
+            } else {
+              return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: jobsController.jobs.value!.data.jobs.length,
                   itemBuilder: (context, index) {
@@ -51,11 +55,11 @@ class CompleatedJobsList extends StatelessWidget {
                         onStartJob: () {},
                       ),
                     );
-                  }),
-            );
-          }
-        }))
-      ],
+                  });
+            }
+          }))
+        ],
+      ),
     );
   }
 }

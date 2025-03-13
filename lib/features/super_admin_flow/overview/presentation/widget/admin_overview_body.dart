@@ -7,23 +7,11 @@ import 'package:planiq/features/super_admin_flow/overview/controller/admin_overv
 
 class AdminOverviewBody extends StatelessWidget {
   AdminOverviewBody({super.key});
-  final List<Map<String, String>> overviews = [
-    {
-      "title": "Total Task",
-      "value": "1,254",
-    },
-    {
-      "title": "Assigned Task",
-      "value": "852",
-    },
-    {
-      "title": "Unassigned Task",
-      "value": "487",
-    },
-    {
-      "title": "Completed Task",
-      "value": "524",
-    },
+  final List overviews = [
+    "Total Task",
+    "Assigned Task",
+    "Unassigned Task",
+    "Completed Task",
   ];
   final AdminOverviewController overviewController =
       Get.put(AdminOverviewController());
@@ -54,7 +42,7 @@ class AdminOverviewBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                      text: overviews[index]["title"]!,
+                      text: overviews[index],
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: getOverviewColors(index),
