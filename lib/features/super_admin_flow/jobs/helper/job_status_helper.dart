@@ -4,6 +4,8 @@ decodeStatus(String status) {
       return "Completed";
     case "UNASSIGNED":
       return "Unassigned";
+    case "ASSIGNED":
+      return "Assigned";
     default:
       return status;
   }

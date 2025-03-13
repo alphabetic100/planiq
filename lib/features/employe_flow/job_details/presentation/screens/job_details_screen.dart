@@ -57,376 +57,390 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
         title: "Job Details",
         backButton: true,
       ),
-      body: SingleChildScrollView(child: Obx(() {
-        final job = jobScreenController.jobDetails.value;
-        if (job == null) {
-          return SizedBox.shrink();
-        } else {
-          final details = job.data;
-          return BodyPadding(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                VerticalSpace(height: 20.h),
-                // Header Info
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomText(
-                      text: 'Job ID: #${details.jobId}',
-                      color: AppColors.textSecondary,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    VerticalSpace(height: 20.h),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: statusColor(decodeStatus(details.status))
-                            .withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: CustomText(
-                        text: decodeStatus(details.status),
-                        color: statusColor(decodeStatus(details.status)),
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-                if (widget.isFromAdmin) ...[
-                  details.status != "UNASSIGNED"
-                      ? AditionalAdminPart()
-                      : SizedBox.shrink(),
-                ],
-                VerticalSpace(height: 20.h),
-                // Job Title
-                CustomText(
-                  text: details.title,
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-                VerticalSpace(height: 8),
-
-                //Image here if the job is accepted
-                CustomImageSlider(imageUrls: details.image),
-                VerticalSpace(height: 10),
-                // Location
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(Icons.location_on_outlined,
-                        color: Color(0xFF526366), size: 20),
-                    const SizedBox(width: 8),
-                    Flexible(
-                      child: CustomText(
-                        text: details.location,
-                        color: AppColors.textSecondary,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-                VerticalSpace(height: 8),
-                // Date
-                Row(
-                  children: [
-                    Icon(Icons.calendar_today_outlined,
-                        color: AppColors.textSecondary, size: 20),
-                    const SizedBox(width: 8),
-                    CustomText(
-                      text: details.date,
-                      color: AppColors.textSecondary,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-                VerticalSpace(height: 8),
-                // Time
-                Row(
-                  children: [
-                    Icon(Icons.access_time,
-                        color: AppColors.textSecondary, size: 20),
-                    const SizedBox(width: 8),
-                    CustomText(
-                      text: details.time,
-                      color: AppColors.textSecondary,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ],
-                ),
-
-                // Map
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 16),
-                  height: 180,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                  ),
-                  child: Stack(
-                    children: [
-                      // Placeholder for map
-                      Image.asset(
-                        ImagePath.mapImage,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      ),
-                      // Navigation button
-                      Positioned(
-                        right: 16,
-                        bottom: 16,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            AppHelperFunctions.launchURL(details.locationLink);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.all(0),
-                            backgroundColor: const Color(0xFF0D8496),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10.h),
-                            child: Row(
-                              children: [
-                                Transform.rotate(
-                                  angle: pi * 0.2,
-                                  child: Icon(Icons.navigation_outlined,
-                                      color: Colors.white, size: 18.h),
-                                ),
-                                HorizontalSpace(width: 8.w),
-                                const CustomText(
-                                  text: 'Navigate',
-                                  color: AppColors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Description Section
-                CustomText(
-                  text: 'Description',
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-                VerticalSpace(height: 20),
-                CustomText(
-                  text: details.description,
-                  color: AppColors.textSecondary,
-                  fontSize: 16.sp,
-                  height: 1.5,
-                  fontWeight: FontWeight.normal,
-                ),
-                VerticalSpace(height: 20),
-                // Payment Info
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFE6F0F2),
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Payment Rate',
-                            color: AppColors.textSecondary,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          CustomText(
-                            text: '€${details.rate}',
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomText(
-                            text: 'Estimated Duration',
-                            color: AppColors.textSecondary,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          const SizedBox(height: 4),
-                          CustomText(
-                            text: details.duration,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                VerticalSpace(height: 20.h),
-                // Admin Notes
-                Container(
-                  width: double.maxFinite,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFFFBEB),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
+      body: RefreshIndicator(
+        color: AppColors.primaryColor,
+        backgroundColor: AppColors.secondaryColor,
+        onRefresh: () => jobScreenController.refreshScreen(widget.jobId),
+        child: SingleChildScrollView(
+          child: Obx(
+            () {
+              final job = jobScreenController.jobDetails.value;
+              if (job == null) {
+                return SizedBox.shrink();
+              } else {
+                final details = job.data;
+                return BodyPadding(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      VerticalSpace(height: 20.h),
+                      // Header Info
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            text: 'Job ID: #${details.jobId}',
+                            color: AppColors.textSecondary,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          VerticalSpace(height: 20.h),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: statusColor(decodeStatus(details.status))
+                                  .withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: CustomText(
+                              text: decodeStatus(details.status),
+                              color: statusColor(decodeStatus(details.status)),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (widget.isFromAdmin) ...[
+                        details.status != "UNASSIGNED"
+                            ? AditionalAdminPart()
+                            : SizedBox.shrink(),
+                      ],
+                      VerticalSpace(height: 20.h),
+                      // Job Title
                       CustomText(
-                        text: 'Admin Notes',
-                        color: Color(0xFFD97706),
-                        fontSize: 16,
+                        text: details.title,
+                        fontSize: 22.sp,
                         fontWeight: FontWeight.bold,
                       ),
-                      const SizedBox(height: 8),
+                      VerticalSpace(height: 8),
+
+                      //Image here if the job is accepted
+                      CustomImageSlider(imageUrls: details.image),
+                      VerticalSpace(height: 10),
+                      // Location
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(Icons.location_on_outlined,
+                              color: Color(0xFF526366), size: 20),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: CustomText(
+                              text: details.location,
+                              color: AppColors.textSecondary,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                      VerticalSpace(height: 8),
+                      // Date
+                      Row(
+                        children: [
+                          Icon(Icons.calendar_today_outlined,
+                              color: AppColors.textSecondary, size: 20),
+                          const SizedBox(width: 8),
+                          CustomText(
+                            text: details.date,
+                            color: AppColors.textSecondary,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      ),
+                      VerticalSpace(height: 8),
+                      // Time
+                      Row(
+                        children: [
+                          Icon(Icons.access_time,
+                              color: AppColors.textSecondary, size: 20),
+                          const SizedBox(width: 8),
+                          CustomText(
+                            text: details.time,
+                            color: AppColors.textSecondary,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      ),
+
+                      // Map
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 16),
+                        height: 180,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                        ),
+                        child: Stack(
+                          children: [
+                            // Placeholder for map
+                            Image.asset(
+                              ImagePath.mapImage,
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                            // Navigation button
+                            Positioned(
+                              right: 16,
+                              bottom: 16,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  AppHelperFunctions.launchURL(
+                                      details.locationLink);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.all(0),
+                                  backgroundColor: const Color(0xFF0D8496),
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10.h),
+                                  child: Row(
+                                    children: [
+                                      Transform.rotate(
+                                        angle: pi * 0.2,
+                                        child: Icon(Icons.navigation_outlined,
+                                            color: Colors.white, size: 18.h),
+                                      ),
+                                      HorizontalSpace(width: 8.w),
+                                      const CustomText(
+                                        text: 'Navigate',
+                                        color: AppColors.white,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Description Section
                       CustomText(
-                        text: details.note,
-                        color: Color(0xFF936B3E),
-                        fontSize: 14,
+                        text: 'Description',
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      VerticalSpace(height: 20),
+                      CustomText(
+                        text: details.description,
+                        color: AppColors.textSecondary,
+                        fontSize: 16.sp,
                         height: 1.5,
                         fontWeight: FontWeight.normal,
                       ),
+                      VerticalSpace(height: 20),
+                      // Payment Info
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Color(0xFFE6F0F2),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: 'Payment Rate',
+                                  color: AppColors.textSecondary,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                CustomText(
+                                  text: '€${details.rate}',
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: 'Estimated Duration',
+                                  color: AppColors.textSecondary,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                const SizedBox(height: 4),
+                                CustomText(
+                                  text: details.duration,
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      VerticalSpace(height: 20.h),
+                      // Admin Notes
+                      Container(
+                        width: double.maxFinite,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Color(0xFFFFFBEB),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              text: 'Admin Notes',
+                              color: Color(0xFFD97706),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            const SizedBox(height: 8),
+                            CustomText(
+                              text: details.note,
+                              color: Color(0xFF936B3E),
+                              fontSize: 14,
+                              height: 1.5,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ],
+                        ),
+                      ),
+                      VerticalSpace(height: 24),
+                      // Progress Checklist
+                      CustomText(
+                        text: 'Progress Checklist',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      if (!widget.isFromAdmin) ...[
+                        VerticalSpace(height: 8),
+                        CustomText(
+                          text:
+                              "Please ensure all steps are completed before marking the task as finished.*",
+                          color: Color(0xFFD76067),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ],
+                      VerticalSpace(height: 16),
+                      // Checklist Items
+
+                      Column(
+                        children:
+                            List.generate(details.progress.length, (index) {
+                          return ChecklistItemWidget(
+                              text: details.progress[index]);
+                        }),
+                      ),
+
+                      // Required Tools
+                      CustomText(
+                        text: 'Required Tools',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      VerticalSpace(height: 20), // Tool Tags
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 10,
+                        children: List.generate(details.requiredTools.length,
+                            (index) {
+                          return ToolTagWidget(
+                              text: details.requiredTools[index]);
+                        }),
+                      ),
+
+                      if (!widget.isFromAdmin) ...[
+                        AdditionalNoteSection(),
+                      ],
+                      const SizedBox(height: 24),
+
+                      // Contact Persons
+                      ContactPersonCard(
+                        name: details.customerName,
+                        role: 'Customer',
+                        phoneNumber: details.customerPhone,
+                        avatarText: details.customerName.substring(0, 1),
+                        avatarColor: Colors.grey,
+                      ),
+                      VerticalSpace(height: 20),
+                      ContactPersonCard(
+                        name: details.managerName,
+                        phoneNumber: details.managerPhone,
+                        role: 'Facility Manager',
+                        avatarText: details.managerName.substring(0, 1),
+                        avatarColor: Colors.grey,
+                      ),
+
+                      const SizedBox(height: 40),
+
+                      // Action Buttons
+                      if (!widget.isFromAdmin) ...[
+                        Row(
+                          children: [
+                            Expanded(
+                                child: CustomButton(
+                              onTap: () {
+                                showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return ReportIssueBottomSheet();
+                                    });
+                              },
+                              title: "Decline",
+                              titleColor: Color(0xFF526366),
+                              isPrimary: false,
+                            )),
+                            HorizontalSpace(width: 16.w),
+                            Expanded(
+                                child: CustomButton(
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return JobCompleateDialog();
+                                    });
+                              },
+                              title: "Accept",
+                            ))
+                          ],
+                        ),
+                      ] else ...[
+                        if (details.status == "UNASSIGNED") ...[
+                          CustomButton(
+                              onTap: () {
+                                developer.log(details.id);
+                                Get.to(
+                                    () => AssignTaskScreen(jobID: details.id));
+                              },
+                              title: "Assign Task"),
+                          VerticalSpace(height: 16.h)
+                        ],
+                        CustomButton(
+                            isPrimary: false,
+                            titleColor: Color(0xFF526366),
+                            bordercolor: AppColors.borderColor,
+                            onTap: () {},
+                            title: "Edit Task"),
+                      ],
+                      const SizedBox(height: 40),
                     ],
                   ),
-                ),
-                VerticalSpace(height: 24),
-                // Progress Checklist
-                CustomText(
-                  text: 'Progress Checklist',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                if (!widget.isFromAdmin) ...[
-                  VerticalSpace(height: 8),
-                  CustomText(
-                    text:
-                        "Please ensure all steps are completed before marking the task as finished.*",
-                    color: Color(0xFFD76067),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ],
-                VerticalSpace(height: 16),
-                // Checklist Items
-
-                Column(
-                  children: List.generate(details.progress.length, (index) {
-                    return ChecklistItemWidget(text: details.progress[index]);
-                  }),
-                ),
-
-                // Required Tools
-                CustomText(
-                  text: 'Required Tools',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                VerticalSpace(height: 20), // Tool Tags
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 10,
-                  children:
-                      List.generate(details.requiredTools.length, (index) {
-                    return ToolTagWidget(text: details.requiredTools[index]);
-                  }),
-                ),
-
-                if (!widget.isFromAdmin) ...[
-                  AdditionalNoteSection(),
-                ],
-                const SizedBox(height: 24),
-
-                // Contact Persons
-                ContactPersonCard(
-                  name: details.customerName,
-                  role: 'Customer',
-                  phoneNumber: details.customerPhone,
-                  avatarText: details.customerName.substring(0, 1),
-                  avatarColor: Colors.grey,
-                ),
-                VerticalSpace(height: 20),
-                ContactPersonCard(
-                  name: details.managerName,
-                  phoneNumber: details.managerPhone,
-                  role: 'Facility Manager',
-                  avatarText: details.managerName.substring(0, 1),
-                  avatarColor: Colors.grey,
-                ),
-
-                const SizedBox(height: 40),
-
-                // Action Buttons
-                if (!widget.isFromAdmin) ...[
-                  Row(
-                    children: [
-                      Expanded(
-                          child: CustomButton(
-                        onTap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return ReportIssueBottomSheet();
-                              });
-                        },
-                        title: "Decline",
-                        titleColor: Color(0xFF526366),
-                        isPrimary: false,
-                      )),
-                      HorizontalSpace(width: 16.w),
-                      Expanded(
-                          child: CustomButton(
-                        onTap: () {
-                          showDialog(
-                              context: context,
-                              builder: (context) {
-                                return JobCompleateDialog();
-                              });
-                        },
-                        title: "Accept",
-                      ))
-                    ],
-                  ),
-                ] else ...[
-                  if (details.status == "UNASSIGNED") ...[
-                    CustomButton(
-                        onTap: () {
-                          developer.log(details.id);
-                          Get.to(() => AssignTaskScreen(jobID: details.id));
-                        },
-                        title: "Assign Task"),
-                    VerticalSpace(height: 16.h)
-                  ],
-                  CustomButton(
-                      isPrimary: false,
-                      titleColor: Color(0xFF526366),
-                      bordercolor: AppColors.borderColor,
-                      onTap: () {},
-                      title: "Edit Task"),
-                ],
-                const SizedBox(height: 40),
-              ],
-            ),
-          );
-        }
-      })),
+                );
+              }
+            },
+          ),
+        ),
+      ),
     );
   }
 }
