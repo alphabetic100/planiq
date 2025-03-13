@@ -19,4 +19,5 @@ class IconPath {
   static const String editIcon = "$_basePath/edit.png";
   static const String blockIcon = "$_basePath/block.png";
   static const String shildICon = "$_basePath/shild.png";
+  static const String deleteIcon = "$_basePath/delete.png";
 }

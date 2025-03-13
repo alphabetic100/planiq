@@ -4,13 +4,15 @@ import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/custom_text_field.dart';
+import 'package:planiq/core/common/widgets/error_snakbar.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
-import 'package:planiq/features/super_admin_flow/employe/presentation/screen/all_employe_screen.dart';
+import 'package:planiq/core/utils/validators/app_validator.dart';
+import 'package:planiq/features/super_admin_flow/add_new_task/controller/new_task_controller.dart';
 
 class TaskContactDetail extends StatelessWidget {
-  const TaskContactDetail({super.key});
-
+  TaskContactDetail({super.key});
+  final NewTaskController taskController = Get.find<NewTaskController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,7 +34,14 @@ class TaskContactDetail extends StatelessWidget {
           fontWeight: FontWeight.normal,
         ),
         VerticalSpace(height: 8),
-        CustomTextField(),
+        CustomTextField(
+          controller: TextEditingController()
+            ..text = taskController.customerName.value,
+          onChange: (value) {
+            taskController.customerName.value = value;
+          },
+          validator: AppValidator.validateField,
+        ),
         VerticalSpace(height: 12),
         CustomText(
           text: "Customer Number",
@@ -41,7 +50,15 @@ class TaskContactDetail extends StatelessWidget {
         ),
         VerticalSpace(height: 8),
         CustomTextField(
+          numberOnly: true,
+          keyboardType: TextInputType.phone,
           prefixIcon: Image.asset(IconPath.phoneIcon),
+          controller: TextEditingController()
+            ..text = taskController.customerNumber.value,
+          onChange: (value) {
+            taskController.customerNumber.value = value;
+          },
+          validator: AppValidator.validatePhoneNumber,
         ),
         VerticalSpace(height: 16),
         CustomText(
@@ -55,7 +72,14 @@ class TaskContactDetail extends StatelessWidget {
           fontWeight: FontWeight.normal,
         ),
         VerticalSpace(height: 8),
-        CustomTextField(),
+        CustomTextField(
+          controller: TextEditingController()
+            ..text = taskController.managerName.value,
+          onChange: (value) {
+            taskController.managerName.value = value;
+          },
+          validator: AppValidator.validateField,
+        ),
         VerticalSpace(height: 12),
         CustomText(
           text: "Manager Number",
@@ -64,12 +88,30 @@ class TaskContactDetail extends StatelessWidget {
         ),
         VerticalSpace(height: 8),
         CustomTextField(
+          numberOnly: true,
+          keyboardType: TextInputType.phone,
           prefixIcon: Image.asset(IconPath.phoneIcon),
+          controller: TextEditingController()
+            ..text = taskController.managerNumber.value,
+          onChange: (value) {
+            taskController.managerNumber.value = value;
+          },
+          validator: AppValidator.validatePhoneNumber,
         ),
         VerticalSpace(height: 48.h),
         CustomButton(
             onTap: () {
-              Get.to(() => AllEmployeListScreen());
+              if (taskController.taskChecklist.isEmpty) {
+                errorSnakbar(errorMessage: "Progress checklist is required");
+              }
+              if (taskController.formstate.currentState!.validate() &&
+                  taskController.taskChecklist.isNotEmpty) {
+                taskController.createNewTask();
+              } else {
+                errorSnakbar(
+                    errorMessage: "Please fill all the required fields");
+              }
+              // Get.to(() => AllEmployeListScreen());
             },
             title: "Add Task")
       ],

@@ -78,20 +78,31 @@ class AppHelperFunctions {
     }
   }
 
- 
-static String? backendFomater(String? inputDate) {
-  if (inputDate == null) return null;
+  static String? backendFomater(String? inputDate) {
+    if (inputDate == null) return null;
 
-  try {
-    // Parse the input date with the format "yyyy-MM-dd HH:mm:ss.SSS"
-    DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(inputDate);
+    try {
+      // Parse the input date with the format "yyyy-MM-dd HH:mm:ss.SSS"
+      DateTime dateTime =
+          DateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse(inputDate);
 
-    // Format the date to "dd/MM/yyyy"
-    return DateFormat("dd/MM/yyyy").format(dateTime);
-  } catch (e) {
-    return null; // Return null if parsing fails
+      // Format the date to "dd/MM/yyyy"
+      return DateFormat("dd/MM/yyyy").format(dateTime);
+    } catch (e) {
+      return null; // Return null if parsing fails
+    }
   }
-}
+
+  static String formatDate(String inputDate) {
+    // Parse the input string into a DateTime object
+    DateTime dateTime = DateTime.parse(inputDate);
+
+    // Format the DateTime object into "dd/MM/yyyy"
+    String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);
+
+    return formattedDate;
+  }
+
   static List<T> removeDuplicates<T>(List<T> list) {
     return list.toSet().toList();
   }
