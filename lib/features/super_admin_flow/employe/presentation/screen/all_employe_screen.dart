@@ -115,9 +115,11 @@ class AllEmployeListScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: EmployeeCard(
                               profileImage: employe.profileImage,
+                              id: employe.id,
                               name: employe.name,
-                              employeID: employe.id,
+                              employeID: employe.personId,
                               role: employe.role,
+
                             ),
                           );
                         },
