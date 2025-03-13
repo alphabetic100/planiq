@@ -1,42 +1,41 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
+import 'package:planiq/core/common/widgets/error_snakbar.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/features/super_admin_flow/assign_task/controller/assign_task_controller.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/screen/edit_employe_details_screen.dart';
 
 class EmployeProfileOverview extends StatelessWidget {
-  EmployeProfileOverview(
-      {super.key,
-      required this.totalJob,
-      required this.compleated,
-      required this.scheduled,
-      required this.declined});
-  final List<Map<String, String>> overviews = [
-    {
-      "title": "Total Job",
-      "value": "12",
-    },
-    {
-      "title": "Compleated",
-      "value": "8",
-    },
-    {
-      "title": "Scheduled",
-      "value": "4",
-    },
-    {
-      "title": "Declined",
-      "value": "2",
-    },
+  EmployeProfileOverview({
+    super.key,
+    required this.totalJob,
+    required this.compleated,
+    required this.scheduled,
+    required this.declined,
+    this.isFromBooking = false,
+    this.taskID = "",
+    this.employeID = "",
+  });
+  final List overviews = [
+    "Total Job",
+    "Compleated",
+    "Scheduled",
+    "Declined",
   ];
   final String totalJob;
   final String compleated;
   final String scheduled;
   final String declined;
-
+  final String taskID;
+  final bool isFromBooking;
+  final String employeID;
+  final AssignTaskController controller = Get.put(AssignTaskController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -58,7 +57,7 @@ class EmployeProfileOverview extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                      text: overviews[index]["title"]!,
+                      text: overviews[index],
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                       color: getKOverviewColors(index),
@@ -85,8 +84,23 @@ class EmployeProfileOverview extends StatelessWidget {
         VerticalSpace(height: 40.h),
         Column(
           children: [
-            CustomButton(onTap: () {}, title: "Assign Task"),
-            VerticalSpace(height: 16.h),
+            if (isFromBooking) ...[
+              CustomButton(
+                  onTap: () {
+                    log(taskID);
+                    log(employeID);
+                    if (taskID.isEmpty && employeID.isEmpty) {
+                      errorSnakbar(
+                          errorMessage:
+                              "Something went wrong, please try again");
+                      return;
+                    } else {
+                      controller.assignTask(userId: employeID, jobId: taskID);
+                    }
+                  },
+                  title: "Assign Task"),
+              VerticalSpace(height: 16.h),
+            ],
             CustomButton(
                 isPrimary: false,
                 titleColor: AppColors.textSecondary,
@@ -94,7 +108,7 @@ class EmployeProfileOverview extends StatelessWidget {
                 onTap: () {
                   Get.to(() => EditEmployeeDetailsScreen());
                 },
-                title: "Edit Employee Details "),
+                title: "Edit Employee Details"),
           ],
         ),
         VerticalSpace(height: 30.h),

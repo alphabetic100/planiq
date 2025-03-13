@@ -15,8 +15,15 @@ import 'package:planiq/features/super_admin_flow/employe/controller/employee_pro
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/employe_profile_overview.dart';
 
 class EmployeProfileDetailsScreen extends StatefulWidget {
-  const EmployeProfileDetailsScreen({super.key, required this.employeeID});
+  const EmployeProfileDetailsScreen({
+    super.key,
+    required this.employeeID,
+    this.isFromBooking = false,
+    this.taskID = "",
+  });
   final String employeeID;
+  final bool isFromBooking;
+  final String taskID;
 
   @override
   State<EmployeProfileDetailsScreen> createState() =>
@@ -27,12 +34,6 @@ class _EmployeProfileDetailsScreenState
     extends State<EmployeProfileDetailsScreen> {
   final EmployeeProfileController employeeController =
       Get.put(EmployeeProfileController());
-
-  final List<String> profileSpecialization = [
-    "Drain Cleaning",
-    "Installation",
-    "Pipe Repair"
-  ];
 
   final List<String> iconPath = [
     IconPath.editIcon,
@@ -230,10 +231,13 @@ class _EmployeProfileDetailsScreenState
                     CustomText(text: "Project Overview"),
                     VerticalSpace(height: 20.h),
                     EmployeProfileOverview(
+                      taskID: widget.taskID,
                       totalJob: profile.totalJobs.toString(),
                       compleated: profile.completedJobs.toString(),
                       scheduled: profile.accepted.toString(),
                       declined: profile.decline.toString(),
+                      isFromBooking: widget.isFromBooking,
+                      employeID: profile.id,
                     ),
                   ],
                 );

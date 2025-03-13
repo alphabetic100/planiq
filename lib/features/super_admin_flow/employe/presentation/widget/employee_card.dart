@@ -15,6 +15,8 @@ class EmployeeCard extends StatelessWidget {
     required this.employeID,
     required this.role,
     required this.id,
+    this.isFromassign = false,
+    this.taskID = "",
   });
   final bool isBlocklist;
   final String profileImage;
@@ -22,6 +24,8 @@ class EmployeeCard extends StatelessWidget {
   final String employeID;
   final String role;
   final String id;
+  final bool isFromassign;
+  final String taskID;
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +80,8 @@ class EmployeeCard extends StatelessWidget {
                       ? null
                       : Get.to(() => EmployeProfileDetailsScreen(
                             employeeID: id,
+                            isFromBooking: isFromassign,
+                            taskID: taskID,
                           ));
                 },
                 child: Text(

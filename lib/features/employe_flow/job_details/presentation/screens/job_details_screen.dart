@@ -1,5 +1,5 @@
+import 'dart:developer' as developer;
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -21,6 +21,7 @@ import 'package:planiq/features/employe_flow/job_details/presentation/components
 import 'package:planiq/features/employe_flow/job_details/presentation/components/job_compleate_dialog.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/report_issue_bottom_sheet.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
+import 'package:planiq/features/super_admin_flow/assign_task/presentation/screen/assign_task_screen.dart';
 import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
 
 class JobDetailsScreen extends StatefulWidget {
@@ -96,7 +97,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                   ],
                 ),
                 if (widget.isFromAdmin) ...[
-                  AditionalAdminPart(),
+                  details.status != "UNASSIGNED"
+                      ? AditionalAdminPart()
+                      : SizedBox.shrink(),
                 ],
                 VerticalSpace(height: 20.h),
                 // Job Title
@@ -402,12 +405,21 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                     ],
                   ),
                 ] else ...[
+                  if (details.status == "UNASSIGNED") ...[
+                    CustomButton(
+                        onTap: () {
+                          developer.log(details.id);
+                          Get.to(() => AssignTaskScreen(jobID: details.id));
+                        },
+                        title: "Assign Task"),
+                    VerticalSpace(height: 16.h)
+                  ],
                   CustomButton(
                       isPrimary: false,
                       titleColor: Color(0xFF526366),
                       bordercolor: AppColors.borderColor,
                       onTap: () {},
-                      title: "Edit Task")
+                      title: "Edit Task"),
                 ],
                 const SizedBox(height: 40),
               ],
