@@ -32,4 +32,25 @@ class JobDetailScreenController extends GetxController {
       log("Something went wrong, error: $e");
     }
   }
+
+  Future<void> refreshScreen(String jobID) async {
+    if (jobID.isEmpty) {
+      log("jobid is empty");
+      return;
+    }
+    try {
+      final requestUrl = "${AppUrls.allJobs}/$jobID";
+
+      final response =
+          await networkCaller.getRequest(requestUrl, token: AuthService.token);
+
+      if (response.isSuccess) {
+        jobDetails.value = JobDetailsModel.fromJson(response.responseData);
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
 }
