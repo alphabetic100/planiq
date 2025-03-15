@@ -17,7 +17,7 @@ class SplashController extends GetxController {
               return Get.offAllNamed(AppRoute.superLandingScreen);
             case "USER":
               return Get.offAllNamed(AppRoute.landingPage);
-            case " SUPERVISER":
+            case "SUPERVISER":
               return Get.offAllNamed(AppRoute.supervisorLandingScreen);
           }
         } else {
