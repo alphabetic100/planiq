@@ -18,7 +18,6 @@ import 'package:planiq/features/employe_flow/job_details/controller/job_detail_s
 import 'package:planiq/features/employe_flow/job_details/presentation/components/additional_note_section.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/aditional_admin_part.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/checklist_item_widget.dart';
-import 'package:planiq/features/employe_flow/job_details/presentation/components/job_compleate_dialog.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/report_issue_bottom_sheet.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
 import 'package:planiq/features/super_admin_flow/assign_task/presentation/screen/assign_task_screen.dart';
@@ -191,6 +190,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                 onPressed: () {
                                   AppHelperFunctions.launchURL(
                                       details.locationLink);
+                                  developer.log(details.location);
+                                  developer.log(details.locationLink);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.all(0),
@@ -385,35 +386,58 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
 
                       // Action Buttons
                       if (!widget.isFromAdmin) ...[
-                        Row(
-                          children: [
-                            Expanded(
-                                child: CustomButton(
-                              onTap: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return ReportIssueBottomSheet();
-                                    });
-                              },
-                              title: "Decline",
-                              titleColor: Color(0xFF526366),
-                              isPrimary: false,
-                            )),
-                            HorizontalSpace(width: 16.w),
-                            Expanded(
-                                child: CustomButton(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return JobCompleateDialog();
-                                    });
-                              },
-                              title: "Accept",
-                            ))
-                          ],
-                        ),
+                        if (details.status == "ACCEPTED") ...[
+                          Column(
+                            children: [
+                              CustomButton(onTap: () {}, title: "Start Job"),
+                              VerticalSpace(height: 16.h),
+                              CustomButton(
+                                  isPrimary: false,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return ReportIssueBottomSheet();
+                                        });
+                                  },
+                                  titleColor: AppColors.error,
+                                  bordercolor: AppColors.error,
+                                  title: "Report Issue"),
+                            ],
+                          )
+                        ],
+                        if (details.status != "ACCEPTED") ...[
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: CustomButton(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return ReportIssueBottomSheet();
+                                      });
+                                },
+                                title: "Decline",
+                                titleColor: Color(0xFF526366),
+                                isPrimary: false,
+                              )),
+                              HorizontalSpace(width: 16.w),
+                              Expanded(
+                                  child: CustomButton(
+                                onTap: () {
+                                  // showDialog(
+                                  //     context: context,
+                                  //     builder: (context) {
+                                  //       return JobCompleateDialog();
+                                  //     });
+                                  jobScreenController.acceptTask(widget.jobId);
+                                },
+                                title: "Accept",
+                              ))
+                            ],
+                          ),
+                        ]
                       ] else ...[
                         if (details.status == "UNASSIGNED") ...[
                           CustomButton(

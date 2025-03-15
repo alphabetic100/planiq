@@ -90,6 +90,8 @@ decodeEmployeStatus(String status) {
   switch (status) {
     case "ASSIGNED":
       return "New Assignment";
+    case "ACCEPTED":
+      return "Scheduled";
     default:
       return status;
   }

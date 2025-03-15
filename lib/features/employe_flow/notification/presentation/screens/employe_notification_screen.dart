@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -50,6 +52,7 @@ class EmployeNotificationScreen extends StatelessWidget {
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           final notification = notifications.data.data[index];
+                          log(notification.job.status);
                           return Padding(
                             padding: EdgeInsets.only(bottom: 10.0.h),
                             child: NotificationCard(
