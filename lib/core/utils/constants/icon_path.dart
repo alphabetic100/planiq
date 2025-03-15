@@ -20,4 +20,8 @@ class IconPath {
   static const String blockIcon = "$_basePath/block.png";
   static const String shildICon = "$_basePath/shild.png";
   static const String deleteIcon = "$_basePath/delete.png";
+
+  static const String locationOutlined = "$_basePath/locationIcon.png";
+  static const String calenderOutlined = "$_basePath/calendarIcon.png";
+  static const String timerOutlined = "$_basePath/timer_outlined.png";
 }

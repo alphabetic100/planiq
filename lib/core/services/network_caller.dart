@@ -31,6 +31,12 @@ class NetworkCaller {
         method: 'PUT', body: body, token: token);
   }
 
+  Future<ResponseData> patchRequest(String endpoint,
+      {Map<String, dynamic>? body, String? token}) async {
+    return await _sendRequest(endpoint,
+        method: 'PATCH', body: body, token: token);
+  }
+
   Future<ResponseData> deleteRequest(String endpoint, {String? token}) async {
     return await _sendRequest(endpoint, method: 'DELETE', token: token);
   }

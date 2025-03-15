@@ -6,6 +6,8 @@ decodeStatus(String status) {
       return "Unassigned";
     case "ASSIGNED":
       return "Assigned";
+    case "ACCEPTED":
+      return "Scheduled";
     default:
       return status;
   }

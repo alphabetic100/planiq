@@ -5,9 +5,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
+import 'package:planiq/core/common/widgets/success_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
 import 'package:planiq/core/utils/helpers/app_helper.dart';
@@ -36,8 +38,9 @@ class NewTaskController extends GetxController {
 // Create Task
   Future<void> createNewTask() async {
     try {
+      showProgressIndicator();
       Dio dioClient = Dio(BaseOptions(
-        connectTimeout: Duration(seconds: 12),
+        connectTimeout: Duration(seconds: 60),
         validateStatus: (status) {
           return status! < 500;
         },
@@ -47,7 +50,7 @@ class NewTaskController extends GetxController {
         "location": location.value,
         "date": date.value,
         "time": time.value,
-        "locationLink": location.value,
+        "locationLink": mapLink.value,
         "description": description.value,
         "rate": paymentRate.value,
         "duration": duration.value,
@@ -83,9 +86,11 @@ class NewTaskController extends GetxController {
             "Authorization": AuthService.token,
             'Content-Type': 'multipart/form-data',
           }));
-
+      hideProgressIndicatro();
       if (response.statusCode == 200 || response.statusCode == 201) {
         log(response.data.toString());
+        successSnakbr(successMessage: "Task created successfully");
+        Get.back();
       }
     } catch (e) {
       log("something went wrong, error: $e");

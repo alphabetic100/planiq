@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/body_padding.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
@@ -40,7 +41,11 @@ class ReportIssueBottomSheet extends StatelessWidget {
               hintText: "Write your issue here...",
             ),
             Spacer(),
-            CustomButton(onTap: () {}, title: "Submit Issue"),
+            CustomButton(
+                onTap: () {
+                  Get.back();
+                },
+                title: "Submit Issue"),
             VerticalSpace(height: 20.h),
           ],
         ),

@@ -12,6 +12,7 @@ import 'package:planiq/core/common/widgets/custom_job_card.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/core/utils/constants/image_path.dart';
 import 'package:planiq/core/utils/helpers/app_helper.dart';
 import 'package:planiq/features/employe_flow/job_details/controller/job_detail_screen_controller.dart';
@@ -21,6 +22,7 @@ import 'package:planiq/features/employe_flow/job_details/presentation/components
 import 'package:planiq/features/employe_flow/job_details/presentation/components/job_compleate_dialog.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/report_issue_bottom_sheet.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
+import 'package:planiq/features/employe_flow/notification/presentation/components/notification_card.dart';
 import 'package:planiq/features/super_admin_flow/assign_task/presentation/screen/assign_task_screen.dart';
 import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
 
@@ -89,13 +91,19 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: statusColor(decodeStatus(details.status))
+                              color: statusColor(widget.isFromAdmin
+                                      ? decodeStatus(details.status)
+                                      : decodeEmployeStatus(details.status))
                                   .withOpacity(0.2),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: CustomText(
-                              text: decodeStatus(details.status),
-                              color: statusColor(decodeStatus(details.status)),
+                              text: widget.isFromAdmin
+                                  ? decodeStatus(details.status)
+                                  : decodeEmployeStatus(details.status),
+                              color: statusColor(widget.isFromAdmin
+                                  ? decodeStatus(details.status)
+                                  : decodeEmployeStatus(details.status)),
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                             ),
@@ -123,8 +131,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.location_on_outlined,
-                              color: Color(0xFF526366), size: 20),
+                          Image.asset(IconPath.locationOutlined),
                           const SizedBox(width: 8),
                           Flexible(
                             child: CustomText(
@@ -140,8 +147,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       // Date
                       Row(
                         children: [
-                          Icon(Icons.calendar_today_outlined,
-                              color: AppColors.textSecondary, size: 20),
+                          Image.asset(IconPath.calenderOutlined),
                           const SizedBox(width: 8),
                           CustomText(
                             text: details.date,
@@ -155,8 +161,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       // Time
                       Row(
                         children: [
-                          Icon(Icons.access_time,
-                              color: AppColors.textSecondary, size: 20),
+                          Image.asset(IconPath.timerOutlined),
                           const SizedBox(width: 8),
                           CustomText(
                             text: details.time,
@@ -191,6 +196,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                 onPressed: () {
                                   AppHelperFunctions.launchURL(
                                       details.locationLink);
+                                  developer.log(details.location);
+                                  developer.log(details.locationLink);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.all(0),
@@ -360,9 +367,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       ),
 
                       if (!widget.isFromAdmin) ...[
-                        AdditionalNoteSection(),
+                        if (details.status == "WIP") ...[
+                          AdditionalNoteSection(),
+                        ],
+                        const SizedBox(height: 24),
                       ],
-                      const SizedBox(height: 24),
 
                       // Contact Persons
                       ContactPersonCard(
@@ -385,35 +394,83 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
 
                       // Action Buttons
                       if (!widget.isFromAdmin) ...[
-                        Row(
-                          children: [
-                            Expanded(
-                                child: CustomButton(
-                              onTap: () {
-                                showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) {
-                                      return ReportIssueBottomSheet();
-                                    });
-                              },
-                              title: "Decline",
-                              titleColor: Color(0xFF526366),
-                              isPrimary: false,
-                            )),
-                            HorizontalSpace(width: 16.w),
-                            Expanded(
-                                child: CustomButton(
-                              onTap: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return JobCompleateDialog();
-                                    });
-                              },
-                              title: "Accept",
-                            ))
-                          ],
-                        ),
+                        if (details.status == "ACCEPTED") ...[
+                          Column(
+                            children: [
+                              CustomButton(
+                                  onTap: () {
+                                    jobScreenController.startJob(widget.jobId);
+                                  },
+                                  title: "Start Job"),
+                              VerticalSpace(height: 16.h),
+                              CustomButton(
+                                  isPrimary: false,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return ReportIssueBottomSheet();
+                                        });
+                                  },
+                                  titleColor: AppColors.error,
+                                  bordercolor: AppColors.error,
+                                  title: "Report Issue"),
+                            ],
+                          )
+                        ],
+                        if (details.status == "WIP") ...[
+                          Column(
+                            children: [
+                              CustomButton(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return JobCompleateDialog();
+                                        });
+                                    // jobScreenController.startJob(widget.jobId);
+                                  },
+                                  title: "Mark as Complete"),
+                              VerticalSpace(height: 16.h),
+                              CustomButton(
+                                  isPrimary: false,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return ReportIssueBottomSheet();
+                                        });
+                                  },
+                                  titleColor: AppColors.error,
+                                  bordercolor: AppColors.error,
+                                  title: "Report Issue"),
+                            ],
+                          )
+                        ],
+                        if (details.status != "ACCEPTED" &&
+                            details.status != "WIP") ...[
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: CustomButton(
+                                onTap: () {
+                                  jobScreenController.declineTask(widget.jobId);
+                                },
+                                title: "Decline",
+                                titleColor: Color(0xFF526366),
+                                isPrimary: false,
+                              )),
+                              HorizontalSpace(width: 16.w),
+                              Expanded(
+                                  child: CustomButton(
+                                onTap: () {
+                                  jobScreenController.acceptTask(widget.jobId);
+                                },
+                                title: "Accept",
+                              ))
+                            ],
+                          ),
+                        ]
                       ] else ...[
                         if (details.status == "UNASSIGNED") ...[
                           CustomButton(
