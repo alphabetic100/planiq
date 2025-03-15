@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class AdminNotificationCard extends StatelessWidget {
-  final String taskId;
-  final String userId;
   final DateTime date;
   final bool isAccepted;
   final VoidCallback? onTap;
-
+  final String title;
+  final String subtitle;
   const AdminNotificationCard({
     super.key,
-    required this.taskId,
-    required this.userId,
+    required this.subtitle,
     required this.date,
     required this.isAccepted,
     this.onTap,
+    required this.title,
   });
 
   @override
@@ -52,12 +52,15 @@ class AdminNotificationCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Task assignment accepted',
-                        style: TextStyle(
-                          fontSize: 18.0.sp,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimary,
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 18.0.sp,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textPrimary,
+                          ),
                         ),
                       ),
                       Text(
@@ -70,21 +73,12 @@ class AdminNotificationCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16.0),
-                  RichText(
-                    text: TextSpan(
-                      style: TextStyle(
-                        fontSize: 16.0.sp,
-                        color: Color(0xFF526366),
-                      ),
-                      children: [
-                        const TextSpan(text: 'Task #'),
-                        TextSpan(text: taskId),
-                        const TextSpan(text: ' has been accepted by User ID: '),
-                        TextSpan(text: userId),
-                        const TextSpan(text: '.'),
-                      ],
-                    ),
-                  ),
+                  CustomText(
+                    text: subtitle,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.normal,
+                    color: AppColors.textSecondary,
+                  )
                 ],
               ),
             ),

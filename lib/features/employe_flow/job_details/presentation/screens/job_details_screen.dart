@@ -370,9 +370,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         if (details.status == "WIP") ...[
                           AdditionalNoteSection(),
                         ],
-                        const SizedBox(height: 24),
                       ],
-
+                      const SizedBox(height: 24),
                       // Contact Persons
                       ContactPersonCard(
                         name: details.customerName,

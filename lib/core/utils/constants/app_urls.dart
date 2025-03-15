@@ -11,4 +11,5 @@ class AppUrls {
   static const String allTaskStatus = "$_baseUrl/jobs/task-status";
   static const String tasks = "$_baseUrl/tasks";
   static const String notification = "$_baseUrl/notifications";
+  static const String adminNotification = "$_baseUrl/notifications/admin";
 }
