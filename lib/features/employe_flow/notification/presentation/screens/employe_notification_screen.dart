@@ -58,7 +58,9 @@ class EmployeNotificationScreen extends StatelessWidget {
                             return Padding(
                               padding: EdgeInsets.only(bottom: 10.0.h),
                               child: NotificationCard(
-                                catagory: 'general',
+                                catagory: notification.job.status.isEmpty
+                                    ? "error"
+                                    : 'general',
                                 title: notification.title,
                                 subtitle: notification.body,
                                 date: notification.createdAt.toString(),

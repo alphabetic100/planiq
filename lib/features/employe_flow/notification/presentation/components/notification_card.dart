@@ -65,21 +65,23 @@ class NotificationCard extends StatelessWidget {
           color: AppColors.textSecondary,
         ),
         VerticalSpace(height: 10.h),
-        CustomJobCard(
-          id: jobId,
-          title: job.title,
-          status: job.status,
-          address: job.location,
-          dateTime: job.date,
-          time: job.time,
-          onViewDetails: () {
-            Get.to(() => JobDetailsScreen(
-                  isFromAdmin: false,
-                  jobId: jobId,
-                ));
-          },
-          onStartJob: () {},
-        ),
+        if (job.status.isNotEmpty) ...[
+          CustomJobCard(
+            id: jobId,
+            title: job.title,
+            status: job.status,
+            address: job.location,
+            dateTime: job.date,
+            time: job.time,
+            onViewDetails: () {
+              Get.to(() => JobDetailsScreen(
+                    isFromAdmin: false,
+                    jobId: jobId,
+                  ));
+            },
+            onStartJob: () {},
+          ),
+        ]
       ],
     );
   }

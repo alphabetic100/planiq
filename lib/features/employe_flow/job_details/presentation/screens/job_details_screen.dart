@@ -19,6 +19,7 @@ import 'package:planiq/features/employe_flow/job_details/controller/job_detail_s
 import 'package:planiq/features/employe_flow/job_details/presentation/components/additional_note_section.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/aditional_admin_part.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/checklist_item_widget.dart';
+import 'package:planiq/features/employe_flow/job_details/presentation/components/job_compleate_dialog.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/report_issue_bottom_sheet.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
 import 'package:planiq/features/employe_flow/notification/presentation/components/notification_card.dart';
@@ -366,7 +367,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       ),
 
                       if (!widget.isFromAdmin) ...[
-                        if (details.status != "ACCEPTED") ...[
+                        if (details.status == "WIP") ...[
                           AdditionalNoteSection(),
                         ],
                         const SizedBox(height: 24),
@@ -417,7 +418,37 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                             ],
                           )
                         ],
-                        if (details.status != "ACCEPTED") ...[
+                        if (details.status == "WIP") ...[
+                          Column(
+                            children: [
+                              CustomButton(
+                                  onTap: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return JobCompleateDialog();
+                                        });
+                                    // jobScreenController.startJob(widget.jobId);
+                                  },
+                                  title: "Mark as Complete"),
+                              VerticalSpace(height: 16.h),
+                              CustomButton(
+                                  isPrimary: false,
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (context) {
+                                          return ReportIssueBottomSheet();
+                                        });
+                                  },
+                                  titleColor: AppColors.error,
+                                  bordercolor: AppColors.error,
+                                  title: "Report Issue"),
+                            ],
+                          )
+                        ],
+                        if (details.status != "ACCEPTED" &&
+                            details.status != "WIP") ...[
                           Row(
                             children: [
                               Expanded(
@@ -433,11 +464,6 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               Expanded(
                                   child: CustomButton(
                                 onTap: () {
-                                  // showDialog(
-                                  //     context: context,
-                                  //     builder: (context) {
-                                  //       return JobCompleateDialog();
-                                  //     });
                                   jobScreenController.acceptTask(widget.jobId);
                                 },
                                 title: "Accept",
