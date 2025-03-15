@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_job_card.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
@@ -92,6 +91,8 @@ decodeEmployeStatus(String status) {
       return "New Assignment";
     case "ACCEPTED":
       return "Scheduled";
+    case "WIP":
+      return "Work In Progress";
     default:
       return status;
   }

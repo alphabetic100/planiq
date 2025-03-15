@@ -66,6 +66,42 @@ class JobDetailScreenController extends GetxController {
         successSnakbr(
             successMessage: "You have successfully accepted the task!");
         refreshScreen(jobID);
+        update();
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
+  Future<void> startJob(String jobID) async {
+    try {
+      showProgressIndicator();
+      final requestUrl = "${AppUrls.tasks}/progress/$jobID";
+      final response = await networkCaller.patchRequest(requestUrl,
+          token: AuthService.token);
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(
+            successMessage: "You have successfully started the task!");
+        refreshScreen(jobID);
+        update();
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
+  Future<void> declineTask(String jobID) async {
+    try {
+      showProgressIndicator();
+      final requestUrl = "${AppUrls.tasks}/decline/$jobID";
+      final response = await networkCaller.patchRequest(requestUrl,
+          token: AuthService.token);
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(successMessage: "You have decline the task!");
+        refreshScreen(jobID);
+        update();
       }
     } catch (e) {
       log("Something went wrong, error: $e");

@@ -21,6 +21,7 @@ import 'package:planiq/features/employe_flow/job_details/presentation/components
 import 'package:planiq/features/employe_flow/job_details/presentation/components/checklist_item_widget.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/report_issue_bottom_sheet.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
+import 'package:planiq/features/employe_flow/notification/presentation/components/notification_card.dart';
 import 'package:planiq/features/super_admin_flow/assign_task/presentation/screen/assign_task_screen.dart';
 import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
 
@@ -89,13 +90,19 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: statusColor(decodeStatus(details.status))
+                              color: statusColor(widget.isFromAdmin
+                                      ? decodeStatus(details.status)
+                                      : decodeEmployeStatus(details.status))
                                   .withOpacity(0.2),
                               borderRadius: BorderRadius.circular(16),
                             ),
                             child: CustomText(
-                              text: decodeStatus(details.status),
-                              color: statusColor(decodeStatus(details.status)),
+                              text: widget.isFromAdmin
+                                  ? decodeStatus(details.status)
+                                  : decodeEmployeStatus(details.status),
+                              color: statusColor(widget.isFromAdmin
+                                  ? decodeStatus(details.status)
+                                  : decodeEmployeStatus(details.status)),
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
                             ),
@@ -389,7 +396,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         if (details.status == "ACCEPTED") ...[
                           Column(
                             children: [
-                              CustomButton(onTap: () {}, title: "Start Job"),
+                              CustomButton(
+                                  onTap: () {
+                                    jobScreenController.startJob(widget.jobId);
+                                  },
+                                  title: "Start Job"),
                               VerticalSpace(height: 16.h),
                               CustomButton(
                                   isPrimary: false,
@@ -412,11 +423,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               Expanded(
                                   child: CustomButton(
                                 onTap: () {
-                                  showModalBottomSheet(
-                                      context: context,
-                                      builder: (context) {
-                                        return ReportIssueBottomSheet();
-                                      });
+                                  jobScreenController.declineTask(widget.jobId);
                                 },
                                 title: "Decline",
                                 titleColor: Color(0xFF526366),
