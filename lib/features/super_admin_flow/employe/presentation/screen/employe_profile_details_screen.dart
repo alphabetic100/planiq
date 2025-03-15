@@ -101,6 +101,8 @@ class _EmployeProfileDetailsScreenState
                 return SizedBox.shrink();
               } else {
                 final profile = employeeController.profile.value!.data;
+                employeeController.employeeID.value = profile.id;
+                employeeController.employeeName.value = profile.name;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

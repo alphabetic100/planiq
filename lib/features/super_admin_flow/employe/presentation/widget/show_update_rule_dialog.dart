@@ -4,10 +4,14 @@ import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/features/super_admin_flow/employe/controller/employee_profile_controller.dart';
 
 class ShowUpdateRuleDialog extends StatelessWidget {
-  const ShowUpdateRuleDialog({super.key});
-
+  ShowUpdateRuleDialog({
+    super.key,
+  });
+  final EmployeeProfileController profileController =
+      Get.find<EmployeeProfileController>();
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -40,6 +44,9 @@ class ShowUpdateRuleDialog extends StatelessWidget {
                     child: CustomButton(
                   onTap: () {
                     Get.back();
+                    profileController.makeSuperVisor(
+                        profileController.employeeID.value,
+                        profileController.employeeName.value);
                   },
                   title: "Proceed",
                 )),

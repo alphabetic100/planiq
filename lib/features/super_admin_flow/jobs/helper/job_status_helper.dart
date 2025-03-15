@@ -8,6 +8,8 @@ decodeStatus(String status) {
       return "Assigned";
     case "ACCEPTED":
       return "Scheduled";
+    case "WIP":
+      return "Work In Progress";
     default:
       return status;
   }

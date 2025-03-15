@@ -11,4 +11,11 @@ class AppUrls {
   static const String allTaskStatus = "$_baseUrl/jobs/task-status";
   static const String tasks = "$_baseUrl/tasks";
   static const String notification = "$_baseUrl/notifications";
+  static const String adminNotification = "$_baseUrl/notifications/admin";
+  static const String issue = "$_baseUrl/tasks/issue/";
+  static const String payment = "$_baseUrl/tasks/payment/";
+  static const String getPayments = "$_baseUrl/tasks/get-payment";
+  static const String getReports = "$_baseUrl/tasks/get-report";
+  static const String superviserNotification =
+      "$_baseUrl/notifications/super-viser";
 }

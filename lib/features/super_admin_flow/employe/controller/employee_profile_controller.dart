@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
+import 'package:planiq/core/common/widgets/success_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
@@ -14,6 +15,8 @@ import 'package:planiq/features/super_admin_flow/employe/presentation/widget/sho
 class EmployeeProfileController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
   Rx<EmployeDetailsModel?> profile = Rx<EmployeDetailsModel?>(null);
+  RxString employeeID = "".obs;
+  RxString employeeName = "".obs;
 
   Future<void> getProfileDetails(String profileID) async {
     try {
@@ -34,10 +37,30 @@ class EmployeeProfileController extends GetxController {
     }
   }
 
+  Future<void> makeSuperVisor(String employeID, String employeName) async {
+    try {
+      showProgressIndicator();
+      final requestBody = {"role": "SUPERVISER"};
+      final requestUrl = "${AppUrls.register}/role/$employeID";
+      final response = await networkCaller.patchRequest(requestUrl,
+          token: AuthService.token, body: requestBody);
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(
+            successMessage: "$employeName has been promoted to Supervisor");
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
   void handleProfileAction(String selectedAction) {
     if (selectedAction == "Block Employee") {
       Get.dialog(ShowBlockEmployeeDialog());
     } else if (selectedAction == "Make Supervisor") {
+     
       Get.dialog(ShowUpdateRuleDialog());
     } else if (selectedAction == "Edit Details") {
       Get.to(() => EditEmployeeDetailsScreen());
