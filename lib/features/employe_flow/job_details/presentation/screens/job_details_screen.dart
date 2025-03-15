@@ -12,6 +12,7 @@ import 'package:planiq/core/common/widgets/custom_job_card.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/core/utils/constants/image_path.dart';
 import 'package:planiq/core/utils/helpers/app_helper.dart';
 import 'package:planiq/features/employe_flow/job_details/controller/job_detail_screen_controller.dart';
@@ -122,8 +123,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.location_on_outlined,
-                              color: Color(0xFF526366), size: 20),
+                          Image.asset(IconPath.locationOutlined),
                           const SizedBox(width: 8),
                           Flexible(
                             child: CustomText(
@@ -139,8 +139,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       // Date
                       Row(
                         children: [
-                          Icon(Icons.calendar_today_outlined,
-                              color: AppColors.textSecondary, size: 20),
+                          Image.asset(IconPath.calenderOutlined),
                           const SizedBox(width: 8),
                           CustomText(
                             text: details.date,
@@ -154,8 +153,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       // Time
                       Row(
                         children: [
-                          Icon(Icons.access_time,
-                              color: AppColors.textSecondary, size: 20),
+                          Image.asset(IconPath.timerOutlined),
                           const SizedBox(width: 8),
                           CustomText(
                             text: details.time,
@@ -361,9 +359,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       ),
 
                       if (!widget.isFromAdmin) ...[
-                        AdditionalNoteSection(),
+                        if (details.status != "ACCEPTED") ...[
+                          AdditionalNoteSection(),
+                        ],
+                        const SizedBox(height: 24),
                       ],
-                      const SizedBox(height: 24),
 
                       // Contact Persons
                       ContactPersonCard(

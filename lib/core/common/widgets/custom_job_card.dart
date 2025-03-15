@@ -6,6 +6,7 @@ import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/screens/job_details_screen.dart';
 import 'package:planiq/features/employe_flow/notification/presentation/components/notification_card.dart';
 
@@ -123,11 +124,7 @@ class CustomJobCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.location_on_outlined,
-                    size: 23.h,
-                    color: Color(0xFF757575),
-                  ),
+                  Image.asset(IconPath.locationOutlined),
                   SizedBox(width: 8.sp),
                   Expanded(
                     child: CustomText(
@@ -145,11 +142,7 @@ class CustomJobCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(
-                    Icons.calendar_today_outlined,
-                    size: 20,
-                    color: Color(0xFF757575),
-                  ),
+                  Image.asset(IconPath.calenderOutlined),
                   const SizedBox(width: 8),
                   CustomText(
                     text:
@@ -166,11 +159,7 @@ class CustomJobCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Icon(
-                    Icons.access_time,
-                    size: 20.h,
-                    color: Color(0xFF757575),
-                  ),
+                  Image.asset(IconPath.timerOutlined),
                   const SizedBox(width: 8),
                   Text(
                     time ?? "",
