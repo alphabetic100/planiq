@@ -179,7 +179,12 @@ class CustomJobCard extends StatelessWidget {
                   Expanded(
                       child: CustomButton(
                     isPrimary: false,
-                    onTap: onViewDetails,
+                    onTap: () {
+                      Get.to(() => JobDetailsScreen(
+                            isFromAdmin: isFromAdmin,
+                            jobId: id,
+                          ));
+                    },
                     title: "View Details",
                     titleColor: AppColors.primaryColor,
                   )),
