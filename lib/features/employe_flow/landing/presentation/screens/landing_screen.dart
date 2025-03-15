@@ -15,6 +15,7 @@ class EmployeLandingScreen extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: CustomBottomNavBar(),
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         onPageChanged: (value) => landingController.currentPage.value = value,
         controller: landingController.pageController,
         children: [

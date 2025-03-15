@@ -7,14 +7,15 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/features/employe_flow/job_details/presentation/screens/job_details_screen.dart';
+import 'package:planiq/features/employe_flow/notification/presentation/components/notification_card.dart';
 
 class CustomJobCard extends StatelessWidget {
   final String title;
   final String status;
   final String address;
-  final String city;
-  final String state;
-  final String zipCode;
+  final String? city;
+  final String? state;
+  final String? zipCode;
   final DateTime dateTime;
   final TimeOfDay? startTime;
   final TimeOfDay? endTime;
@@ -29,9 +30,9 @@ class CustomJobCard extends StatelessWidget {
     required this.title,
     required this.status,
     required this.address,
-    required this.city,
-    required this.state,
-    required this.zipCode,
+    this.city,
+    this.state,
+    this.zipCode,
     required this.dateTime,
     this.startTime,
     this.endTime,
@@ -91,17 +92,24 @@ class CustomJobCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: (!isFromAdmin && status == "Compleated")
                             ? AppColors.primaryColor
-                            : statusColor(status).withOpacity(0.2),
+                            : statusColor(isFromAdmin
+                                    ? status
+                                    : decodeEmployeStatus(status))
+                                .withOpacity(0.2),
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Center(
                         child: CustomText(
-                          text: status,
+                          text: isFromAdmin
+                              ? status
+                              : decodeEmployeStatus(status),
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
                           color: (!isFromAdmin && status == "Compleated")
                               ? AppColors.white
-                              : statusColor(status),
+                              : statusColor(isFromAdmin
+                                  ? status
+                                  : decodeEmployeStatus(status)),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -123,7 +131,7 @@ class CustomJobCard extends StatelessWidget {
                   SizedBox(width: 8.sp),
                   Expanded(
                     child: CustomText(
-                      text: '$address, $city, $state $zipCode',
+                      text: address,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.normal,
                       color: Color(0xFF757575),
