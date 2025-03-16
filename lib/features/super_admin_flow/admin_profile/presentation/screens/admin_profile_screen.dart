@@ -9,7 +9,6 @@ import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/change_password_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/language_optins_screen.dart';
-import 'package:planiq/features/employe_flow/profile/presentation/components/profile_details_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_option_card.dart';
 
 class AdminProfileScreen extends StatelessWidget {
@@ -28,7 +27,7 @@ class AdminProfileScreen extends StatelessWidget {
           VerticalSpace(height: 20.h),
           ListTile(
             onTap: () {
-              Get.to(() => ProfileDetailsScreen());
+              // Get.to(() => ProfileDetailsScreen());
             },
             leading: CircleAvatar(
               radius: 35.w,

@@ -18,4 +18,10 @@ class AppUrls {
   static const String getReports = "$_baseUrl/tasks/get-report";
   static const String superviserNotification =
       "$_baseUrl/notifications/super-viser";
+  static const String superTaskStatus = "$_baseUrl/jobs/task-status-super";
+  static const String myProfile = "$_baseUrl/users/me";
+  static const String blockList = "$_baseUrl/users/block-user";
+  static const String downloadUserCSV = "$_baseUrl/users/downloadUsersCSV";
+  static const String downloadTasklistCSV = "$_baseUrl/tasks/task-csv";
+  static const String assignedTask = "$_baseUrl/tasks/assigned-task/";
 }

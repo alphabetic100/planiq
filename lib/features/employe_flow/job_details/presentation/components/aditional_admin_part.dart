@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/features/employe_flow/job_details/model/assigned_task_model.dart';
+import 'package:planiq/features/super_admin_flow/employe/presentation/screen/employe_profile_details_screen.dart';
 
 class AditionalAdminPart extends StatelessWidget {
-  const AditionalAdminPart({super.key});
-
+  const AditionalAdminPart({super.key, required this.user});
+  final UserData user;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,7 +27,9 @@ class AditionalAdminPart extends StatelessWidget {
           leading: CircleAvatar(
             radius: 25,
             backgroundColor: AppColors.secondaryColor,
-            backgroundImage: AssetImage(IconPath.profileIcon),
+            backgroundImage: user.profileImage.isNotEmpty
+                ? NetworkImage(user.profileImage)
+                : AssetImage(IconPath.profileIcon),
           ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -33,7 +38,7 @@ class AditionalAdminPart extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: "Alex Thompson",
+                      text: user.name,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 16.sp,
@@ -60,18 +65,24 @@ class AditionalAdminPart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
-                text: "Employee ID: 12548",
+                text: "Employee ID: ${user.personId}",
                 fontSize: 14.sp,
                 fontWeight: FontWeight.normal,
                 color: AppColors.textSecondary,
               ),
-              CustomText(
-                text: "Employee  Details",
-                fontSize: 14.sp,
-                fontWeight: FontWeight.normal,
-                color: AppColors.primaryColor,
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.primaryColor,
+              GestureDetector(
+                onTap: () {
+                  Get.to(
+                      () => EmployeProfileDetailsScreen(employeeID: user.id));
+                },
+                child: CustomText(
+                  text: "Employee  Details",
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.primaryColor,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.primaryColor,
+                ),
               )
             ],
           ),

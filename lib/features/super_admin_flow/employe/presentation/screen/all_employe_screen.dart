@@ -8,6 +8,7 @@ import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/features/super_admin_flow/employe/controller/employee_list_screen_controller.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/screen/add_new_employee_screen.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/employee_card.dart';
@@ -18,6 +19,15 @@ class AllEmployeListScreen extends StatelessWidget {
   AllEmployeListScreen({super.key});
   final EmployeeListScreenController employeeController =
       Get.put(EmployeeListScreenController());
+  final List<String> iconPath = [
+    IconPath.excelIcon,
+    IconPath.blockIcon,
+  ];
+
+  final List<String> titles = [
+    "Export Employee Data",
+    "See Blocklist",
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +35,35 @@ class AllEmployeListScreen extends StatelessWidget {
         appbarHeight: 70.h,
         title: "Employee",
         backButton: false,
+        actions: [
+          PopupMenuButton<int>(
+            iconColor: AppColors.white,
+            color: AppColors.white,
+            onSelected: (int value) {
+              employeeController.handelEmployeeAction(titles[value]);
+            },
+            itemBuilder: (context) => List.generate(
+              titles.length,
+              (index) => PopupMenuItem<int>(
+                value: index,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      iconPath[index],
+                    ),
+                    SizedBox(width: 10.w),
+                    CustomText(
+                      text: titles[index],
+                      fontSize: 14.sp,
+                      color: AppColors.textSecondary,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: BodyPadding(
         child: Obx(
@@ -119,7 +158,6 @@ class AllEmployeListScreen extends StatelessWidget {
                               name: employe.name,
                               employeID: employe.personId,
                               role: employe.role,
-
                             ),
                           );
                         },

@@ -77,6 +77,7 @@ class NotificationCard extends StatelessWidget {
               Get.to(() => JobDetailsScreen(
                     isFromAdmin: false,
                     jobId: jobId,
+                    status: job.status,
                   ));
             },
             onStartJob: () {},

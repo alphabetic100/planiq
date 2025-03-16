@@ -31,9 +31,11 @@ class JobDetailsScreen extends StatefulWidget {
     super.key,
     this.isFromAdmin = false,
     required this.jobId,
+    required this.status,
   });
   final bool isFromAdmin;
   final String jobId;
+  final String status;
 
   @override
   State<JobDetailsScreen> createState() => _JobDetailsScreenState();
@@ -42,12 +44,16 @@ class JobDetailsScreen extends StatefulWidget {
 class _JobDetailsScreenState extends State<JobDetailsScreen> {
   final JobDetailScreenController jobScreenController =
       Get.put(JobDetailScreenController());
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       jobScreenController.getJobDetails(widget.jobId);
+      if (widget.status != "UNASSIGNED") {
+        jobScreenController.getAssignedJobDetails(widget.jobId);
+      }
     });
   }
 
@@ -112,7 +118,10 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       ),
                       if (widget.isFromAdmin) ...[
                         details.status != "UNASSIGNED"
-                            ? AditionalAdminPart()
+                            ? AditionalAdminPart(
+                                user: jobScreenController
+                                    .employeeDetail.value!.data.user,
+                              )
                             : SizedBox.shrink(),
                       ],
                       VerticalSpace(height: 20.h),

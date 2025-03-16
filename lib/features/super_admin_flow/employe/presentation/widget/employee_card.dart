@@ -53,7 +53,7 @@ class EmployeeCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     )),
                 TextSpan(
-                    text: " ($role)",
+                    text: role.isNotEmpty ? " ($role)" : "",
                     style: TextStyle(
                       fontSize: 14.sp,
                       color: AppColors.textSecondary,

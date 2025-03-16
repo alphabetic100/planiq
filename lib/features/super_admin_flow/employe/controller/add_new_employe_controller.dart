@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
@@ -119,29 +118,6 @@ class AddNewEmployeeController extends GetxController {
     }
 
     clearForm();
-  }
-
-  Future<void> saveChanges() async {
-    // Validate required fields
-    if (name.value.isEmpty || userId.value.isEmpty || password.value.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please fill in all required fields',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return;
-    }
-
-    // Implementation for saving changes
-    Get.snackbar(
-      'Success',
-      'Employee details updated successfully',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.green,
-      colorText: Colors.white,
-    );
   }
 
   Future<void> selectProfileImage() async {

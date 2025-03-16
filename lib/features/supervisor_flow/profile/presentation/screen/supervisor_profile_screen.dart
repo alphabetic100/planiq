@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
+import 'package:planiq/core/common/widgets/show_logout_dialog.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
@@ -80,7 +81,13 @@ class SupervisorProfileScreen extends StatelessWidget {
             color: Color(0xFFF5F5F5),
           ),
           ProfileOptionCard(
-            onTap: () {},
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ShowLogoutDialog();
+                  });
+            },
             leading: Icon(
               Icons.logout,
               color: AppColors.error,

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_logo.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
+import 'package:planiq/core/common/widgets/show_logout_dialog.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
@@ -127,8 +128,14 @@ class SupervisorOverviewDrawer extends StatelessWidget {
             ),
           ),
           Spacer(),
-          GestureDetector(
-            onTap: () {},
+          InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ShowLogoutDialog();
+                  });
+            },
             child: Container(
               height: 60.h,
               color: AppColors.white,
