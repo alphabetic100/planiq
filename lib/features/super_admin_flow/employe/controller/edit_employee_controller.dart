@@ -81,14 +81,16 @@ class EditEmployeeController extends GetxController {
         "personId": userId.value,
         "password": password.value,
         "designation": designation.value,
-        "dateOfBirth": AppHelperFunctions.backendFomater(dateOfBirth.value),
+        "dateOfBirth": AppHelperFunctions.convertDateFormat(
+            AppHelperFunctions.backendFomater(dateOfBirth.value)),
         "gender": gender.value,
         "specialization": specializations,
         "fcmToken": "sample_fcm_token",
         "role": role.value,
         "serviceLength": serviceLength.value,
         "department": department.value,
-        "joinDate": AppHelperFunctions.backendFomater(joiningDate.value),
+        "joinDate": AppHelperFunctions.convertDateFormat(
+            AppHelperFunctions.backendFomater(joiningDate.value)),
         "location": workLocation.value,
         "employeeType": employmentType.value
       };
@@ -120,7 +122,7 @@ class EditEmployeeController extends GetxController {
       log(response.data.toString());
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        successSnakbr(successMessage: "Employee added successfully");
+        successSnakbr(successMessage: "Profile updated successfully");
         Get.back();
       } else {
         errorSnakbar(errorMessage: response.data["message"]);
