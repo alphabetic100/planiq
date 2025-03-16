@@ -117,12 +117,15 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         ],
                       ),
                       if (widget.isFromAdmin) ...[
-                        details.status != "UNASSIGNED"
-                            ? AditionalAdminPart(
-                                user: jobScreenController
-                                    .employeeDetail.value!.data.user,
-                              )
-                            : SizedBox.shrink(),
+                        if (jobScreenController.employeeDetail.value !=
+                            null) ...[
+                          details.status != "UNASSIGNED"
+                              ? AditionalAdminPart(
+                                  user: jobScreenController
+                                      .employeeDetail.value!.data,
+                                )
+                              : SizedBox.shrink(),
+                        ]
                       ],
                       VerticalSpace(height: 20.h),
                       // Job Title
