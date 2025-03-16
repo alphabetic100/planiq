@@ -6,15 +6,12 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
-import 'package:planiq/features/super_admin_flow/jobs/controller/assigned_jobs_controller.dart';
 import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
+import 'package:planiq/features/supervisor_flow/jobs/controller/wip_jobs_controller.dart';
 
-class AssignedJobList extends StatelessWidget {
-  AssignedJobList({
-    super.key,
-  });
-  final AssignedJobsController jobsController =
-      Get.put(AssignedJobsController());
+class WIPJobList extends StatelessWidget {
+  WIPJobList({super.key});
+  final WipJobsController jobsController = Get.put(WipJobsController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,7 +24,7 @@ class AssignedJobList extends StatelessWidget {
             return RefreshIndicator(
               color: AppColors.primaryColor,
               backgroundColor: AppColors.secondaryColor,
-              onRefresh: () => jobsController.getJobList(AppUrls.assigned),
+              onRefresh: () => jobsController.getJobList(AppUrls.wip),
               child: ListView(
                 children: [
                   SizedBox(
@@ -41,9 +38,9 @@ class AssignedJobList extends StatelessWidget {
             );
           } else {
             return RefreshIndicator(
+              onRefresh: () => jobsController.getJobList(AppUrls.wip),
               color: AppColors.primaryColor,
               backgroundColor: AppColors.secondaryColor,
-              onRefresh: () => jobsController.getJobList(AppUrls.assigned),
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: jobsController.jobs.value!.data.jobs.length,

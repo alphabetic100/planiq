@@ -117,12 +117,15 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         ],
                       ),
                       if (widget.isFromAdmin) ...[
-                        details.status != "UNASSIGNED"
-                            ? AditionalAdminPart(
-                                user: jobScreenController
-                                    .employeeDetail.value!.data.user,
-                              )
-                            : SizedBox.shrink(),
+                        if (jobScreenController.employeeDetail.value !=
+                            null) ...[
+                          details.status != "UNASSIGNED"
+                              ? AditionalAdminPart(
+                                  user: jobScreenController
+                                      .employeeDetail.value!.data,
+                                )
+                              : SizedBox.shrink(),
+                        ]
                       ],
                       VerticalSpace(height: 20.h),
                       // Job Title
@@ -159,7 +162,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                           Image.asset(IconPath.calenderOutlined),
                           const SizedBox(width: 8),
                           CustomText(
-                            text: details.date,
+                            text: AppHelperFunctions.backendFomater(
+                                    details.date) ??
+                                "N/A",
                             color: AppColors.textSecondary,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w500,

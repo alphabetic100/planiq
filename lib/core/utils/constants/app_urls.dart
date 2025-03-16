@@ -8,6 +8,7 @@ class AppUrls {
   static const String assigned = "$_baseUrl/jobs?search=ASSIGNED";
   static const String unAssigned = "$_baseUrl/jobs?search=UNASSIGNED";
   static const String compleated = "$_baseUrl/jobs?search=COMPLETED";
+  static const String wip = "$_baseUrl/jobs?search=WIP";
   static const String allTaskStatus = "$_baseUrl/jobs/task-status";
   static const String tasks = "$_baseUrl/tasks";
   static const String notification = "$_baseUrl/notifications";
@@ -24,4 +25,5 @@ class AppUrls {
   static const String downloadUserCSV = "$_baseUrl/users/downloadUsersCSV";
   static const String downloadTasklistCSV = "$_baseUrl/tasks/task-csv";
   static const String assignedTask = "$_baseUrl/tasks/assigned-task/";
+  static const String editProfile = "$_baseUrl/users/update-user/";
 }

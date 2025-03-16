@@ -1,10 +1,16 @@
+import 'dart:convert';
 import 'dart:developer';
-
+import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
+import 'package:planiq/core/common/widgets/error_snakbar.dart';
+import 'package:planiq/core/common/widgets/success_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
+import 'package:planiq/core/utils/helpers/app_helper.dart';
 import 'package:planiq/features/super_admin_flow/employe/model/employe_details_model.dart';
 
 class EditEmployeeController extends GetxController {
@@ -48,7 +54,83 @@ class EditEmployeeController extends GetxController {
     }
   }
 
-  Future<void> saveChanges() async {}
+  Future<void> saveChanges(String profileID) async {
+    Dio dioClient = Dio(BaseOptions(
+        connectTimeout: Duration(seconds: 12),
+        validateStatus: (status) {
+          return status! < 500;
+        }));
+    if (name.value.isEmpty || userId.value.isEmpty || password.value.isEmpty) {
+      errorSnakbar(
+        errorMessage: 'Please fill in all required fields',
+      );
+      return;
+    }
+    if (employeeImage.value.isEmpty) {
+      errorSnakbar(
+        errorMessage: 'Please select a employe image',
+      );
+      return;
+    }
+
+    try {
+      showProgressIndicator();
+
+      final bodyData = {
+        "name": name.value,
+        "personId": userId.value,
+        "password": password.value,
+        "designation": designation.value,
+        "dateOfBirth": AppHelperFunctions.convertDateFormat(
+            AppHelperFunctions.backendFomater(dateOfBirth.value)),
+        "gender": gender.value,
+        "specialization": specializations,
+        "fcmToken": "sample_fcm_token",
+        "role": role.value,
+        "serviceLength": serviceLength.value,
+        "department": department.value,
+        "joinDate": AppHelperFunctions.convertDateFormat(
+            AppHelperFunctions.backendFomater(joiningDate.value)),
+        "location": workLocation.value,
+        "employeeType": employmentType.value
+      };
+
+      log(bodyData.toString());
+
+      final image = employeeImage.value.contains("http")
+          ? null
+          : await dio.MultipartFile.fromFile(employeeImage.value,
+              filename: "profile${DateTime.now().millisecondsSinceEpoch}.jpg");
+
+      final dio.FormData formData = dio.FormData.fromMap({
+        "bodyData": jsonEncode(bodyData),
+        "profileImage": image,
+      });
+      final requestURL = "${AppUrls.editProfile}$profileID";
+      final response = await dioClient.put(
+        requestURL,
+        data: formData,
+        options: Options(
+          headers: {
+            "Authorization": AuthService.token,
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+      hideProgressIndicatro();
+      log(response.statusCode.toString());
+      log(response.data.toString());
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        successSnakbr(successMessage: "Profile updated successfully");
+        Get.back();
+      } else {
+        errorSnakbar(errorMessage: response.data["message"]);
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
 
   Future<void> fetchEmployeeDetails(String profileID) async {
     if (profileID.isEmpty) {

@@ -10,7 +10,7 @@ import 'package:planiq/features/super_admin_flow/employe/presentation/screen/emp
 
 class AditionalAdminPart extends StatelessWidget {
   const AditionalAdminPart({super.key, required this.user});
-  final UserData user;
+  final TaskData user;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -27,8 +27,8 @@ class AditionalAdminPart extends StatelessWidget {
           leading: CircleAvatar(
             radius: 25,
             backgroundColor: AppColors.secondaryColor,
-            backgroundImage: user.profileImage.isNotEmpty
-                ? NetworkImage(user.profileImage)
+            backgroundImage: user.tasks[0].user.profileImage.isNotEmpty
+                ? NetworkImage(user.tasks[0].user.profileImage)
                 : AssetImage(IconPath.profileIcon),
           ),
           title: Row(
@@ -38,7 +38,7 @@ class AditionalAdminPart extends StatelessWidget {
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: user.name,
+                      text: user.tasks[0].user.name,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 16.sp,
@@ -46,7 +46,7 @@ class AditionalAdminPart extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: " (Employee)",
+                      text: " (${user.tasks[0].user.role.toLowerCase()})",
                       style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 14.sp,
@@ -65,7 +65,7 @@ class AditionalAdminPart extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
-                text: "Employee ID: ${user.personId}",
+                text: "Employee ID: ${user.tasks[0].user.personId}",
                 fontSize: 14.sp,
                 fontWeight: FontWeight.normal,
                 color: AppColors.textSecondary,
