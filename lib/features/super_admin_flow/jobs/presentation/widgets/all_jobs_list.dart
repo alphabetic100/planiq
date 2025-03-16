@@ -29,8 +29,21 @@ class AllJobsList extends StatelessWidget {
               if (jobsController.jobs.value == null) {
                 return SizedBox.shrink();
               } else if (jobsController.jobs.value!.data.jobs.isEmpty) {
-                return Center(
-                  child: CustomText(text: "No Jobs Found"),
+                return RefreshIndicator(
+                  color: AppColors.primaryColor,
+                  backgroundColor: AppColors.secondaryColor,
+                  onRefresh: () =>
+                      jobsController.refreshAllJob(AppUrls.allJobs),
+                  child: ListView(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: Center(
+                          child: CustomText(text: "No Jobs Found"),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               } else {
                 return RefreshIndicator(
