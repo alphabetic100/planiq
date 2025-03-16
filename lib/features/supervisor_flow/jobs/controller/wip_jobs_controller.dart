@@ -1,22 +1,24 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
-import 'package:planiq/features/supervisor_flow/overview/model/supervisor_overview_model.dart';
+import 'package:planiq/features/super_admin_flow/jobs/model/all_jobs_list_model.dart';
 
-class SupervisorOverviewController extends GetxController {
+class WipJobsController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
-  Rx<SupervisorOverviewModel?> taskStatus = Rx(null);
-  Future<void> getTaskStatusSupervisor() async {
+
+  Rx<AllJobsListModel?> jobs = Rx<AllJobsListModel?>(null);
+  Future<void> getJobList(String url) async {
     try {
-      final response = await networkCaller.getRequest(AppUrls.superTaskStatus,
-          token: AuthService.token);
+      final response =
+          await networkCaller.getRequest(url, token: AuthService.token);
+
       if (response.isSuccess) {
-        taskStatus.value =
-            SupervisorOverviewModel.fromJson(response.responseData);
+        jobs.value = AllJobsListModel.fromJson(response.responseData);
       } else {
         errorSnakbar(errorMessage: response.errorMessage);
       }
@@ -29,6 +31,8 @@ class SupervisorOverviewController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getTaskStatusSupervisor();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      getJobList(AppUrls.wip);
+    });
   }
 }
