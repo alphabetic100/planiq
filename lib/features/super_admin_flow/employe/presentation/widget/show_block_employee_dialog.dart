@@ -4,11 +4,11 @@ import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/features/super_admin_flow/users/presentation/screens/all_block_list_screen.dart';
-
+import 'package:planiq/features/super_admin_flow/employe/controller/employee_profile_controller.dart';
 class ShowBlockEmployeeDialog extends StatelessWidget {
-  const ShowBlockEmployeeDialog({super.key});
-
+  ShowBlockEmployeeDialog({super.key});
+  final EmployeeProfileController profileController =
+      Get.find<EmployeeProfileController>();
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -43,7 +43,9 @@ class ShowBlockEmployeeDialog extends StatelessWidget {
                   color: Color(0xFFFF2C2C),
                   onTap: () {
                     Get.back();
-                    Get.to(() => AllBlockListScreen());
+                    profileController.blockEmployee(
+                        profileController.employeeID.value,
+                        profileController.employeeName.value);
                   },
                   title: "Block",
                 )),

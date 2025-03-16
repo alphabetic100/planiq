@@ -56,11 +56,29 @@ class EmployeeProfileController extends GetxController {
     }
   }
 
+  Future<void> blockEmployee(String employeID, String employeName) async {
+    try {
+      showProgressIndicator();
+      final requestBody = {"status": "BLOCKED"};
+      final requestUrl = "${AppUrls.register}/status/$employeID";
+      final response = await networkCaller.patchRequest(requestUrl,
+          token: AuthService.token, body: requestBody);
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(
+            successMessage: "$employeName has been blocked successfully.");
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
   void handleProfileAction(String selectedAction) {
     if (selectedAction == "Block Employee") {
       Get.dialog(ShowBlockEmployeeDialog());
     } else if (selectedAction == "Make Supervisor") {
-     
       Get.dialog(ShowUpdateRuleDialog());
     } else if (selectedAction == "Edit Details") {
       Get.to(() => EditEmployeeDetailsScreen());

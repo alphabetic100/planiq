@@ -6,6 +6,7 @@ import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
 import 'package:planiq/features/super_admin_flow/employe/model/all_employee_model.dart';
+import 'package:planiq/features/super_admin_flow/users/presentation/screens/all_block_list_screen.dart';
 
 class EmployeeListScreenController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
@@ -31,6 +32,16 @@ class EmployeeListScreenController extends GetxController {
   void toggleExpanded() {
     if (searchController.text.isEmpty) {
       isExpanded.value = !isExpanded.value;
+    }
+  }
+
+  void handelEmployeeAction(String action) {
+    switch (action) {
+      case "Export Employee Data":
+        break;
+      case "See Blocklist":
+        Get.to(() => AllBlockListScreen());
+        break;
     }
   }
 
