@@ -19,4 +19,5 @@ class AppUrls {
   static const String superviserNotification =
       "$_baseUrl/notifications/super-viser";
   static const String superTaskStatus = "$_baseUrl/jobs/task-status-super";
+  static const String myProfile = "$_baseUrl/users/me";
 }

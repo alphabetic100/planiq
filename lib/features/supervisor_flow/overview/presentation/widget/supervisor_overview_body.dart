@@ -47,29 +47,31 @@ class SupervisorOverviewBody extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       VerticalSpace(height: 10.h),
-                      CustomText(
-                        text: overviewController.taskStatus.value != null
-                            ? index == 0
-                                ? overviewController
-                                    .taskStatus.value!.data.total
-                                    .toString()
-                                : index == 1
-                                    ? overviewController
-                                        .taskStatus.value!.data.accepted
-                                        .toString()
-                                    : index == 2
-                                        ? overviewController
-                                            .taskStatus.value!.data.wip
-                                            .toString()
-                                        : overviewController
-                                            .taskStatus.value!.data.completed
-                                            .toString()
-                            : "0",
-                        fontSize: 28.sp,
-                        fontWeight: FontWeight.w700,
-                        color: getSOverviewColors(index),
-                        textAlign: TextAlign.center,
-                      ),
+                      Obx(
+                        () => CustomText(
+                          text: overviewController.taskStatus.value != null
+                              ? index == 0
+                                  ? overviewController
+                                      .taskStatus.value!.data.total
+                                      .toString()
+                                  : index == 1
+                                      ? overviewController
+                                          .taskStatus.value!.data.accepted
+                                          .toString()
+                                      : index == 2
+                                          ? overviewController
+                                              .taskStatus.value!.data.wip
+                                              .toString()
+                                          : overviewController
+                                              .taskStatus.value!.data.completed
+                                              .toString()
+                              : "0",
+                          fontSize: 28.sp,
+                          fontWeight: FontWeight.w700,
+                          color: getSOverviewColors(index),
+                          textAlign: TextAlign.center,
+                        ),
+                      )
                     ],
                   ),
                 ),
