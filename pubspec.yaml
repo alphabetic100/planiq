@@ -47,6 +47,8 @@ dependencies:
   table_calendar: ^3.2.0
   #Image picker
   image_picker: ^1.1.2
+  #Path provider
+  file_saver: ^0.2.14
 
 dev_dependencies:
   flutter_test:

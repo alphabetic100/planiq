@@ -1,10 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
+import 'package:planiq/core/utils/helpers/app_helper.dart';
 import 'package:planiq/features/super_admin_flow/employe/model/all_employee_model.dart';
 import 'package:planiq/features/super_admin_flow/users/presentation/screens/all_block_list_screen.dart';
 
@@ -35,9 +35,18 @@ class EmployeeListScreenController extends GetxController {
     }
   }
 
+  Future<void> downloadCSVfile() async {
+    try {
+      AppHelperFunctions.launchURL(AppUrls.downloadUserCSV);
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
   void handelEmployeeAction(String action) {
     switch (action) {
       case "Export Employee Data":
+        downloadCSVfile();
         break;
       case "See Blocklist":
         Get.to(() => AllBlockListScreen());
@@ -47,7 +56,6 @@ class EmployeeListScreenController extends GetxController {
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     getAllEmployes();
   }
