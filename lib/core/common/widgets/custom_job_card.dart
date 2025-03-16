@@ -52,6 +52,7 @@ class CustomJobCard extends StatelessWidget {
         Get.to(() => JobDetailsScreen(
               isFromAdmin: isFromAdmin,
               jobId: id,
+              status: status,
             ));
       },
       child: Container(
@@ -183,6 +184,7 @@ class CustomJobCard extends StatelessWidget {
                       Get.to(() => JobDetailsScreen(
                             isFromAdmin: isFromAdmin,
                             jobId: id,
+                            status: status,
                           ));
                     },
                     title: "View Details",

@@ -7,11 +7,13 @@ import 'package:planiq/core/common/widgets/success_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
+import 'package:planiq/features/employe_flow/job_details/model/assigned_task_model.dart';
 import 'package:planiq/features/employe_flow/job_details/model/job_details_model.dart';
 
 class JobDetailScreenController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
   Rx<JobDetailsModel?> jobDetails = Rx<JobDetailsModel?>(null);
+  Rx<AssignedTaskModel?> employeeDetail = Rx<AssignedTaskModel?>(null);
   Future<void> getJobDetails(String jobID) async {
     if (jobID.isEmpty) {
       log("jobid is empty");
@@ -26,6 +28,29 @@ class JobDetailScreenController extends GetxController {
       hideProgressIndicatro();
       if (response.isSuccess) {
         jobDetails.value = JobDetailsModel.fromJson(response.responseData);
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
+  Future<void> getAssignedJobDetails(String jobID) async {
+    if (jobID.isEmpty) {
+      log("jobid is empty");
+      return;
+    }
+    try {
+      final requestUrl = "${AppUrls.assignedTask}$jobID";
+      log(requestUrl);
+      final response =
+          await networkCaller.getRequest(requestUrl, token: AuthService.token);
+
+      if (response.isSuccess) {
+        log("Success");
+        employeeDetail.value =
+            AssignedTaskModel.fromJson(response.responseData);
       } else {
         errorSnakbar(errorMessage: response.errorMessage);
       }

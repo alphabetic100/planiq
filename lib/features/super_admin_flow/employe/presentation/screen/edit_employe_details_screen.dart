@@ -1,20 +1,39 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
+import 'package:planiq/core/common/widgets/custom_calendar_widget.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/custom_text_field.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/features/super_admin_flow/employe/controller/add_new_employe_controller.dart';
+import 'package:planiq/core/utils/helpers/app_helper.dart';
+import 'package:planiq/features/super_admin_flow/employe/controller/edit_employee_controller.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/labeled_text_field.dart';
 
-class EditEmployeeDetailsScreen extends StatelessWidget {
-  EditEmployeeDetailsScreen({super.key});
+class EditEmployeeDetailsScreen extends StatefulWidget {
+  const EditEmployeeDetailsScreen({super.key, required this.employeeID});
+  final String employeeID;
 
-  final AddNewEmployeeController controller =
-      Get.put(AddNewEmployeeController());
+  @override
+  State<EditEmployeeDetailsScreen> createState() =>
+      _EditEmployeeDetailsScreenState();
+}
+
+class _EditEmployeeDetailsScreenState extends State<EditEmployeeDetailsScreen> {
+  final EditEmployeeController controller = Get.put(EditEmployeeController());
+
   final TextEditingController specializationCT = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.fetchEmployeeDetails(widget.employeeID).then((onValue) {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,33 +60,52 @@ class EditEmployeeDetailsScreen extends StatelessWidget {
               Center(
                 child: Stack(
                   children: [
-                    Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFE5E5E5),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.person,
-                        size: 80,
-                        color: Color(0xFFAAAAAA),
+                    Obx(
+                      () => Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                            color: Color(0xFFE5E5E5),
+                            shape: BoxShape.circle,
+                            image: controller.employeeImage.value.isNotEmpty
+                                ? DecorationImage(
+                                    image: controller.employeeImage.value
+                                            .contains("http")
+                                        ? NetworkImage(
+                                            controller.employeeImage.value)
+                                        : FileImage(
+                                            File(
+                                                controller.employeeImage.value),
+                                          ),
+                                    fit: BoxFit.cover,
+                                  )
+                                : null),
+                        child: controller.employeeImage.value.isEmpty
+                            ? Icon(
+                                Icons.person,
+                                size: 80,
+                                color: Color(0xFFAAAAAA),
+                              )
+                            : null,
                       ),
                     ),
                     Positioned(
                       bottom: 0,
                       right: 0,
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 24,
+                      child: GestureDetector(
+                        onTap: () => controller.selectProfileImage(),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.blue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 24,
+                          ),
                         ),
                       ),
                     ),
@@ -104,6 +142,7 @@ class EditEmployeeDetailsScreen extends StatelessWidget {
 
               // Password field
               LabeledTextField(
+                readOnly: true,
                 label: 'Password :',
                 controller:
                     TextEditingController(text: controller.password.value),
@@ -119,11 +158,26 @@ class EditEmployeeDetailsScreen extends StatelessWidget {
               ),
 
               // Date of Birth field
-              LabeledTextField(
-                label: 'Date of Birth :',
-                controller:
-                    TextEditingController(text: controller.dateOfBirth.value),
-                onChanged: (value) => controller.dateOfBirth.value = value,
+              Obx(
+                () => LabeledTextField(
+                  readOnly: true,
+                  label: 'Date of Birth :',
+                  controller: TextEditingController(
+                      text: AppHelperFunctions.backendFomater(
+                              controller.dateOfBirth.toString()) ??
+                          "N/A"),
+                  onChanged: (value) => controller.dateOfBirth.value = value,
+                  onTap: () {
+                    Get.dialog(Dialog(
+                      child: CustomCalendarWidget(
+                        onDaySelected: (p0) {
+                          controller.dateOfBirth.value = p0.toString();
+                          // AppHelperFunctions.getFormattedDate(p0);
+                        },
+                      ),
+                    ));
+                  },
+                ),
               ),
 
               // Gender field
@@ -277,11 +331,22 @@ class EditEmployeeDetailsScreen extends StatelessWidget {
               SizedBox(height: 16),
 
               // Joining Date field
-              LabeledTextField(
-                label: 'Joining Date :',
-                controller:
-                    TextEditingController(text: controller.joiningDate.value),
-                onChanged: (value) => controller.joiningDate.value = value,
+              Obx(
+                () => LabeledTextField(
+                    readOnly: true,
+                    label: 'Joining Date :',
+                    controller: TextEditingController(
+                        text: AppHelperFunctions.backendFomater(
+                                controller.joiningDate.value.toString()) ??
+                            "N/A"),
+                    onChanged: (value) => controller.joiningDate.value = value,
+                    onTap: () {
+                      Get.dialog(Dialog(child: CustomCalendarWidget(
+                        onDaySelected: (p0) {
+                          controller.joiningDate.value = p0.toString();
+                        },
+                      )));
+                    }),
               ),
 
               // Work Location field

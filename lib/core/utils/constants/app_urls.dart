@@ -23,4 +23,5 @@ class AppUrls {
   static const String blockList = "$_baseUrl/users/block-user";
   static const String downloadUserCSV = "$_baseUrl/users/downloadUsersCSV";
   static const String downloadTasklistCSV = "$_baseUrl/tasks/task-csv";
+  static const String assignedTask = "$_baseUrl/tasks/assigned-task/";
 }

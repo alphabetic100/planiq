@@ -106,7 +106,9 @@ class EmployeProfileOverview extends StatelessWidget {
                 titleColor: AppColors.textSecondary,
                 bordercolor: AppColors.borderColor,
                 onTap: () {
-                  Get.to(() => EditEmployeeDetailsScreen());
+                  Get.to(() => EditEmployeeDetailsScreen(
+                        employeeID: employeID,
+                      ));
                 },
                 title: "Edit Employee Details"),
           ],

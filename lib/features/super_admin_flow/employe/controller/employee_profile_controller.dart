@@ -75,13 +75,15 @@ class EmployeeProfileController extends GetxController {
     }
   }
 
-  void handleProfileAction(String selectedAction) {
+  void handleProfileAction(String selectedAction, String employeeID) {
     if (selectedAction == "Block Employee") {
       Get.dialog(ShowBlockEmployeeDialog());
     } else if (selectedAction == "Make Supervisor") {
       Get.dialog(ShowUpdateRuleDialog());
     } else if (selectedAction == "Edit Details") {
-      Get.to(() => EditEmployeeDetailsScreen());
+      Get.to(() => EditEmployeeDetailsScreen(
+            employeeID: employeeID,
+          ));
     }
   }
 }

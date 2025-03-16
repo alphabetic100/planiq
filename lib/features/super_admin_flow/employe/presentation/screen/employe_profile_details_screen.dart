@@ -68,7 +68,8 @@ class _EmployeProfileDetailsScreenState
             color: AppColors.white,
             onSelected: (int value) {
               log("Selected action: ${titles[value]}");
-              employeeController.handleProfileAction(titles[value]);
+              employeeController.handleProfileAction(
+                  titles[value], widget.employeeID);
             },
             itemBuilder: (context) => List.generate(
               titles.length,
