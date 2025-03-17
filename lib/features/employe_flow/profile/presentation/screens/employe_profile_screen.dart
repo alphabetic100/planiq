@@ -6,6 +6,7 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/show_logout_dialog.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/core/utils/values/profile_values.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/change_password_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/language_optins_screen.dart';
@@ -32,6 +33,9 @@ class EmployeProfileScreen extends StatelessWidget {
             leading: CircleAvatar(
               radius: 35.w,
               backgroundColor: AppColors.secondaryColor,
+              backgroundImage: ProfileValues.profileImage.value.isEmpty
+                  ? AssetImage(IconPath.profileIcon)
+                  : NetworkImage(ProfileValues.profileImage.value),
             ),
             title: CustomText(
               text: ProfileValues.name.value,

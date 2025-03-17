@@ -63,9 +63,6 @@ class EmployeeHomeController extends GetxController {
         ProfileValues.name.value = name;
         ProfileValues.profileImage.value = profileImage;
         ProfileValues.personID.value = personID;
-
-        log("______________________________________________$profileImage.toString()");
-        log("______________________________________________$personID.toString()");
       } else {
         errorSnakbar(errorMessage: response.errorMessage);
       }

@@ -20,6 +20,7 @@ class AdminOverviewScreen extends StatelessWidget {
         children: [
           AdminOverviewProfile(
             scaffoldKey: _scaffoldKey,
+            isfromAdmin: true,
           ),
           VerticalSpace(height: 24.h),
           BodyPadding(child: AdminOverviewBody())
