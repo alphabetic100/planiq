@@ -10,6 +10,8 @@ decodeStatus(String status) {
       return "Scheduled";
     case "WIP":
       return "Work In Progress";
+    case "DECLINED":
+      return "Declined";
     default:
       return status;
   }
