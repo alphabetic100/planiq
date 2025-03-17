@@ -44,10 +44,7 @@ class LoginController extends GetxController {
       log(response.responseData["data"]["accessToken"]);
       log(response.responseData["data"]["userData"]["role"]);
 
-      await AuthService.saveToken(
-        token,
-        role,
-      );
+      await AuthService.saveToken(token, role, personID);
       await ProfileService.saveProfile(
         name: userName,
         personID: personID,
