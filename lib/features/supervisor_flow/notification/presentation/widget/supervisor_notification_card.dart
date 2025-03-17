@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -63,12 +62,15 @@ class SupervisorNotificationCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            title,
-                            style: TextStyle(
-                              fontSize: 18.0.sp,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.textPrimary,
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: Text(
+                              title,
+                              style: TextStyle(
+                                fontSize: 18.0.sp,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.textPrimary,
+                              ),
                             ),
                           ),
                           Text(

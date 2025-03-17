@@ -22,7 +22,7 @@ class AdminNotificationController extends GetxController {
   Rx<AdminNotificationModel?> notifications = Rx<AdminNotificationModel?>(null);
   Future<void> getAdminNotification() async {
     try {
-      final response = await networkCaller.getRequest(AppUrls.notification,
+      final response = await networkCaller.getRequest(AppUrls.adminNotification,
           token: AuthService.token);
       if (response.isSuccess) {
         log(response.responseData.toString());

@@ -12,9 +12,11 @@ import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.d
 class AssignedJobList extends StatelessWidget {
   AssignedJobList({
     super.key,
+    this.isFromAdmin = false,
   });
   final AssignedJobsController jobsController =
       Get.put(AssignedJobsController());
+  final bool isFromAdmin;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,14 +54,11 @@ class AssignedJobList extends StatelessWidget {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 16.0.h),
                       child: CustomJobCard(
+                        isFromAdmin: isFromAdmin,
                         id: job.id,
-                        isFromAdmin: true,
                         title: job.title,
                         status: decodeStatus(job.status),
                         address: job.location,
-                        city: '',
-                        state: '',
-                        zipCode: '',
                         dateTime: DateTime.parse(job.date),
                         time: job.time,
                         onViewDetails: () {},

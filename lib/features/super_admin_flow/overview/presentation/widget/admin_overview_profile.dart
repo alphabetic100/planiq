@@ -13,8 +13,10 @@ class AdminOverviewProfile extends StatelessWidget {
     required this.scaffoldKey,
     this.isfromAdmin = false,
   });
+
   final GlobalKey<ScaffoldState> scaffoldKey;
   final bool isfromAdmin;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,43 +28,79 @@ class AdminOverviewProfile extends StatelessWidget {
         child: Center(
           child: ListTile(
             leading: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 GestureDetector(
-                    onTap: () {
-                      scaffoldKey.currentState?.openDrawer();
-                    },
-                    child: Image.asset(IconPath.menueIcon)),
+                  onTap: () {
+                    scaffoldKey.currentState?.openDrawer();
+                  },
+                  child: Image.asset(IconPath.menueIcon),
+                ),
               ],
             ),
-            title: Obx(
-              () => RichText(
-                  text: TextSpan(children: [
-                TextSpan(
-                  text: isfromAdmin ? "Welcome Back, David" : "Welcome Back, ",
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700,
+            title: isfromAdmin
+                ? RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Welcome Back, Devid",
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ProfileValues.name.value,
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        TextSpan(
+                          text: " (Admin)",
+                          style: TextStyle(
+                            color: AppColors.white.withOpacity(0.7),
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Obx(
+                    () => RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Welcome Back, ",
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          TextSpan(
+                            text: ProfileValues.name.value,
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          TextSpan(
+                            text: " (Supervisor)",
+                            style: TextStyle(
+                              color: AppColors.white.withOpacity(0.7),
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                TextSpan(
-                  text: isfromAdmin ? "" : ProfileValues.name.value,
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                TextSpan(
-                  text: isfromAdmin ? " (Admin)" : " (Supervisor)",
-                  style: TextStyle(
-                    color: AppColors.white.withOpacity(0.7),
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ])),
-            ),
             subtitle: CustomText(
               text: AppHelperFunctions.getCurrentDateTime(),
               color: AppColors.white,

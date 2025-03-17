@@ -23,7 +23,10 @@ class SupervisorOverviewBody extends StatelessWidget {
         RefreshIndicator(
           color: AppColors.primaryColor,
           backgroundColor: AppColors.secondaryColor,
-          onRefresh: () => overviewController.getTaskStatusSupervisor(),
+          onRefresh: () async {
+            overviewController.getTaskStatusSupervisor();
+            overviewController.getMyProfile();
+          },
           child: GridView.builder(
             shrinkWrap: true,
             itemCount: 4,

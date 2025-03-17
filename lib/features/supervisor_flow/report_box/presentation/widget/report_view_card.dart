@@ -5,64 +5,48 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/features/supervisor_flow/report_box/model/report_box_model.dart';
 
 class ReportViewCard extends StatelessWidget {
-  const ReportViewCard({super.key});
-
+  const ReportViewCard({super.key, required this.report});
+  final ReportData report;
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
           contentPadding: EdgeInsets.zero,
           leading: CircleAvatar(
             radius: 25.w,
             backgroundColor: AppColors.secondaryColor,
-            backgroundImage: AssetImage(IconPath.profileIcon),
+            backgroundImage: report.user.profileImage.isNotEmpty
+                ? NetworkImage(report.user.profileImage)
+                : AssetImage(IconPath.profileIcon),
           ),
-          title: CustomText(text: "David Andrew"),
+          title: CustomText(text: report.user.name),
           subtitle: CustomText(
-            text: "User ID: 12548",
+            text: "User ID: ${report.user.personId}",
             color: AppColors.textSecondary,
             fontSize: 14.w,
             fontWeight: FontWeight.normal,
           ),
-          trailing: IconButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      WidgetStatePropertyAll(AppColors.primaryColor)),
-              onPressed: () {},
-              icon: Image.asset(
-                IconPath.phoneIcon,
-                color: AppColors.white,
-              )),
         ),
         VerticalSpace(height: 16.h),
-        Text.rich(
-          TextSpan(
-            children: [
-              TextSpan(text: "I am facing an issue with Task ID #"),
-              TextSpan(text: " [task number]. "),
-              TextSpan(text: "The problem is: "),
-              TextSpan(text: "[brief description of the issue].")
-            ],
-            style: TextStyle(
-              color: AppColors.textSecondary,
-            ),
-          ),
+        CustomText(
+          text: report.issue,
+          fontSize: 16.sp,
+          color: AppColors.textSecondary,
+          fontWeight: FontWeight.w300,
         ),
         VerticalSpace(height: 16.h),
         CustomJobCard(
-          id: "",
-          title: 'Emergency Pipe Repair',
-          status: 'Scheduled',
-          address: '9641 Sunset Blvd',
-          city: 'Beverly Hills',
-          state: 'California',
-          zipCode: '90210',
-          dateTime: DateTime(2025, 1, 22),
-          startTime: const TimeOfDay(hour: 10, minute: 0),
-          endTime: const TimeOfDay(hour: 12, minute: 30),
+          id: report.jobId,
+          title: report.job.title,
+          status: report.job.status,
+          address: report.job.location,
+          dateTime: DateTime.parse(report.job.date),
+          time: report.job.time,
           onViewDetails: () {},
           onStartJob: () {},
         )

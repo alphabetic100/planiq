@@ -226,6 +226,7 @@ Color statusColor(String status) {
     case "Completed":
       return Color(0xFF00238A);
     case "Unassigned":
+    case "Declined":
       return Color(0xFF8A0000);
     default:
       return Color(0xFF0D9EB5);
