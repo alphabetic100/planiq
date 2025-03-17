@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -88,10 +90,13 @@ class AdminNotificationScreen extends StatelessWidget {
                         title: notification.title,
                         subtitle: notification.body,
                         isAccepted: notification.title
-                            .toLowerCase()
-                            .contains("congratulations"),
+                                .toLowerCase()
+                                .contains("congratulations") ||
+                            notification.title
+                                .toLowerCase()
+                                .contains("accepted"),
                         date: DateTime.now(),
-                        onTap: () => print('Notification tapped'),
+                        onTap: () => log('Notification tapped'),
                       );
                     },
                   ),
