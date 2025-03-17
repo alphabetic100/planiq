@@ -28,4 +28,5 @@ class AppUrls {
   static const String editProfile = "$_baseUrl/users/update-user/";
   static const String employeeHome = "$_baseUrl/tasks/my-today-task";
   static const String myTasks = "$_baseUrl/tasks/my-task/";
+  static const String updateProfileImage = "$_baseUrl/users/update-image";
 }
