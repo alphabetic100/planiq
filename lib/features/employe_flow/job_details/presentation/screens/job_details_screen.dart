@@ -45,7 +45,7 @@ class JobDetailsScreen extends StatefulWidget {
 class _JobDetailsScreenState extends State<JobDetailsScreen> {
   final JobDetailScreenController jobScreenController =
       Get.put(JobDetailScreenController());
-
+  bool isFromSupervisor = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -53,7 +53,12 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       jobScreenController.getJobDetails(widget.jobId);
       if (widget.status != "UNASSIGNED") {
-        jobScreenController.getAssignedJobDetails(widget.jobId);
+        jobScreenController.getAssignedJobDetails(widget.jobId).then((onValue) {
+          isFromSupervisor = AuthService.userId ==
+              jobScreenController
+                  .employeeDetail.value!.data.tasks[0].user.personId;
+          setState(() {});
+        });
       }
     });
   }
@@ -413,10 +418,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       const SizedBox(height: 40),
 
                       // Action Buttons
-                      if (jobScreenController.employeeDetail.value != null &&
-                          (AuthService.userId ==
-                              jobScreenController.employeeDetail.value!.data
-                                  .tasks[0].user.personId)) ...[
+
+                      if (widget.isFromAdmin || isFromSupervisor) ...[
                         if (details.status != "DECLINED") ...[
                           if (!widget.isFromAdmin) ...[
                             if (details.status == "ACCEPTED") ...[
