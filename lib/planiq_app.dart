@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' as foundation;
@@ -41,7 +40,7 @@ class PlaniqApp extends StatelessWidget {
             savedLocale = 'en';
             break;
         }
-        log(savedLocale);
+
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           initialRoute: AppRoute.init,
