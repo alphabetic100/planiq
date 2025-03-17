@@ -53,6 +53,7 @@ class _EmployeProfileDetailsScreenState
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       employeeController.getProfileDetails(widget.employeeID);
     });
+    log("============================${widget.employeeID}");
   }
 
   @override
