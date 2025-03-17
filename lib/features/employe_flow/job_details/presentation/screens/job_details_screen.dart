@@ -412,101 +412,106 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       const SizedBox(height: 40),
 
                       // Action Buttons
-                      if (!widget.isFromAdmin) ...[
-                        if (details.status == "ACCEPTED") ...[
-                          Column(
-                            children: [
-                              CustomButton(
+                      if (details.status != "DECLINED") ...[
+                        if (!widget.isFromAdmin) ...[
+                          if (details.status == "ACCEPTED") ...[
+                            Column(
+                              children: [
+                                CustomButton(
+                                    onTap: () {
+                                      jobScreenController
+                                          .startJob(widget.jobId);
+                                    },
+                                    title: "Start Job"),
+                                VerticalSpace(height: 16.h),
+                                CustomButton(
+                                    isPrimary: false,
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return ReportIssueBottomSheet();
+                                          });
+                                    },
+                                    titleColor: AppColors.error,
+                                    bordercolor: AppColors.error,
+                                    title: "Report Issue"),
+                              ],
+                            )
+                          ],
+                          if (details.status == "WIP") ...[
+                            Column(
+                              children: [
+                                CustomButton(
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return JobCompleateDialog();
+                                          });
+                                      // jobScreenController.startJob(widget.jobId);
+                                    },
+                                    title: "Mark as Complete"),
+                                VerticalSpace(height: 16.h),
+                                CustomButton(
+                                    isPrimary: false,
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) {
+                                            return ReportIssueBottomSheet();
+                                          });
+                                    },
+                                    titleColor: AppColors.error,
+                                    bordercolor: AppColors.error,
+                                    title: "Report Issue"),
+                              ],
+                            )
+                          ],
+                          if (details.status != "ACCEPTED" &&
+                              details.status != "WIP") ...[
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: CustomButton(
                                   onTap: () {
-                                    jobScreenController.startJob(widget.jobId);
+                                    jobScreenController
+                                        .declineTask(widget.jobId);
                                   },
-                                  title: "Start Job"),
-                              VerticalSpace(height: 16.h),
-                              CustomButton(
+                                  title: "Decline",
+                                  titleColor: Color(0xFF526366),
                                   isPrimary: false,
+                                )),
+                                HorizontalSpace(width: 16.w),
+                                Expanded(
+                                    child: CustomButton(
                                   onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return ReportIssueBottomSheet();
-                                        });
+                                    jobScreenController
+                                        .acceptTask(widget.jobId);
                                   },
-                                  titleColor: AppColors.error,
-                                  bordercolor: AppColors.error,
-                                  title: "Report Issue"),
-                            ],
-                          )
-                        ],
-                        if (details.status == "WIP") ...[
-                          Column(
-                            children: [
-                              CustomButton(
-                                  onTap: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return JobCompleateDialog();
-                                        });
-                                    // jobScreenController.startJob(widget.jobId);
-                                  },
-                                  title: "Mark as Complete"),
-                              VerticalSpace(height: 16.h),
-                              CustomButton(
-                                  isPrimary: false,
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                        context: context,
-                                        builder: (context) {
-                                          return ReportIssueBottomSheet();
-                                        });
-                                  },
-                                  titleColor: AppColors.error,
-                                  bordercolor: AppColors.error,
-                                  title: "Report Issue"),
-                            ],
-                          )
-                        ],
-                        if (details.status != "ACCEPTED" &&
-                            details.status != "WIP") ...[
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: CustomButton(
+                                  title: "Accept",
+                                ))
+                              ],
+                            ),
+                          ]
+                        ] else ...[
+                          if (details.status == "UNASSIGNED") ...[
+                            CustomButton(
                                 onTap: () {
-                                  jobScreenController.declineTask(widget.jobId);
+                                  developer.log(details.id);
+                                  Get.to(() =>
+                                      AssignTaskScreen(jobID: details.id));
                                 },
-                                title: "Decline",
-                                titleColor: Color(0xFF526366),
-                                isPrimary: false,
-                              )),
-                              HorizontalSpace(width: 16.w),
-                              Expanded(
-                                  child: CustomButton(
-                                onTap: () {
-                                  jobScreenController.acceptTask(widget.jobId);
-                                },
-                                title: "Accept",
-                              ))
-                            ],
-                          ),
-                        ]
-                      ] else ...[
-                        if (details.status == "UNASSIGNED") ...[
+                                title: "Assign Task"),
+                            VerticalSpace(height: 16.h)
+                          ],
                           CustomButton(
-                              onTap: () {
-                                developer.log(details.id);
-                                Get.to(
-                                    () => AssignTaskScreen(jobID: details.id));
-                              },
-                              title: "Assign Task"),
-                          VerticalSpace(height: 16.h)
+                              isPrimary: false,
+                              titleColor: Color(0xFF526366),
+                              bordercolor: AppColors.borderColor,
+                              onTap: () {},
+                              title: "Edit Task"),
                         ],
-                        CustomButton(
-                            isPrimary: false,
-                            titleColor: Color(0xFF526366),
-                            bordercolor: AppColors.borderColor,
-                            onTap: () {},
-                            title: "Edit Task"),
                       ],
                       const SizedBox(height: 40),
                     ],

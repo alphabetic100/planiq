@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -34,16 +33,18 @@ class EmployeHomeScreen extends StatelessWidget {
             )));
           } else if (home.data.data.result.isEmpty) {
             return Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TaskOverviewSection(
-                    completed: home.data.data.completed.toString(),
-                    scheduled: home.data.data.schedule.toString(),
-                  ),
-                  VerticalSpace(height: 30.h),
-                  CustomText(text: 'No task scheduled for today')
-                ],
+              child: BodyPadding(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TaskOverviewSection(
+                      completed: home.data.data.completed.toString(),
+                      scheduled: home.data.data.schedule.toString(),
+                    ),
+                    VerticalSpace(height: 30.h),
+                    CustomText(text: 'No task scheduled for today')
+                  ],
+                ),
               ),
             );
           } else {
