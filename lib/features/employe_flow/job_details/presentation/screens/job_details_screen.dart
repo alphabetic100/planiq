@@ -137,7 +137,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       VerticalSpace(height: 8),
 
                       //Image here if the job is accepted
-                      CustomImageSlider(imageUrls: details.image),
+                      details.image.isNotEmpty
+                          ? CustomImageSlider(imageUrls: details.image)
+                          : SizedBox.shrink(),
                       VerticalSpace(height: 10),
                       // Location
                       Row(
@@ -391,7 +393,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         name: details.customerName,
                         role: 'Customer',
                         phoneNumber: details.customerPhone,
-                        avatarText: details.customerName.substring(0, 1),
+                        avatarText: details.customerName.isNotEmpty
+                            ? details.customerName.substring(0, 1)
+                            : "C",
                         avatarColor: Colors.grey,
                       ),
                       VerticalSpace(height: 20),
@@ -399,7 +403,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                         name: details.managerName,
                         phoneNumber: details.managerPhone,
                         role: 'Facility Manager',
-                        avatarText: details.managerName.substring(0, 1),
+                        avatarText: details.managerName.isNotEmpty
+                            ? details.managerName.substring(0, 1)
+                            : "M",
                         avatarColor: Colors.grey,
                       ),
 

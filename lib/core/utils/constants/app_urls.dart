@@ -26,4 +26,5 @@ class AppUrls {
   static const String downloadTasklistCSV = "$_baseUrl/tasks/task-csv";
   static const String assignedTask = "$_baseUrl/tasks/assigned-task/";
   static const String editProfile = "$_baseUrl/users/update-user/";
+  static const String employeeHome = "$_baseUrl/tasks/my-today-task";
 }
