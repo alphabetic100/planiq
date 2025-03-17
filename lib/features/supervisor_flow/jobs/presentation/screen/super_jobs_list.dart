@@ -5,20 +5,20 @@ import 'package:planiq/core/common/widgets/custom_job_card.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/features/employe_flow/jobs/controller/job_screen_controller.dart';
+import 'package:planiq/features/supervisor_flow/jobs/controller/get_my_tasks_controller.dart';
 
-class AllJobsScreen extends StatelessWidget {
-  AllJobsScreen({
+class SuperJobList extends StatelessWidget {
+  SuperJobList({
     super.key,
     this.isSupervisor = false,
   });
   final bool isSupervisor;
-  final JobScreenController jobScreenController =
-      Get.find<JobScreenController>();
+  final GetMyTasksController jobScreenController =
+      Get.put(GetMyTasksController());
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      final jobs = jobScreenController.allJobs.value;
+      final jobs = jobScreenController.myTasks.value;
       if (jobs == null) {
         return Center(
             child: CircularProgressIndicator(

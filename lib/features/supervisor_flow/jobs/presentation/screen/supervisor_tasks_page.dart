@@ -5,6 +5,7 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/features/supervisor_flow/jobs/presentation/screen/super_jobs_list.dart';
 import 'package:planiq/features/supervisor_flow/jobs/presentation/screen/supervisor_job_screen.dart';
 
 class SupervisorTasksPage extends StatefulWidget {
@@ -79,35 +80,37 @@ class _SupervisorTasksPageState extends State<SupervisorTasksPage>
           TabBar(
             controller: controller,
             indicator: BoxDecoration(
-              color: Colors.transparent,
+              color: AppColors.primaryColor,
+              borderRadius: BorderRadius.circular(12),
             ),
             dividerColor: Colors.transparent,
+            labelColor: AppColors.white,
+            unselectedLabelColor: AppColors.primaryColor,
             tabs: [
-              Container(
+              SizedBox(
                 height: 55.h,
-                decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(12)),
+                width: 150.w,
                 child: Center(
-                  child: CustomText(
-                    text: "All Jobs",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white,
+                  child: Text(
+                    "All Jobs",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
-              Container(
+            
+              SizedBox(
                 height: 55.h,
-                decoration: BoxDecoration(
-                    color: AppColors.primaryColor,
-                    borderRadius: BorderRadius.circular(12)),
+                width: 150.w,
                 child: Center(
-                  child: CustomText(
-                    text: "My Jobs",
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.white,
+                  child: Text(
+                    "My Jobs",
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
@@ -118,12 +121,8 @@ class _SupervisorTasksPageState extends State<SupervisorTasksPage>
             child: TabBarView(
               controller: controller,
               children: [
-                SizedBox(
-                  child: SupervisorJobsScreen(),
-                ),
-                SizedBox(
-                  child: SupervisorJobsScreen(),
-                ),
+                SupervisorJobsScreen(),
+                SuperJobList(),
               ],
             ),
           )
