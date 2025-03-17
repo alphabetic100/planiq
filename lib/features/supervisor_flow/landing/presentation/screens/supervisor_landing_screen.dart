@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:planiq/features/supervisor_flow/jobs/presentation/screen/supervisor_job_screen.dart';
+import 'package:planiq/features/supervisor_flow/jobs/presentation/screen/supervisor_tasks_page.dart';
 import 'package:planiq/features/supervisor_flow/landing/controller/supervisor_landing_controller.dart';
 import 'package:planiq/features/supervisor_flow/landing/presentation/widget/supervisonr_nav_bar.dart';
 import 'package:planiq/features/supervisor_flow/notification/presentation/screens/supervisor_notification_screen.dart';
@@ -22,7 +22,7 @@ class SupervisorLandingScreen extends StatelessWidget {
         children: [
           SupervisorOverviewScreen(),
           SupervisorNotificationScreen(),
-          SupervisorJobsScreen(),
+          SupervisorTasksPage(),
           SupervisorProfileScreen(),
         ],
       ),

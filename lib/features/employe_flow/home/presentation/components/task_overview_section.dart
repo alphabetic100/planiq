@@ -5,8 +5,9 @@ import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 
 class TaskOverviewSection extends StatelessWidget {
-  const TaskOverviewSection({super.key});
-
+  const TaskOverviewSection({super.key, required this.completed, required this.scheduled});
+final String completed;
+final String scheduled;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,7 +33,7 @@ class TaskOverviewSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                      text: "3",
+                      text: completed,
                       color: AppColors.green,
                     ),
                     CustomText(
@@ -54,7 +55,7 @@ class TaskOverviewSection extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomText(
-                      text: "5",
+                      text: scheduled,
                       color: Color(0xFF00768A),
                     ),
                     CustomText(

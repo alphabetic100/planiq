@@ -3,11 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/body_padding.dart';
-import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/all_jobs_list.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/assigned_job_list.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/compleated_jobs_list.dart';
@@ -33,53 +31,6 @@ class _SupervisorJobsScreenState extends State<SupervisorJobsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        appbarHeight: 70.h,
-        title: "Job",
-        actions: [
-          PopupMenuButton(
-            color: AppColors.white,
-            iconColor: AppColors.white,
-            popUpAnimationStyle: AnimationStyle(
-              curve: Curves.easeInCirc,
-            ),
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(IconPath.excelIcon),
-                      HorizontalSpace(width: 5),
-                      CustomText(
-                        text: "Export Task Data",
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF526366),
-                      )
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(IconPath.excelIcon),
-                      HorizontalSpace(width: 5),
-                      CustomText(
-                        text: "Export Customer List",
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF526366),
-                      )
-                    ],
-                  ),
-                ),
-              ];
-            },
-          )
-        ],
-      ),
       body: Column(
         children: [
           TabBar(

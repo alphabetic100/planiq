@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/body_padding.dart';
 import 'package:planiq/core/common/widgets/custom_job_card.dart';
+import 'package:planiq/core/common/widgets/custom_text.dart';
+import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
+import 'package:planiq/features/employe_flow/home/controller/employee_home_controller.dart';
 
 import 'package:planiq/features/employe_flow/home/presentation/components/home_profile_card.dart';
 import 'package:planiq/features/employe_flow/home/presentation/components/task_overview_section.dart';
 import 'package:planiq/features/employe_flow/home/presentation/components/todays_schedule_section.dart';
 
 class EmployeHomeScreen extends StatelessWidget {
-  const EmployeHomeScreen({super.key});
-
+  EmployeHomeScreen({super.key});
+  final EmployeeHomeController homeController =
+      Get.find<EmployeeHomeController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,34 +23,65 @@ class EmployeHomeScreen extends StatelessWidget {
       children: [
         HomeProfileCard(),
         VerticalSpace(height: 30),
-        Expanded(
-          child: BodyPadding(
-              child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomJobCard(
-                  id: "",
-                  title: 'Emergency Pipe Repair',
-                  status: 'Starting soon',
-                  address: '9641 Sunset Blvd',
-                  city: 'Beverly Hills',
-                  state: 'California',
-                  zipCode: '90210',
-                  dateTime: DateTime(2025, 1, 22),
-                  startTime: const TimeOfDay(hour: 10, minute: 0),
-                  endTime: const TimeOfDay(hour: 12, minute: 30),
-                  onViewDetails: () {},
-                  onStartJob: () {},
+        Obx(() {
+          final home = homeController.home.value;
+          if (home == null) {
+            return Expanded(
+                child: Center(
+                    child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            )));
+          } else if (home.data.data.result.isEmpty) {
+            return Expanded(
+              child: BodyPadding(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TaskOverviewSection(
+                      completed: home.data.data.completed.toString(),
+                      scheduled: home.data.data.schedule.toString(),
+                    ),
+                    VerticalSpace(height: 30.h),
+                    CustomText(text: 'No task scheduled for today')
+                  ],
                 ),
-                VerticalSpace(height: 30.h),
-                TaskOverviewSection(),
-                VerticalSpace(height: 30.h),
-                TodaysScheduleSection()
-              ],
-            ),
-          )),
-        ),
+              ),
+            );
+          } else {
+            final task = home.data.data.result.first;
+            return Expanded(
+              child: BodyPadding(
+                  child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomJobCard(
+                      id: task.job.id,
+                      title: task.job.title,
+                      status: 'Starting soon',
+                      address: task.job.location,
+                      dateTime: DateTime.parse(task.job.date),
+                      time: task.job.time.toString(),
+                      onViewDetails: () {},
+                      onStartJob: () {
+                        homeController.startJob(task.jobId);
+                      },
+                    ),
+                    VerticalSpace(height: 30.h),
+                    TaskOverviewSection(
+                      completed: home.data.data.completed.toString(),
+                      scheduled: home.data.data.schedule.toString(),
+                    ),
+                    VerticalSpace(height: 30.h),
+                    TodaysScheduleSection(
+                      task: home.data.data,
+                    )
+                  ],
+                ),
+              )),
+            );
+          }
+        })
       ],
     ));
   }

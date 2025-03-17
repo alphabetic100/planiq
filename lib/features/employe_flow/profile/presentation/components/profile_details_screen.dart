@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -12,8 +14,9 @@ import 'package:planiq/features/employe_flow/profile/controller/profile_controll
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_details_card.dart';
 
 class ProfileDetailsScreen extends StatelessWidget {
-  ProfileDetailsScreen({super.key});
+  ProfileDetailsScreen({super.key, this.isFromAdmin = false});
   final ProfileController profileController = Get.put(ProfileController());
+  final bool isFromAdmin;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,14 +43,60 @@ class ProfileDetailsScreen extends StatelessWidget {
                         children: [
                           VerticalSpace(height: 20.h),
                           Center(
-                            child: CircleAvatar(
-                              radius: 55.w,
-                              backgroundColor: AppColors.secondaryColor,
-                              backgroundImage:
-                                  profile.data.profileImage.isNotEmpty
-                                      ? NetworkImage(profile.data.profileImage)
-                                      : AssetImage(IconPath.profileIcon),
-                            ),
+                            child: isFromAdmin
+                                ? CircleAvatar(
+                                    radius: 55.w,
+                                    backgroundColor: AppColors.secondaryColor,
+                                    backgroundImage:
+                                        profile.data.profileImage.isNotEmpty
+                                            ? NetworkImage(
+                                                profile.data.profileImage)
+                                            : AssetImage(IconPath.profileIcon),
+                                  )
+                                : Stack(
+                                    children: [
+                                      Obx(
+                                        () => CircleAvatar(
+                                          radius: 55.w,
+                                          backgroundColor:
+                                              AppColors.secondaryColor,
+                                          backgroundImage: profileController
+                                                  .employeeImage.value.isEmpty
+                                              ? profile.data.profileImage
+                                                      .isNotEmpty
+                                                  ? NetworkImage(
+                                                      profile.data.profileImage)
+                                                  : AssetImage(
+                                                      IconPath.profileIcon)
+                                              : FileImage(File(profileController
+                                                  .employeeImage.value)),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 0,
+                                        right: 0,
+                                        child: GestureDetector(
+                                          onTap: () async {
+                                            await profileController
+                                                .selectProfileImage();
+                                          },
+                                          child: Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF0071C2),
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Icon(
+                                              Icons.add_a_photo,
+                                              color: Colors.white,
+                                              size: 24,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                           ),
                           VerticalSpace(height: 40.h),
                           CustomText(text: "Personal Details :"),

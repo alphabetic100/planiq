@@ -138,6 +138,13 @@ class AppHelperFunctions {
     return wrappedList;
   }
 
+  static String getCurrentDateTime() {
+    DateTime now = DateTime.now();
+    // Format the date as "Monday, January 17"
+    String formattedDate = DateFormat('EEEE, MMMM dd').format(now);
+    return formattedDate;
+  }
+
   static Future<void> launchURL(String url) async {
     final Uri uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {

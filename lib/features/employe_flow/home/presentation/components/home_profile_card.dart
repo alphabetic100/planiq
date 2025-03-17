@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/core/utils/constants/image_path.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/core/utils/helpers/app_helper.dart';
+import 'package:planiq/core/utils/values/profile_values.dart';
 
 class HomeProfileCard extends StatelessWidget {
   const HomeProfileCard({super.key});
@@ -20,22 +23,26 @@ class HomeProfileCard extends StatelessWidget {
       ),
       child: SafeArea(
         child: Center(
-          child: ListTile(
-            leading: CircleAvatar(
-              radius: 30.w,
-              backgroundColor: AppColors.secondaryColor,
-              backgroundImage: AssetImage(ImagePath.appLogo),
-            ),
-            title: CustomText(
-              text: "Welcome Back, David",
-              color: AppColors.white,
-              fontSize: 22.sp,
-              fontWeight: FontWeight.w700,
-            ),
-            subtitle: CustomText(
-              text: "Monday, January 17",
-              color: AppColors.white,
-              fontWeight: FontWeight.normal,
+          child: Obx(
+            () => ListTile(
+              leading: CircleAvatar(
+                radius: 30.w,
+                backgroundColor: AppColors.secondaryColor,
+                backgroundImage: ProfileValues.profileImage.value.isEmpty
+                    ? AssetImage(IconPath.profileIcon)
+                    : NetworkImage(ProfileValues.profileImage.value),
+              ),
+              title: CustomText(
+                text: "Welcome Back, ${ProfileValues.name.value}",
+                color: AppColors.white,
+                fontSize: 22.sp,
+                fontWeight: FontWeight.w700,
+              ),
+              subtitle: CustomText(
+                text: AppHelperFunctions.getCurrentDateTime(),
+                color: AppColors.white,
+                fontWeight: FontWeight.normal,
+              ),
             ),
           ),
         ),

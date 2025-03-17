@@ -6,7 +6,9 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/show_logout_dialog.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/features/employe_flow/profile/presentation/components/change_password_screen.dart';
+import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/core/utils/values/profile_values.dart';
+import 'package:planiq/features/common/change_password/presentation/view/change_password_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/language_optins_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_details_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_option_card.dart';
@@ -31,15 +33,18 @@ class EmployeProfileScreen extends StatelessWidget {
             leading: CircleAvatar(
               radius: 35.w,
               backgroundColor: AppColors.secondaryColor,
+              backgroundImage: ProfileValues.profileImage.value.isEmpty
+                  ? AssetImage(IconPath.profileIcon)
+                  : NetworkImage(ProfileValues.profileImage.value),
             ),
             title: CustomText(
-              text: "David Andrew",
+              text: ProfileValues.name.value,
               fontSize: 18.sp,
               color: AppColors.textPrimary,
               fontWeight: FontWeight.w600,
             ),
             subtitle: CustomText(
-              text: "User ID: 12548",
+              text: "User ID: ${ProfileValues.personID.value}",
               color: Color(0xFF526366),
               fontWeight: FontWeight.normal,
               fontSize: 14.sp,
