@@ -9,7 +9,7 @@ import 'package:planiq/features/employe_flow/job_details/model/assigned_task_mod
 import 'package:planiq/features/super_admin_flow/employe/presentation/screen/employe_profile_details_screen.dart';
 
 class AditionalAdminPart extends StatelessWidget {
-  const AditionalAdminPart({super.key, required this.user});
+  const AditionalAdminPart({super.key, required this.user, });
   final TaskData user;
   @override
   Widget build(BuildContext context) {
@@ -67,8 +67,8 @@ class AditionalAdminPart extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(
-                      () => EmployeProfileDetailsScreen(employeeID: user.id));
+                  Get.to(() => EmployeProfileDetailsScreen(
+                      employeeID: user.tasks[0].user.id));
                 },
                 child: CustomText(
                   text: "Employee  Details",
