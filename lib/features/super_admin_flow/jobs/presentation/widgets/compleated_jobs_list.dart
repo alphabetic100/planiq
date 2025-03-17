@@ -10,9 +10,10 @@ import 'package:planiq/features/super_admin_flow/jobs/controller/compleated_jobs
 import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
 
 class CompleatedJobsList extends StatelessWidget {
-  CompleatedJobsList({super.key});
+  CompleatedJobsList({super.key, this.isFromAdmin = false});
   final CompleatedJobsController jobsController =
       Get.put(CompleatedJobsController());
+  final bool isFromAdmin;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,13 +52,10 @@ class CompleatedJobsList extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 16.0.h),
                       child: CustomJobCard(
                         id: job.id,
-                        isFromAdmin: true,
+                        isFromAdmin: isFromAdmin,
                         title: job.title,
                         status: decodeStatus(job.status),
                         address: job.location,
-                        city: '',
-                        state: '',
-                        zipCode: '',
                         dateTime: DateTime.parse(job.date),
                         time: job.time,
                         onViewDetails: () {},

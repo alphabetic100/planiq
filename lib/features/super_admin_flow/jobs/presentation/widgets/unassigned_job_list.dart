@@ -10,9 +10,10 @@ import 'package:planiq/features/super_admin_flow/jobs/controller/unassigned_job_
 import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
 
 class UnassignedJobList extends StatelessWidget {
-  UnassignedJobList({super.key});
+  UnassignedJobList({super.key, this.isFromAdmin = false});
   final UnAssignedJobsController jobsController =
       Get.put(UnAssignedJobsController());
+  final bool isFromAdmin;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,13 +52,10 @@ class UnassignedJobList extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 16.0.h),
                       child: CustomJobCard(
                         id: job.id,
-                        isFromAdmin: true,
+                        isFromAdmin: isFromAdmin,
                         title: job.title,
                         status: decodeStatus(job.status),
                         address: job.location,
-                        city: '',
-                        state: '',
-                        zipCode: '',
                         dateTime: DateTime.parse(job.date),
                         time: job.time,
                         onViewDetails: () {},

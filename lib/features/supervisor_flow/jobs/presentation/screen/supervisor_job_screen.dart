@@ -111,10 +111,16 @@ class _SupervisorJobsScreenState extends State<SupervisorJobsScreen>
                 controller: controller,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  AllJobsList(),
-                  AssignedJobList(),
+                  AllJobsList(
+                    isFromAdmin: false,
+                  ),
+                  AssignedJobList(
+                    isFromAdmin: true,
+                  ),
                   WIPJobList(),
-                  CompleatedJobsList(),
+                  CompleatedJobsList(
+                    isFromAdmin: true,
+                  ),
                 ],
               ),
             ),

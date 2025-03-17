@@ -36,7 +36,6 @@ class _AdminJobsScreenState extends State<AdminJobsScreen>
   int selectedTab = 0;
   final List<String> iconPath = [
     IconPath.excelIcon,
-    
   ];
   final List<String> titles = [
     "Export Task Data",
@@ -158,10 +157,18 @@ class _AdminJobsScreenState extends State<AdminJobsScreen>
                 controller: controller,
                 physics: NeverScrollableScrollPhysics(),
                 children: [
-                  AllJobsList(),
-                  AssignedJobList(),
-                  UnassignedJobList(),
-                  CompleatedJobsList(),
+                  AllJobsList(
+                    isFromAdmin: true,
+                  ),
+                  AssignedJobList(
+                    isFromAdmin: true,
+                  ),
+                  UnassignedJobList(
+                    isFromAdmin: true,
+                  ),
+                  CompleatedJobsList(
+                    isFromAdmin: true,
+                  ),
                 ],
               ),
             ),

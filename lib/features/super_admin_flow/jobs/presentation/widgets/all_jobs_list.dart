@@ -60,7 +60,7 @@ class AllJobsList extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 16.0.h),
                         child: CustomJobCard(
                           id: job.id,
-                          isFromAdmin: true,
+                          isFromAdmin: isFromAdmin,
                           title: job.title,
                           status: decodeStatus(job.status),
                           address: job.location,

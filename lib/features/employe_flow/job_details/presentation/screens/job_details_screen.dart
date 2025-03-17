@@ -505,13 +505,31 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                 title: "Assign Task"),
                             VerticalSpace(height: 16.h)
                           ],
-                          CustomButton(
-                              isPrimary: false,
-                              titleColor: Color(0xFF526366),
-                              bordercolor: AppColors.borderColor,
-                              onTap: () {},
-                              title: "Edit Task"),
+                          if (widget.isFromAdmin) ...[
+                            CustomButton(
+                                isPrimary: false,
+                                titleColor: Color(0xFF526366),
+                                bordercolor: AppColors.borderColor,
+                                onTap: () {},
+                                title: "Edit Task"),
+                          ]
                         ],
+                      ] else if ((widget.isFromAdmin &&
+                          details.status == "DECLINED")) ...[
+                        CustomButton(
+                            titleColor: AppColors.white,
+                            onTap: () {
+                              developer.log(details.id);
+                              Get.to(() => AssignTaskScreen(jobID: details.id));
+                            },
+                            title: "Re-Assign Task"),
+                        VerticalSpace(height: 16.h),
+                        CustomButton(
+                            isPrimary: false,
+                            titleColor: Color(0xFF526366),
+                            bordercolor: AppColors.borderColor,
+                            onTap: () {},
+                            title: "Edit Task"),
                       ],
                       const SizedBox(height: 40),
                     ],
