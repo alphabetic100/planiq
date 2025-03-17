@@ -31,44 +31,39 @@ class AditionalAdminPart extends StatelessWidget {
                 ? NetworkImage(user.tasks[0].user.profileImage)
                 : AssetImage(IconPath.profileIcon),
           ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text.rich(
+          title: Text.rich(
+            TextSpan(
+              children: [
                 TextSpan(
-                  children: [
-                    TextSpan(
-                      text: user.tasks[0].user.name,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16.sp,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    TextSpan(
-                      text: " (${user.tasks[0].user.role.toLowerCase()})",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.sp,
-                          color: AppColors.textSecondary),
-                    ),
-                  ],
+                  text: user.tasks[0].user.name,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16.sp,
+                    color: AppColors.textPrimary,
+                  ),
                 ),
-              ),
-              Icon(
-                Icons.delete_outlined,
-                color: AppColors.primaryColor,
-              )
-            ],
+                TextSpan(
+                  text: " (${user.tasks[0].user.role.toLowerCase()})",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.sp,
+                      color: AppColors.textSecondary),
+                ),
+              ],
+            ),
           ),
           subtitle: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomText(
-                text: "Employee ID: ${user.tasks[0].user.personId}",
-                fontSize: 14.sp,
-                fontWeight: FontWeight.normal,
-                color: AppColors.textSecondary,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.36,
+                child: CustomText(
+                  text: "Employee ID: ${user.tasks[0].user.personId}",
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.textSecondary,
+                  textOverflow: TextOverflow.ellipsis,
+                ),
               ),
               GestureDetector(
                 onTap: () {
@@ -77,7 +72,7 @@ class AditionalAdminPart extends StatelessWidget {
                 },
                 child: CustomText(
                   text: "Employee  Details",
-                  fontSize: 14.sp,
+                  fontSize: 12.sp,
                   fontWeight: FontWeight.normal,
                   color: AppColors.primaryColor,
                   decoration: TextDecoration.underline,
