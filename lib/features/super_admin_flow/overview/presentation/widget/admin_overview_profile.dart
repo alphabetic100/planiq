@@ -34,37 +34,34 @@ class AdminOverviewProfile extends StatelessWidget {
                     child: Image.asset(IconPath.menueIcon)),
               ],
             ),
-            title: Expanded(
-              child: Obx(
-                () => RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                    text:
-                        isfromAdmin ? "Welcome Back, David" : "Welcome Back, ",
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
+            title: Obx(
+              () => RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                  text: isfromAdmin ? "Welcome Back, David" : "Welcome Back, ",
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w700,
                   ),
-                  TextSpan(
-                    text: isfromAdmin ? "" : ProfileValues.name.value,
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 22.sp,
-                      fontWeight: FontWeight.w700,
-                    ),
+                ),
+                TextSpan(
+                  text: isfromAdmin ? "" : ProfileValues.name.value,
+                  style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w700,
                   ),
-                  TextSpan(
-                    text: isfromAdmin ? " (Admin)" : " (Supervisor)",
-                    style: TextStyle(
-                      color: AppColors.white.withOpacity(0.7),
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.normal,
-                    ),
+                ),
+                TextSpan(
+                  text: isfromAdmin ? " (Admin)" : " (Supervisor)",
+                  style: TextStyle(
+                    color: AppColors.white.withOpacity(0.7),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.normal,
                   ),
-                ])),
-              ),
+                ),
+              ])),
             ),
             subtitle: CustomText(
               text: AppHelperFunctions.getCurrentDateTime(),

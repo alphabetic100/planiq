@@ -8,7 +8,7 @@ import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/core/utils/values/profile_values.dart';
-import 'package:planiq/features/employe_flow/profile/presentation/components/change_password_screen.dart';
+import 'package:planiq/features/common/change_password/presentation/view/change_password_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/language_optins_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_details_screen.dart';
 import 'package:planiq/features/employe_flow/profile/presentation/components/profile_option_card.dart';
