@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/features/super_admin_flow/jobs/controller/jobs_controller.dart';
 import 'package:planiq/features/supervisor_flow/jobs/presentation/screen/super_jobs_list.dart';
 import 'package:planiq/features/supervisor_flow/jobs/presentation/screen/supervisor_job_screen.dart';
 
@@ -24,6 +26,13 @@ class _SupervisorTasksPageState extends State<SupervisorTasksPage>
     controller = TabController(length: 2, vsync: this);
   }
 
+  final List<String> iconPath = [
+    IconPath.excelIcon,
+  ];
+  final List<String> titles = [
+    "Export Task Data",
+  ];
+  final JobsController jobsController = Get.put(JobsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,46 +40,32 @@ class _SupervisorTasksPageState extends State<SupervisorTasksPage>
         appbarHeight: 70.h,
         title: "Job",
         actions: [
-          PopupMenuButton(
-            color: AppColors.white,
+          PopupMenuButton<int>(
             iconColor: AppColors.white,
-            popUpAnimationStyle: AnimationStyle(
-              curve: Curves.easeInCirc,
-            ),
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(IconPath.excelIcon),
-                      HorizontalSpace(width: 5),
-                      CustomText(
-                        text: "Export Task Data",
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF526366),
-                      )
-                    ],
-                  ),
-                ),
-                PopupMenuItem(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Image.asset(IconPath.excelIcon),
-                      HorizontalSpace(width: 5),
-                      CustomText(
-                        text: "Export Customer List",
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF526366),
-                      )
-                    ],
-                  ),
-                ),
-              ];
+            color: AppColors.white,
+            onSelected: (int value) {
+              jobsController.handelEmployeeAction(titles[value]);
             },
+            itemBuilder: (context) => List.generate(
+              titles.length,
+              (index) => PopupMenuItem<int>(
+                value: index,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      iconPath[index],
+                    ),
+                    SizedBox(width: 10.w),
+                    CustomText(
+                      text: titles[index],
+                      fontSize: 14.sp,
+                      color: AppColors.textSecondary,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),
@@ -100,7 +95,6 @@ class _SupervisorTasksPageState extends State<SupervisorTasksPage>
                   ),
                 ),
               ),
-            
               SizedBox(
                 height: 55.h,
                 width: 150.w,
