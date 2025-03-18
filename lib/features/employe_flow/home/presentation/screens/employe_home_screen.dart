@@ -26,23 +26,34 @@ class EmployeHomeScreen extends StatelessWidget {
         Obx(() {
           final home = homeController.home.value;
           if (home == null) {
-            return Expanded(
-                child: Center(
-                    child: CircularProgressIndicator(
+            return Center(
+                child: CircularProgressIndicator(
               color: AppColors.primaryColor,
-            )));
+            ));
           } else if (home.data.data.result.isEmpty) {
             return Expanded(
-              child: BodyPadding(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              child: RefreshIndicator(
+                color: AppColors.primaryColor,
+                backgroundColor: AppColors.secondaryColor,
+                onRefresh: () => homeController.getHomeData(),
+                child: ListView(
                   children: [
-                    TaskOverviewSection(
-                      completed: home.data.data.completed.toString(),
-                      scheduled: home.data.data.schedule.toString(),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.55,
+                      child: BodyPadding(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TaskOverviewSection(
+                              completed: home.data.data.completed.toString(),
+                              scheduled: home.data.data.schedule.toString(),
+                            ),
+                            VerticalSpace(height: 30.h),
+                            CustomText(text: 'No task scheduled for today')
+                          ],
+                        ),
+                      ),
                     ),
-                    VerticalSpace(height: 30.h),
-                    CustomText(text: 'No task scheduled for today')
                   ],
                 ),
               ),
@@ -51,32 +62,37 @@ class EmployeHomeScreen extends StatelessWidget {
             final task = home.data.data.result.first;
             return Expanded(
               child: BodyPadding(
-                  child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomJobCard(
-                      id: task.job.id,
-                      title: task.job.title,
-                      status: 'Starting soon',
-                      address: task.job.location,
-                      dateTime: DateTime.parse(task.job.date),
-                      time: task.job.time.toString(),
-                      onViewDetails: () {},
-                      onStartJob: () {
-                        homeController.startJob(task.jobId);
-                      },
-                    ),
-                    VerticalSpace(height: 30.h),
-                    TaskOverviewSection(
-                      completed: home.data.data.completed.toString(),
-                      scheduled: home.data.data.schedule.toString(),
-                    ),
-                    VerticalSpace(height: 30.h),
-                    TodaysScheduleSection(
-                      task: home.data.data,
-                    )
-                  ],
+                  child: RefreshIndicator(
+                color: AppColors.primaryColor,
+                backgroundColor: AppColors.secondaryColor,
+                onRefresh: () => homeController.getHomeData(),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomJobCard(
+                        id: task.job.id,
+                        title: task.job.title,
+                        status: 'Starting soon',
+                        address: task.job.location,
+                        dateTime: DateTime.parse(task.job.date),
+                        time: task.job.time.toString(),
+                        onViewDetails: () {},
+                        onStartJob: () {
+                          homeController.startJob(task.jobId);
+                        },
+                      ),
+                      VerticalSpace(height: 30.h),
+                      TaskOverviewSection(
+                        completed: home.data.data.completed.toString(),
+                        scheduled: home.data.data.schedule.toString(),
+                      ),
+                      VerticalSpace(height: 30.h),
+                      TodaysScheduleSection(
+                        task: home.data.data,
+                      )
+                    ],
+                  ),
                 ),
               )),
             );
