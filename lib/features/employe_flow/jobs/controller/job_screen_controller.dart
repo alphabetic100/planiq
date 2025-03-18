@@ -32,7 +32,7 @@ class JobScreenController extends GetxController {
 
   Future<void> getCompleatedTasks() async {
     try {
-      final requestUrl = "${AppUrls.myTasks}?status=COMPLETED";
+      final requestUrl = "${AppUrls.myTasks}?search=COMPLETED";
       final response =
           await networkCaller.getRequest(requestUrl, token: AuthService.token);
       if (response.isSuccess) {

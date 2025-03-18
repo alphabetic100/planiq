@@ -21,32 +21,52 @@ class CompleatedJobScreen extends StatelessWidget {
           color: AppColors.primaryColor,
         ));
       } else if (jobs.data.tasks.isEmpty) {
-        return Center(child: CustomText(text: 'No Jobs'));
+        return RefreshIndicator(
+          color: AppColors.primaryColor,
+          backgroundColor: AppColors.secondaryColor,
+          onRefresh: () async {
+            await jobScreenController.getCompleatedTasks();
+          },
+          child: ListView(
+            children: [
+              SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(child: CustomText(text: 'No Completed Jobs'))),
+            ],
+          ),
+        );
       } else {
-        return ListView.builder(
-            itemCount: jobs.data.tasks.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              final job = jobs.data.tasks[index];
-              return BodyPadding(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 20.h,
+        return RefreshIndicator(
+          color: AppColors.primaryColor,
+          backgroundColor: AppColors.secondaryColor,
+          onRefresh: () async {
+            await jobScreenController.getCompleatedTasks();
+          },
+          child: ListView.builder(
+              itemCount: jobs.data.tasks.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final job = jobs.data.tasks[index];
+                return BodyPadding(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 20.h,
+                    ),
+                    child: CustomJobCard(
+                      id: job.jobId,
+                      title: job.job.title,
+                      status: job.job.status,
+                      address: job.job.location,
+                      dateTime: DateTime.parse(job.job.date),
+                      time: job.job.time,
+                      onViewDetails: () {},
+                      onStartJob: () {},
+                      isSupervisor: false,
+                    ),
                   ),
-                  child: CustomJobCard(
-                    id: job.jobId,
-                    title: job.job.title,
-                    status: job.job.status,
-                    address: job.job.location,
-                    dateTime: DateTime.parse(job.job.date),
-                    time: job.job.time,
-                    onViewDetails: () {},
-                    onStartJob: () {},
-                    isSupervisor: false,
-                  ),
-                ),
-              );
-            });
+                );
+              }),
+        );
       }
     });
   }

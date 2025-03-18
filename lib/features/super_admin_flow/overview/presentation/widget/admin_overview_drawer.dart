@@ -37,6 +37,7 @@ class AdminOverviewDrawer extends StatelessWidget {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: CircleAvatar(
+                    backgroundColor: AppColors.secondaryColor,
                     backgroundImage: AssetImage(
                       IconPath.profileIcon,
                     ),
