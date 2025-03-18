@@ -378,7 +378,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               child: ChecklistItemWidget(
                                 isCompleted:
                                     jobScreenController.progress.value[index],
-                                text: details.progress[index],
+                                text: details.progress[index].progress,
                               ),
                             ),
                           );

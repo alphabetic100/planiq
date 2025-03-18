@@ -7,6 +7,7 @@ import 'package:planiq/core/common/widgets/success_snakbar.dart';
 import 'package:planiq/core/models/response_data.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
+import 'package:planiq/core/services/push_notification_service.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
 import 'package:planiq/routes/app_routes.dart';
 
@@ -18,7 +19,7 @@ class LoginController extends GetxController {
       final Map<String, String> requestBody = {
         "personId": id.trim(),
         "password": password,
-        "fcmToken": "TEST_FCM_TOKEN"
+        "fcmToken": PushNotificationService.fCM ?? "",
       };
       //Hit Api
       final response =
@@ -41,7 +42,7 @@ class LoginController extends GetxController {
       log(response.responseData["data"]["userData"]["role"]);
 
       await AuthService.saveToken(token, role, personID);
-  
+
       navigateRule(role);
 
       successSnakbr(successMessage: "Welcome back! $userName");

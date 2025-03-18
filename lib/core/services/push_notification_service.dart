@@ -4,6 +4,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter/material.dart';
 
 class PushNotificationService {
+  static String? _fCMToken;
+  static String? get fCM => _fCMToken;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -26,8 +28,8 @@ class PushNotificationService {
     }
 
     /// Get FCM Token (Optional: Use this for testing with FCM API)
-    String? token = await _firebaseMessaging.getToken();
-    log("FCM Token: $token");
+    _fCMToken = await _firebaseMessaging.getToken();
+    log("FCM Token: $_fCMToken");
 
     /// Handle Foreground Notifications
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
