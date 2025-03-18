@@ -366,8 +366,22 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       Column(
                         children:
                             List.generate(details.progress.length, (index) {
-                          return ChecklistItemWidget(
-                              text: details.progress[index]);
+                          return Obx(
+                            () => GestureDetector(
+                              onTap: () {
+                                if (details.status == "WIP") {
+                                  if (!widget.isFromAdmin && isFromSupervisor) {
+                                    jobScreenController.updateProgress(index);
+                                  }
+                                }
+                              },
+                              child: ChecklistItemWidget(
+                                isCompleted:
+                                    jobScreenController.progress.value[index],
+                                text: details.progress[index],
+                              ),
+                            ),
+                          );
                         }),
                       ),
 
@@ -450,15 +464,34 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                             if (details.status == "WIP") ...[
                               Column(
                                 children: [
-                                  CustomButton(
-                                      onTap: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return JobCompleateDialog();
-                                            });
-                                      },
-                                      title: "Mark as Complete"),
+                                  Obx(
+                                    () => CustomButton(
+                                        bordercolor: jobScreenController
+                                                .checkAllCompleated()
+                                            ? AppColors.primaryColor
+                                            : AppColors.white,
+                                        color: jobScreenController
+                                                .checkAllCompleated()
+                                            ? AppColors.primaryColor
+                                            : AppColors.primaryColor
+                                                .withOpacity(0.5),
+                                        onTap: () {
+                                          if (jobScreenController
+                                              .checkAllCompleated()) {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return JobCompleateDialog();
+                                                });
+                                          }
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return JobCompleateDialog();
+                                              });
+                                        },
+                                        title: "Mark as Complete"),
+                                  ),
                                   VerticalSpace(height: 16.h),
                                   CustomButton(
                                       isPrimary: false,

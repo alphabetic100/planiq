@@ -65,6 +65,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       VerticalSpace(height: 8.h),
                       CustomTextField(
+                        keyboardType: TextInputType.numberWithOptions(),
                         onChange: (value) {},
                         controller: emailController,
                         hintText: "Enter your id",
@@ -79,6 +80,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       VerticalSpace(height: 8.h),
                       CustomTextField(
+                        keyboardType: TextInputType.numberWithOptions(),
                         controller: passwordController,
                         hintText: "Enter your password",
                         validator: AppValidator.validatePassword,
