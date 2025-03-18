@@ -81,11 +81,11 @@ class AdminOverviewDrawer extends StatelessWidget {
                   options: [
                     {
                       "title": "Assign Accept Notification",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.adminNotificationScreen,
                     },
                     {
                       "title": "Assign Decline Notification",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.adminNotificationScreen,
                     },
                   ],
                   onSelect: () {
@@ -99,25 +99,27 @@ class AdminOverviewDrawer extends StatelessWidget {
                   options: [
                     {
                       "title": "All Jobs",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.adminJobScreen,
                     },
                     {
                       "title": "Assigned Jobs",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.adminJobScreen,
                     },
                     {
                       "title": "Unassigned Jobs",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.adminJobScreen,
                     },
                     {
                       "title": "Completed Jobs",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.adminJobScreen,
                     },
                   ],
-                  onSelect: () {},
+                  onSelect: () {
+                    landingController.changePage(3);
+                  },
                 ),
                 ExpandedOverviewCard(
-                  isSelected: landingController.currentPage.value == 3,
+                  isSelected: landingController.currentPage.value == 2,
                   isExpanded: false,
                   title: "Employees",
                   onSelect: () {
