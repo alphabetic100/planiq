@@ -14,6 +14,7 @@ class JobDetailScreenController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
   Rx<JobDetailsModel?> jobDetails = Rx<JobDetailsModel?>(null);
   Rx<AssignedTaskModel?> employeeDetail = Rx<AssignedTaskModel?>(null);
+
   Future<void> getJobDetails(String jobID) async {
     if (jobID.isEmpty) {
       log("jobid is empty");
@@ -127,6 +128,43 @@ class JobDetailScreenController extends GetxController {
         successSnakbr(successMessage: "You have decline the task!");
         refreshScreen(jobID);
         update();
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
+  Future<void> reportIssue(String issue, String jobID) async {
+    try {
+      final String requestURL = "${AppUrls.reportIssue}$jobID";
+      showProgressIndicator();
+      final response = await networkCaller
+          .postRequest(requestURL, token: AuthService.token, body: {
+        "issue": issue,
+      });
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(successMessage: "Submitted issue successfully!");
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
+  Future<void> updateJobProgress(String title, String jobID) async {
+    try {
+      final requestUrl = "${AppUrls.updateProgress}$jobID";
+      showProgressIndicator();
+      final response = await networkCaller
+          .putRequest(requestUrl, token: AuthService.token, body: {
+        "progress": title,
+      });
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(successMessage: "Job progress updated successfully");
+        refreshScreen(jobID);
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
       }
     } catch (e) {
       log("Something went wrong, error: $e");

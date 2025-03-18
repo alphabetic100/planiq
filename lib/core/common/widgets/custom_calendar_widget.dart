@@ -181,10 +181,18 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget> {
               calendarStyle: CalendarStyle(
                 defaultTextStyle: TextStyle(color: Color(0xFF5B7180)),
                 outsideDaysVisible: false,
+                todayDecoration: BoxDecoration(
+                  color: Colors.transparent,
+                  shape: BoxShape.circle,
+                ),
                 todayTextStyle: const TextStyle(
                   color: Color(0xFF5B7180),
                   fontWeight: FontWeight.bold,
                 ),
+                selectedDecoration: BoxDecoration(
+                    color: Color(0xFF0071C2),
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(8)),
               ),
             ),
           ),

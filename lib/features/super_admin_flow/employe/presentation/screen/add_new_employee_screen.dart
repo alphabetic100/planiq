@@ -47,7 +47,7 @@ class AddNewEmployeeScreen extends StatelessWidget {
                       Obx(
                         () => CircleAvatar(
                           radius: 65,
-                          backgroundColor: Colors.grey.withOpacity(0.5),
+                          backgroundColor: AppColors.secondaryColor,
                           backgroundImage: controller
                                   .employeeImage.value.isNotEmpty
                               ? FileImage(File(controller.employeeImage.value))
@@ -121,7 +121,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                   label: 'Designation :',
                   controller: TextEditingController(),
                   onChanged: (value) => controller.designation.value = value,
-                  validator: AppValidator.validateField,
                 ),
 
                 // Date of Birth field
@@ -130,7 +129,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                     label: 'Date of Birth :',
                     controller: TextEditingController()
                       ..text = controller.dateOfBirth.value,
-                    validator: AppValidator.validateField,
                     readOnly: true,
                     onTap: () {
                       Get.dialog(Dialog(
@@ -150,7 +148,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                   label: 'Gender :',
                   controller: TextEditingController(),
                   onChanged: (value) => controller.gender.value = value,
-                  validator: AppValidator.validateField,
                 ),
 
                 // Specialization field
@@ -177,12 +174,12 @@ class AddNewEmployeeScreen extends StatelessWidget {
                             CustomTextField(
                               controller: specializationCT,
                               onChange: (value) {},
-                              validator: (value) {
-                                if (controller.specializations.isEmpty) {
-                                  return "Specialization is required";
-                                }
-                                return null;
-                              },
+                              // validator: (value) {
+                              //   if (controller.specializations.isEmpty) {
+                              //     return "Specialization is required";
+                              //   }
+                              //   return null;
+                              // },
                             ),
                             SizedBox(height: 8),
                             Obx(() => Column(
@@ -272,7 +269,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                   label: 'Role :',
                   controller: TextEditingController(),
                   onChanged: (value) => controller.role.value = value,
-                  validator: AppValidator.validateField,
                 ),
 
                 // Service Length field
@@ -280,7 +276,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                   label: 'Service Length :',
                   controller: TextEditingController(),
                   onChanged: (value) => controller.serviceLength.value = value,
-                  validator: AppValidator.validateField,
                 ),
 
                 // Department field
@@ -288,7 +283,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                   label: 'Department :',
                   controller: TextEditingController(),
                   onChanged: (value) => controller.department.value = value,
-                  validator: AppValidator.validateField,
                 ),
 
                 SizedBox(height: 24),
@@ -310,7 +304,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                     label: 'Joining Date :',
                     controller: TextEditingController()
                       ..text = controller.joiningDate.value,
-                    validator: AppValidator.validateField,
                     readOnly: true,
                     onTap: () {
                       Get.dialog(
@@ -332,7 +325,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                   label: 'Work Location :',
                   controller: TextEditingController(),
                   onChanged: (value) => controller.workLocation.value = value,
-                  validator: AppValidator.validateField,
                 ),
 
                 // Employment Type field
@@ -340,7 +332,6 @@ class AddNewEmployeeScreen extends StatelessWidget {
                   label: 'Employment Type :',
                   controller: TextEditingController(),
                   onChanged: (value) => controller.employmentType.value = value,
-                  validator: AppValidator.validateField,
                 ),
 
                 SizedBox(height: 24),

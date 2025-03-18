@@ -56,12 +56,12 @@ class AddNewEmployeeController extends GetxController {
       );
       return;
     }
-    if (employeeImage.value.isEmpty) {
-      errorSnakbar(
-        errorMessage: 'Please select a employe image',
-      );
-      return;
-    }
+    // if (employeeImage.value.isEmpty) {
+    //   errorSnakbar(
+    //     errorMessage: 'Please select a employe image',
+    //   );
+    //   return;
+    // }
 
     try {
       showProgressIndicator();

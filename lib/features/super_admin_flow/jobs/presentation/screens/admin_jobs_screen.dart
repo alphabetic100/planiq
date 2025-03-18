@@ -8,13 +8,14 @@ import 'package:planiq/core/common/widgets/custom_app_bar.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/features/super_admin_flow/jobs/controller/all_jobs_controller.dart';
 import 'package:planiq/features/super_admin_flow/jobs/controller/jobs_controller.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/all_jobs_list.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/assigned_job_list.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/compleated_jobs_list.dart';
 import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/job_screen_top_bar.dart';
-import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/unassigned_job_list.dart';
+import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/search_result_widget.dart';
+import 'package:planiq/features/super_admin_flow/jobs/presentation/widgets/unassigned_job_list.dart'; // Import new widget
 
 class AdminJobsScreen extends StatefulWidget {
   const AdminJobsScreen({super.key});
@@ -26,6 +27,9 @@ class AdminJobsScreen extends StatefulWidget {
 class _AdminJobsScreenState extends State<AdminJobsScreen>
     with SingleTickerProviderStateMixin {
   late TabController controller;
+  final JobsController jobsController = Get.put(JobsController());
+  String searchQuery = "";
+  final AllJobsController allJobsController = Get.put(AllJobsController());
 
   @override
   void initState() {
@@ -35,12 +39,12 @@ class _AdminJobsScreenState extends State<AdminJobsScreen>
 
   int selectedTab = 0;
   final List<String> iconPath = [
-    IconPath.excelIcon,
+    'assets/icons/excel.png',
   ];
   final List<String> titles = [
     "Export Task Data",
   ];
-  final JobsController jobsController = Get.put(JobsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,85 +99,57 @@ class _AdminJobsScreenState extends State<AdminJobsScreen>
               });
             },
             tabs: [
-              SizedBox(
-                height: 55.h,
-                child: Center(
-                    child: CustomText(
-                  text: "All",
-                  fontSize: selectedTab == 0 ? 16 : 14,
-                  fontWeight:
-                      selectedTab == 0 ? FontWeight.w500 : FontWeight.normal,
-                  color: selectedTab == 0
-                      ? AppColors.primaryColor
-                      : AppColors.textSecondary,
-                )),
-              ),
-              SizedBox(
-                height: 55.h,
-                child: Center(
-                    child: CustomText(
-                  text: "Assigned",
-                  fontSize: selectedTab == 1 ? 16 : 14,
-                  fontWeight:
-                      selectedTab == 1 ? FontWeight.w500 : FontWeight.normal,
-                  color: selectedTab == 1
-                      ? AppColors.primaryColor
-                      : AppColors.textSecondary,
-                )),
-              ),
-              SizedBox(
-                height: 55.h,
-                child: Center(
-                    child: CustomText(
-                  text: "Unassigned",
-                  fontSize: selectedTab == 2 ? 16 : 14,
-                  fontWeight:
-                      selectedTab == 2 ? FontWeight.w500 : FontWeight.normal,
-                  color: selectedTab == 2
-                      ? AppColors.primaryColor
-                      : AppColors.textSecondary,
-                )),
-              ),
-              SizedBox(
-                height: 55.h,
-                child: Center(
-                    child: CustomText(
-                  text: "Completed",
-                  fontSize: selectedTab == 3 ? 16 : 14,
-                  fontWeight:
-                      selectedTab == 3 ? FontWeight.w500 : FontWeight.normal,
-                  color: selectedTab == 3
-                      ? AppColors.primaryColor
-                      : AppColors.textSecondary,
-                )),
-              ),
+              _tabBarItem("All", 0),
+              _tabBarItem("Assigned", 1),
+              _tabBarItem("Unassigned", 2),
+              _tabBarItem("Completed", 3),
             ],
           ),
           VerticalSpace(height: 20),
-          BodyPadding(child: JobScreenTopBar(onSearch: (value) {})),
+          BodyPadding(child: JobScreenTopBar(onSearch: (value) {
+            setState(() {
+              searchQuery = value;
+              allJobsController.filterJobs(value);
+            });
+          })),
+          VerticalSpace(height: 20),
           Expanded(
             child: BodyPadding(
-              child: TabBarView(
-                controller: controller,
-                physics: NeverScrollableScrollPhysics(),
-                children: [
-                  AllJobsList(
-                    isFromAdmin: true,
-                  ),
-                  AssignedJobList(
-                    isFromAdmin: true,
-                  ),
-                  UnassignedJobList(
-                    isFromAdmin: true,
-                  ),
-                  CompleatedJobsList(
-                    isFromAdmin: true,
-                  ),
-                ],
-              ),
+              child: searchQuery.isEmpty
+                  ? TabBarView(
+                      controller: controller,
+                      physics: NeverScrollableScrollPhysics(),
+                      children: [
+                        AllJobsList(isFromAdmin: true),
+                        AssignedJobList(isFromAdmin: true),
+                        UnassignedJobList(isFromAdmin: true),
+                        CompleatedJobsList(isFromAdmin: true),
+                      ],
+                    )
+                  : SearchResultsWidget(
+                      jobs: allJobsController.filteredJobs.value,
+                      isFromAdmin: true,
+                    ),
             ),
-          )
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _tabBarItem(String label, int index) {
+    return SizedBox(
+      height: 55.h,
+      child: Center(
+        child: CustomText(
+          text: label,
+          fontSize: selectedTab == index ? 16 : 14,
+          fontWeight:
+              selectedTab == index ? FontWeight.w500 : FontWeight.normal,
+          color: selectedTab == index
+              ? AppColors.primaryColor
+              : AppColors.textSecondary,
+        ),
       ),
     );
   }

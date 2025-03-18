@@ -13,19 +13,25 @@ class EmployeeListScreenController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final isExpanded = false.obs;
 
-  Rx<AllEmployeeData?> employes = Rx<AllEmployeeData?>(null);
+
+  RxList<Datum> employees = <Datum>[].obs;
+  RxList<Datum> filteredEmployees = <Datum>[].obs;
 
   Future<void> getAllEmployes() async {
     try {
-      final resonse = await networkCaller.getRequest(AppUrls.register,
-          token: AuthService.token);
-      log(resonse.responseData.toString());
+      final response = await networkCaller.getRequest(
+        AppUrls.register,
+        token: AuthService.token,
+      );
+      log(response.responseData.toString());
 
-      if (resonse.isSuccess) {
-        employes.value = AllEmployeeData.fromJson(resonse.responseData);
+      if (response.isSuccess) {
+        final allEmployees = AllEmployeeData.fromJson(response.responseData).data.data;
+        employees.assignAll(allEmployees);
+        filteredEmployees.assignAll(allEmployees);
       }
     } catch (e) {
-      log("something went wrong, error:$e");
+      log("Something went wrong, error: $e");
     }
   }
 
@@ -51,6 +57,17 @@ class EmployeeListScreenController extends GetxController {
       case "See Blocklist":
         Get.to(() => AllBlockListScreen());
         break;
+    }
+  }
+
+  void searchEmployees(String query) {
+    if (query.isEmpty) {
+      filteredEmployees.assignAll(employees);
+    } else {
+      filteredEmployees.assignAll(
+        employees.where((employee) =>
+            employee.name.toLowerCase().contains(query.toLowerCase())).toList(),
+      );
     }
   }
 

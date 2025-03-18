@@ -40,7 +40,7 @@ class EmployeeCard extends StatelessWidget {
                 : AssetImage(
                     IconPath.profileIcon,
                   ),
-            backgroundColor: Colors.grey.shade200,
+            backgroundColor: AppColors.secondaryColor,
           ),
           title: Text.rich(
             TextSpan(

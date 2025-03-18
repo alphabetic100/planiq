@@ -30,13 +30,13 @@ class ProfileDetailsScreen extends StatelessWidget {
           if (profile == null) {
             return SizedBox.shrink();
           } else {
-            return Column(
-              children: [
-                RefreshIndicator(
-                  color: AppColors.primaryColor,
-                  backgroundColor: AppColors.secondaryColor,
-                  onRefresh: () => profileController.getMyProfile(),
-                  child: SingleChildScrollView(
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  RefreshIndicator(
+                    color: AppColors.primaryColor,
+                    backgroundColor: AppColors.secondaryColor,
+                    onRefresh: () => profileController.getMyProfile(),
                     child: BodyPadding(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,12 +192,13 @@ class ProfileDetailsScreen extends StatelessWidget {
                               title: "Employment Type :",
                               data:
                                   profile.data.administrative[0].employeeType),
+                          VerticalSpace(height: 30),
                         ],
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           }
         }));

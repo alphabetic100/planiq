@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -17,8 +16,10 @@ import 'package:planiq/features/super_admin_flow/employe/presentation/widget/sea
 
 class AllEmployeListScreen extends StatelessWidget {
   AllEmployeListScreen({super.key});
+
   final EmployeeListScreenController employeeController =
       Get.put(EmployeeListScreenController());
+
   final List<String> iconPath = [
     IconPath.excelIcon,
     IconPath.blockIcon,
@@ -28,6 +29,7 @@ class AllEmployeListScreen extends StatelessWidget {
     "Export Employee Data",
     "See Blocklist",
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +50,7 @@ class AllEmployeListScreen extends StatelessWidget {
                 value: index,
                 child: Row(
                   children: [
-                    Image.asset(
-                      iconPath[index],
-                    ),
+                    Image.asset(iconPath[index]),
                     SizedBox(width: 10.w),
                     CustomText(
                       text: titles[index],
@@ -70,9 +70,7 @@ class AllEmployeListScreen extends StatelessWidget {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 20.h,
-              ),
+              SizedBox(height: 20.h),
               Row(
                 children: [
                   employeeController.isExpanded.value
@@ -80,12 +78,11 @@ class AllEmployeListScreen extends StatelessWidget {
                       : Spacer(),
                   employeeController.isExpanded.value
                       ? Expanded(
-                          child: EmployeeSearchBar(
-                          controller: employeeController,
-                        ))
+                          child:
+                              EmployeeSearchBar(controller: employeeController),
+                        )
                       : SearchButton(
-                          onTap: () => employeeController.toggleExpanded(),
-                        ),
+                          onTap: () => employeeController.toggleExpanded()),
                   if (!employeeController.isExpanded.value) ...[
                     HorizontalSpace(width: 12),
                     GestureDetector(
@@ -101,10 +98,7 @@ class AllEmployeListScreen extends StatelessWidget {
                         ),
                         child: Row(
                           children: [
-                            Icon(
-                              Icons.add,
-                              color: AppColors.white,
-                            ),
+                            Icon(Icons.add, color: AppColors.white),
                             HorizontalSpace(width: 8),
                             CustomText(
                               text: "Add New Employee",
@@ -117,56 +111,41 @@ class AllEmployeListScreen extends StatelessWidget {
                   ]
                 ],
               ),
-              if (!employeeController.isExpanded.value) ...[
-                VerticalSpace(height: 10),
-                CustomText(
-                  text: "Short By: A -Z",
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.normal,
-                  color: AppColors.textSecondary,
-                ),
-                VerticalSpace(height: 10),
-                Expanded(child: Obx(() {
-                  if (employeeController.employes.value == null) {
+              VerticalSpace(height: 10),
+              Expanded(
+                child: Obx(() {
+                  if (employeeController.employees.isEmpty) {
                     return Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ),
-                    );
-                  } else if (employeeController
-                      .employes.value!.data.data.isEmpty) {
-                    return Center(
-                      child: CustomText(text: "No employe list"),
+                      child: CustomText(text: "No employee list"),
                     );
                   } else {
                     return RefreshIndicator(
                       color: AppColors.primaryColor,
                       backgroundColor: AppColors.secondaryColor,
+                      onRefresh: () => employeeController.getAllEmployes(),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount:
-                            employeeController.employes.value!.data.data.length,
+                        itemCount: employeeController.filteredEmployees.length,
                         itemBuilder: (context, index) {
-                          final employe = employeeController
-                              .employes.value!.data.data[index];
-                          log(employe.toString());
+                          final employee =
+                              employeeController.filteredEmployees[index];
+                          log(employee.toString());
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 10.0),
                             child: EmployeeCard(
-                              profileImage: employe.profileImage,
-                              id: employe.id,
-                              name: employe.name,
-                              employeID: employe.personId,
-                              role: employe.role,
+                              profileImage: employee.profileImage,
+                              id: employee.id,
+                              name: employee.name,
+                              employeID: employee.personId,
+                              role: employee.role,
                             ),
                           );
                         },
                       ),
-                      onRefresh: () => employeeController.getAllEmployes(),
                     );
                   }
-                })),
-              ]
+                }),
+              ),
             ],
           ),
         ),

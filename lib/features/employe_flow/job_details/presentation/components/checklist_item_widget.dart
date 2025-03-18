@@ -20,15 +20,18 @@ class ChecklistItemWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey[300]!),
+          border: Border.all(
+              color: isCompleted
+                  ? AppColors.primaryColor.withOpacity(0.5)
+                  : Colors.grey[300]!),
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
           children: [
             Icon(
-              isCompleted ? Icons.check_circle_outline : Icons.circle_outlined,
-              color: isCompleted ? Colors.green : Colors.grey,
-              size: 20,
+              isCompleted ? Icons.check_circle : Icons.circle_outlined,
+              color: isCompleted ? AppColors.primaryColor : Colors.grey,
+              size: 25,
             ),
             const SizedBox(width: 12),
             CustomText(

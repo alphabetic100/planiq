@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "156274000437",
+    "project_id": "planiq-c7b0a",
+    "storage_bucket": "planiq-c7b0a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:156274000437:android:e9c2ccf0fe03aae758277c",
+        "android_client_info": {
+          "package_name": "com.example.planiq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqwj-RwqkqHZ1ZovkWx3eFIC7gzIliprc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

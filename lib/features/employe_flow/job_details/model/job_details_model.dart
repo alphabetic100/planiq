@@ -34,14 +34,14 @@ class JobData {
   final String rate;
   final String duration;
   final String note;
-  final List<String> progress;
+  final List<ProgressStep> progress;
   final List<String> requiredTools;
   final String customerName;
   final String customerPhone;
   final String managerName;
   final String managerPhone;
-  final String workPhoto;
-  final String notes;
+  final List<String> workPhoto;
+  final String? notes; // Nullable
   final String status;
   final String createdAt;
   final String updatedAt;
@@ -66,7 +66,7 @@ class JobData {
     required this.managerName,
     required this.managerPhone,
     required this.workPhoto,
-    required this.notes,
+    this.notes, // Nullable
     required this.status,
     required this.createdAt,
     required this.updatedAt,
@@ -86,17 +86,37 @@ class JobData {
       rate: json['rate'] ?? '',
       duration: json['duration'] ?? '',
       note: json['note'] ?? '',
-      progress: List<String>.from(json['progress'] ?? []),
+      progress: (json['progress'] as List?)
+              ?.map((e) => ProgressStep.fromJson(e))
+              .toList() ??
+          [],
       requiredTools: List<String>.from(json['requiredTools'] ?? []),
       customerName: json['customerName'] ?? '',
       customerPhone: json['customerPhone'] ?? '',
       managerName: json['managerName'] ?? '',
       managerPhone: json['managerPhone'] ?? '',
-      workPhoto: json['workPhoto'] ?? '',
-      notes: json['notes'] ?? '',
+      workPhoto: List<String>.from(json['workPhoto'] ?? []),
+      notes: json['notes'], // Nullable
       status: json['status'] ?? '',
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
+    );
+  }
+}
+
+class ProgressStep {
+  final String progress;
+  final bool isCheck;
+
+  ProgressStep({
+    required this.progress,
+    required this.isCheck,
+  });
+
+  factory ProgressStep.fromJson(Map<String, dynamic> json) {
+    return ProgressStep(
+      progress: json['progress'] ?? '',
+      isCheck: json['isCheck'] ?? false,
     );
   }
 }

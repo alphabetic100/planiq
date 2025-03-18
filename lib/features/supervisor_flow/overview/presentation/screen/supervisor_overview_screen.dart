@@ -20,6 +20,7 @@ class SupervisorOverviewScreen extends StatelessWidget {
         children: [
           AdminOverviewProfile(
             scaffoldKey: _scaffoldKey,
+            isfromAdmin: false,
           ),
           VerticalSpace(height: 24.h),
           BodyPadding(child: SupervisorOverviewBody())

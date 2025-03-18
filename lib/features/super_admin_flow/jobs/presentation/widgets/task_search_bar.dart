@@ -5,12 +5,14 @@ import 'package:planiq/features/super_admin_flow/employe/presentation/widget/sea
 import 'package:planiq/features/super_admin_flow/jobs/controller/all_jobs_controller.dart';
 
 class TaskSearchBar extends StatelessWidget {
-  const TaskSearchBar({super.key, required this.controller});
+  const TaskSearchBar({super.key, required this.controller, required this.onSearch});
   final AllJobsController controller;
+  final Function(String value) onSearch;
   @override
   Widget build(BuildContext context) {
     return CustomTextField(
       controller: controller.searchController,
+      onChange: onSearch,
       hintText: "Search Customer Name or Location",
       suffixIcon: SearchButton(
         onTap: () {

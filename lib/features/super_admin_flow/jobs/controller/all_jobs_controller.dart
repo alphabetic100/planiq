@@ -14,50 +14,73 @@ class AllJobsController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final isExpanded = false.obs;
   Rx<AllJobsListModel?> jobs = Rx<AllJobsListModel?>(null);
+  Rx<List<Job>> filteredJobs = Rx<List<Job>>([]);
 
+  // Fetch all job data from the network
   Future<void> getJobList(String url) async {
     try {
-      showProgressIndicator();
+      showProgressIndicator(); // Show loading indicator
       final response =
           await networkCaller.getRequest(url, token: AuthService.token);
-      hideProgressIndicatro();
+      hideProgressIndicatro(); // Hide loading indicator
       if (response.isSuccess) {
         jobs.value = AllJobsListModel.fromJson(response.responseData);
+        filteredJobs.value = jobs.value?.data.jobs ?? [];
       } else {
-        errorSnakbar(errorMessage: response.errorMessage);
+        errorSnakbar(
+            errorMessage: response.errorMessage); // Show error if failed
       }
     } catch (e) {
       log("Something went wrong, error: $e");
+      hideProgressIndicatro(); // Hide loading indicator on error
     }
   }
 
+  // Refresh job list
   Future<void> refreshAllJob(String url) async {
     try {
       final response =
           await networkCaller.getRequest(url, token: AuthService.token);
-
       if (response.isSuccess) {
         jobs.value = AllJobsListModel.fromJson(response.responseData);
+        filteredJobs.value = jobs.value?.data.jobs ?? [];
       } else {
-        errorSnakbar(errorMessage: response.errorMessage);
+        errorSnakbar(
+            errorMessage: response.errorMessage); // Show error if failed
       }
     } catch (e) {
       log("Something went wrong, error: $e");
     }
   }
 
+  // Toggle expanded state based on search query
   void toggleExpanded() {
     if (searchController.text.isEmpty) {
-      isExpanded.value = !isExpanded.value;
+      isExpanded.value = !isExpanded.value; // Toggle if no search query
     }
+  }
+
+  // Filter jobs based on search query
+  void filterJobs(String query) {
+    if (query.isEmpty) {
+      filteredJobs.value =
+          jobs.value?.data.jobs ?? []; // Show all jobs if query is empty
+    } else {
+      filteredJobs.value = jobs.value?.data.jobs
+              .where((job) => job.title
+                  .toLowerCase()
+                  .contains(query.toLowerCase())) // Filter based on title
+              .toList() ??
+          [];
+    }
+    log("Filtered Jobs: ${filteredJobs.value}");
   }
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      getJobList(AppUrls.allJobs);
+      getJobList(AppUrls.allJobs); // Fetch jobs after the widget is initialized
     });
   }
 }
