@@ -34,17 +34,35 @@ class AdminNotificationController extends GetxController {
     }
   }
 
-  Future<void> filterNotification(String filter) async {
+  Future<void> filterNotification({
+    bool isStatusFilter = false,
+    required String statusFilter,
+    required String dateFilter,
+  }) async {
     try {
-      final response = await networkCaller.getRequest(AppUrls.notification,
+      String requestUrlWithParams = AppUrls.adminNotification;
+
+      bool isFirstParam = true;
+
+      if (isStatusFilter && statusFilter.isNotEmpty) {
+        requestUrlWithParams += "?search=$statusFilter";
+        isFirstParam = false;
+      }
+
+      if (dateFilter.isNotEmpty) {
+        requestUrlWithParams += isFirstParam
+            ? "?dateFilter=$dateFilter"
+            : "&dateFilter=$dateFilter";
+      }
+
+      final response = await networkCaller.getRequest(requestUrlWithParams,
           token: AuthService.token);
       if (response.isSuccess) {
-        log(response.responseData.toString());
         notifications.value =
             AdminNotificationModel.fromJson(response.responseData);
       }
     } catch (e) {
-      log("Something went wrong, error: $e");
+      log("Error: $e");
     }
   }
 
