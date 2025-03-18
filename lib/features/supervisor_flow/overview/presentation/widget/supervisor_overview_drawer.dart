@@ -9,6 +9,7 @@ import 'package:planiq/core/common/widgets/show_logout_dialog.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
+import 'package:planiq/core/utils/values/profile_values.dart';
 import 'package:planiq/features/super_admin_flow/overview/presentation/widget/expanded_overview_card.dart';
 import 'package:planiq/features/supervisor_flow/landing/controller/supervisor_landing_controller.dart';
 import 'package:planiq/features/supervisor_flow/report_box/presentation/screen/report_box_view.dart';
@@ -37,18 +38,21 @@ class SupervisorOverviewDrawer extends StatelessWidget {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage(
-                      IconPath.profileIcon,
-                    ),
+                    backgroundColor: AppColors.secondaryColor,
+                    backgroundImage: ProfileValues.profileImage.isNotEmpty
+                        ? NetworkImage(ProfileValues.profileImage.value)
+                        : AssetImage(
+                            IconPath.profileIcon,
+                          ),
                   ),
                   title: CustomText(
-                    text: "David Batista",
+                    text: ProfileValues.name.value,
                     color: AppColors.white,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   subtitle: CustomText(
-                    text: "User ID: #44458",
+                    text: "User ID: #${ProfileValues.personID.value}",
                     color: AppColors.white.withOpacity(0.7),
                     fontSize: 14.sp,
                     fontWeight: FontWeight.normal,
@@ -81,11 +85,11 @@ class SupervisorOverviewDrawer extends StatelessWidget {
                   options: [
                     {
                       "title": "All",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.supervisorNotification,
                     },
                     {
                       "title": "My Notification",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.supervisorNotification,
                     },
                   ],
                   onSelect: () {
@@ -99,11 +103,11 @@ class SupervisorOverviewDrawer extends StatelessWidget {
                   options: [
                     {
                       "title": "All Task’s",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.supervisorJobScreen,
                     },
                     {
                       "title": "My Task’s",
-                      "route": AppRoute.landingPage,
+                      "route": AppRoute.supervisorJobScreen,
                     },
                   ],
                   onSelect: () {},

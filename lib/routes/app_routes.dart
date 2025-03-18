@@ -6,7 +6,9 @@ import 'package:planiq/features/super_admin_flow/employe/presentation/screen/all
 import 'package:planiq/features/super_admin_flow/jobs/presentation/screens/admin_jobs_screen.dart';
 import 'package:planiq/features/super_admin_flow/landing/screens/super_admin_landing_screen.dart';
 import 'package:planiq/features/super_admin_flow/notification/presentation/screens/admin_notification_screen.dart';
+import 'package:planiq/features/supervisor_flow/jobs/presentation/screen/supervisor_tasks_page.dart';
 import 'package:planiq/features/supervisor_flow/landing/presentation/screens/supervisor_landing_screen.dart';
+import 'package:planiq/features/supervisor_flow/notification/presentation/screens/supervisor_notification_screen.dart';
 
 class AppRoute {
   static String loginScreen = "/loginScreen";
@@ -15,6 +17,8 @@ class AppRoute {
   static String adminNotificationScreen = "/adminNotificationScreen";
   static String adminJobScreen = "/adminJobScreen";
   static String adminEmplyeeScreen = "/adminEmplyeeScreen";
+  static String supervisorNotification = "/supervisorNotification";
+  static String supervisorJobScreen = "/supervisorJobScreen";
 
   //Employe routes
   static String landingPage = "/landingPage";
@@ -39,5 +43,9 @@ class AppRoute {
     //supervisor routes
     GetPage(
         name: supervisorLandingScreen, page: () => SupervisorLandingScreen()),
+    GetPage(
+        name: supervisorNotification,
+        page: () => SupervisorNotificationScreen()),
+    GetPage(name: supervisorJobScreen, page: () => SupervisorTasksPage()),
   ];
 }
