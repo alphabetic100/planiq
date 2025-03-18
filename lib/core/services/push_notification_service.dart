@@ -19,10 +19,15 @@ class PushNotificationService {
       alert: true,
       badge: true,
       sound: true,
+      announcement: true,
+      provisional: false,
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       log("User granted permission for push notifications");
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
+      log("User granted provisional permission for push notifications");
     } else {
       log("User denied or has not granted permission");
     }
@@ -59,9 +64,17 @@ class PushNotificationService {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
+    final DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+
     final InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
     );
 
     await _flutterLocalNotificationsPlugin.initialize(
@@ -71,6 +84,28 @@ class PushNotificationService {
         _navigateToScreenFromLocal();
       },
     );
+
+    // Create notification channels for Android
+    await _createNotificationChannel();
+  }
+
+  /// Create notification channel for Android (required for Android 8.0+)
+  Future<void> _createNotificationChannel() async {
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'channel_id', // id
+      'Channel Name', // title
+      description: 'Channel for important notifications', // description
+      importance: Importance.high,
+      playSound: true,
+      enableVibration: true,
+      enableLights: true,
+      showBadge: true,
+    );
+
+    await _flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
   }
 
   /// Show Local Notification
@@ -78,19 +113,36 @@ class PushNotificationService {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'channel_id',
-      'channel_name',
+      'Channel Name',
+      channelDescription: 'Channel for important notifications',
       importance: Importance.high,
       priority: Priority.high,
+      visibility: NotificationVisibility.public, // Show on lock screen
+      channelShowBadge: true,
+      largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+      styleInformation: BigTextStyleInformation(''),
+      playSound: true,
     );
 
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    const DarwinNotificationDetails iOSPlatformChannelSpecifics =
+        DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+      badgeNumber: 1,
+    );
+
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
 
     await _flutterLocalNotificationsPlugin.show(
       0,
       message.notification?.title ?? 'New Notification',
       message.notification?.body ?? 'You have a new message',
       platformChannelSpecifics,
+      payload: message.data['screen'] ?? '',
     );
   }
 
@@ -101,6 +153,9 @@ class PushNotificationService {
     //     builder: (context) => NotificationScreen(),
     //   ),
     // );
+
+    // Uncomment the above code and replace NotificationScreen with
+    // your actual screen when you're ready to implement navigation
   }
 
   /// Handle Local Notification Clicks
@@ -110,5 +165,8 @@ class PushNotificationService {
     //     builder: (context) => NotificationScreen(),
     //   ),
     // );
+
+    // Uncomment the above code and replace NotificationScreen with
+    // your actual screen when you're ready to implement navigation
   }
 }
