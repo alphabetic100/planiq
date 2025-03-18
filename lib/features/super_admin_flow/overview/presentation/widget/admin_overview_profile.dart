@@ -20,77 +20,48 @@ class AdminOverviewProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 125.h,
-      decoration: BoxDecoration(
-        color: AppColors.primaryColor,
-      ),
+      color: AppColors.primaryColor,
       child: SafeArea(
-        child: Center(
-          child: ListTile(
-            leading: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    scaffoldKey.currentState?.openDrawer();
-                  },
-                  child: Image.asset(IconPath.menueIcon),
-                ),
-              ],
-            ),
-            title: isfromAdmin
-                ? RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Welcome Back, Devid",
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        TextSpan(
-                          text: ProfileValues.name.value,
-                          style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        TextSpan(
-                          text: " (Admin)",
-                          style: TextStyle(
-                            color: AppColors.white.withOpacity(0.7),
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                : Obx(
-                    () => RichText(
+        child: Container(
+          height: 100,
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor,
+          ),
+          child: Center(
+            child: ListTile(
+              leading: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      scaffoldKey.currentState?.openDrawer();
+                    },
+                    child: Image.asset(IconPath.menueIcon),
+                  ),
+                ],
+              ),
+              title: isfromAdmin
+                  ? RichText(
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: "Welcome Back, ",
+                            text: "Welcome Back, Devid",
                             style: TextStyle(
                               color: AppColors.white,
                               fontSize: 22.sp,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
+                          // TextSpan(
+                          //   text: ProfileValues.name.value,
+                          //   style: TextStyle(
+                          //     color: AppColors.white,
+                          //     fontSize: 22.sp,
+                          //     fontWeight: FontWeight.w700,
+                          //   ),
+                          // ),
                           TextSpan(
-                            text: ProfileValues.name.value,
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          TextSpan(
-                            text: " (Supervisor)",
+                            text: " (Admin)",
                             style: TextStyle(
                               color: AppColors.white.withOpacity(0.7),
                               fontSize: 16.sp,
@@ -99,12 +70,44 @@ class AdminOverviewProfile extends StatelessWidget {
                           ),
                         ],
                       ),
+                    )
+                  : Obx(
+                      () => RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "Welcome Back, ",
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: ProfileValues.name.value,
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: " (Supervisor)",
+                              style: TextStyle(
+                                color: AppColors.white.withOpacity(0.7),
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-            subtitle: CustomText(
-              text: AppHelperFunctions.getCurrentDateTime(),
-              color: AppColors.white,
-              fontWeight: FontWeight.normal,
+              subtitle: CustomText(
+                text: AppHelperFunctions.getCurrentDateTime(),
+                color: AppColors.white,
+                fontWeight: FontWeight.normal,
+              ),
             ),
           ),
         ),
