@@ -14,7 +14,6 @@ class JobDetailScreenController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
   Rx<JobDetailsModel?> jobDetails = Rx<JobDetailsModel?>(null);
   Rx<AssignedTaskModel?> employeeDetail = Rx<AssignedTaskModel?>(null);
-  Rx<List<bool>> progress = Rx<List<bool>>([]);
 
   Future<void> getJobDetails(String jobID) async {
     if (jobID.isEmpty) {
@@ -30,11 +29,6 @@ class JobDetailScreenController extends GetxController {
       hideProgressIndicatro();
       if (response.isSuccess) {
         jobDetails.value = JobDetailsModel.fromJson(response.responseData);
-
-        if (jobDetails.value != null) {
-          progress.value =
-              List<bool>.filled(jobDetails.value!.data.progress.length, false);
-        }
       } else {
         errorSnakbar(errorMessage: response.errorMessage);
       }
@@ -140,24 +134,40 @@ class JobDetailScreenController extends GetxController {
     }
   }
 
-  void updateProgress(int index) {
-    if (index == progress.value.indexOf(false)) {
-      List<bool> updatedProgress = List.from(progress.value);
-      updatedProgress[index] = true;
-
-      progress.value = updatedProgress;
-
-      checkAllCompleated();
-      update();
-      log(checkAllCompleated().toString());
+  Future<void> reportIssue(String issue, String jobID) async {
+    try {
+      final String requestURL = "${AppUrls.reportIssue}$jobID";
+      showProgressIndicator();
+      final response = await networkCaller
+          .postRequest(requestURL, token: AuthService.token, body: {
+        "issue": issue,
+      });
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(successMessage: "Submitted issue successfully!");
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
     }
   }
 
-  bool checkAllCompleated() {
-    if (progress.value.contains(false)) {
-      return false;
-    } else {
-      return true;
+  Future<void> updateJobProgress(String title, String jobID) async {
+    try {
+      final requestUrl = "${AppUrls.updateProgress}$jobID";
+      showProgressIndicator();
+      final response = await networkCaller
+          .putRequest(requestUrl, token: AuthService.token, body: {
+        "progress": title,
+      });
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(successMessage: "Job progress updated successfully");
+        refreshScreen(jobID);
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
     }
   }
 }

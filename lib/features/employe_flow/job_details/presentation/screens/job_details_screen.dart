@@ -366,20 +366,19 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       Column(
                         children:
                             List.generate(details.progress.length, (index) {
-                          return Obx(
-                            () => GestureDetector(
-                              onTap: () {
-                                if (details.status == "WIP") {
-                                  if (!widget.isFromAdmin && isFromSupervisor) {
-                                    jobScreenController.updateProgress(index);
-                                  }
+                          return GestureDetector(
+                            onTap: () {
+                              if (details.status == "WIP") {
+                                if (!widget.isFromAdmin && isFromSupervisor) {
+                                  jobScreenController.updateJobProgress(
+                                      details.progress[index].progress,
+                                      widget.jobId);
                                 }
-                              },
-                              child: ChecklistItemWidget(
-                                isCompleted:
-                                    jobScreenController.progress.value[index],
-                                text: details.progress[index].progress,
-                              ),
+                              }
+                            },
+                            child: ChecklistItemWidget(
+                              isCompleted: details.progress[index].isCheck,
+                              text: details.progress[index].progress,
                             ),
                           );
                         }),
@@ -452,7 +451,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                         showModalBottomSheet(
                                             context: context,
                                             builder: (context) {
-                                              return ReportIssueBottomSheet();
+                                              return ReportIssueBottomSheet(
+                                                jobID: widget.jobId,
+                                              );
                                             });
                                       },
                                       titleColor: AppColors.error,
@@ -464,34 +465,27 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                             if (details.status == "WIP") ...[
                               Column(
                                 children: [
-                                  Obx(
-                                    () => CustomButton(
-                                        bordercolor: jobScreenController
-                                                .checkAllCompleated()
-                                            ? AppColors.primaryColor
-                                            : AppColors.white,
-                                        color: jobScreenController
-                                                .checkAllCompleated()
-                                            ? AppColors.primaryColor
-                                            : AppColors.primaryColor
-                                                .withOpacity(0.5),
-                                        onTap: () {
-                                          if (jobScreenController
-                                              .checkAllCompleated()) {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return JobCompleateDialog();
-                                                });
-                                          }
+                                  CustomButton(
+                                      bordercolor: details.progress.every(
+                                              (element) => element.isCheck)
+                                          ? AppColors.primaryColor
+                                          : AppColors.white,
+                                      color: details.progress.every(
+                                              (element) => element.isCheck)
+                                          ? AppColors.primaryColor
+                                          : AppColors.primaryColor
+                                              .withOpacity(0.5),
+                                      onTap: () {
+                                        if (details.progress.every(
+                                            (element) => element.isCheck)) {
                                           showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return JobCompleateDialog();
                                               });
-                                        },
-                                        title: "Mark as Complete"),
-                                  ),
+                                        }
+                                      },
+                                      title: "Mark as Complete"),
                                   VerticalSpace(height: 16.h),
                                   CustomButton(
                                       isPrimary: false,
@@ -499,7 +493,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                         showModalBottomSheet(
                                             context: context,
                                             builder: (context) {
-                                              return ReportIssueBottomSheet();
+                                              return ReportIssueBottomSheet(
+                                                jobID: widget.jobId,
+                                              );
                                             });
                                       },
                                       titleColor: AppColors.error,

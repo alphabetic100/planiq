@@ -30,4 +30,6 @@ class AppUrls {
   static const String myTasks = "$_baseUrl/tasks/my-task/";
   static const String updateProfileImage = "$_baseUrl/users/update-image";
   static const String updatePassword = "$_baseUrl/users/update-password";
+  static const String updateProgress = "$_baseUrl/jobs/update-progress/";
+  static const String reportIssue = "$_baseUrl/tasks/issue/";
 }
