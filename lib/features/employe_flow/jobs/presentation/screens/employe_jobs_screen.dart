@@ -59,7 +59,7 @@ class _EmployeJobsScreenState extends State<EmployeJobsScreen>
                         _tabController.animateTo(0);
                       },
                       child: Container(
-                        height: 45.h,
+                        height: 45,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           color: jobScreenController.selectedTab.value == 1
@@ -83,7 +83,7 @@ class _EmployeJobsScreenState extends State<EmployeJobsScreen>
                         _tabController.animateTo(1);
                       },
                       child: Container(
-                        height: 45.h,
+                        height: 45,
                         width: MediaQuery.of(context).size.width * 0.4,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
@@ -110,7 +110,7 @@ class _EmployeJobsScreenState extends State<EmployeJobsScreen>
               child: TabBarView(
                 physics: NeverScrollableScrollPhysics(),
                 controller: _tabController,
-                children:  [AllJobsScreen(), CompleatedJobScreen()],
+                children: [AllJobsScreen(), CompleatedJobScreen()],
               ),
             ),
           ],
