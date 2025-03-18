@@ -22,6 +22,7 @@ class JobScreenTopBar extends StatelessWidget {
               ? Expanded(
                   child: TaskSearchBar(
                   controller: jobsController,
+                  onSearch: onSearch,
                 ))
               : SearchButton(
                   onTap: () => jobsController.toggleExpanded(),
