@@ -19,6 +19,7 @@ class EmployeeSearchBar extends StatelessWidget {
         backGroundColor: AppColors.primaryColor,
         iconColor: AppColors.white,
       ),
+      onChange: (value) => controller.searchEmployees(value),
     );
   }
 }
