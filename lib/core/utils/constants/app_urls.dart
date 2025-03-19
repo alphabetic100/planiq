@@ -1,7 +1,7 @@
 class AppUrls {
   AppUrls._();
 
-  static const String _baseUrl = 'http://10.0.20.36:5001/api/v1';
+  static const String _baseUrl = 'http://137.184.86.119:5029/api/v1';
   static const String login = '$_baseUrl/auth/login';
   static const String register = "$_baseUrl/users";
   static const String allJobs = "$_baseUrl/jobs";

@@ -8,11 +8,11 @@ import 'package:planiq/core/common/widgets/error_snakbar.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/core/utils/validators/app_validator.dart';
-import 'package:planiq/features/super_admin_flow/add_new_task/controller/new_task_controller.dart';
+import 'package:planiq/features/super_admin_flow/edit_task/controller/edit_task_controller.dart';
 
 class TaskContactDetail extends StatelessWidget {
   TaskContactDetail({super.key});
-  final NewTaskController taskController = Get.find<NewTaskController>();
+  final EditTaskController taskController = Get.find<EditTaskController>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -106,7 +106,7 @@ class TaskContactDetail extends StatelessWidget {
               }
               if (taskController.formstate.currentState!.validate() &&
                   taskController.taskChecklist.isNotEmpty) {
-                taskController.createNewTask();
+                taskController.updateTask();
               } else {
                 errorSnakbar(
                     errorMessage: "Please fill all the required fields");

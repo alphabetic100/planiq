@@ -25,6 +25,7 @@ import 'package:planiq/features/employe_flow/job_details/presentation/components
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
 import 'package:planiq/features/employe_flow/notification/presentation/components/notification_card.dart';
 import 'package:planiq/features/super_admin_flow/assign_task/presentation/screen/assign_task_screen.dart';
+import 'package:planiq/features/super_admin_flow/edit_task/presentation/view/edit_task_screen.dart';
 import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
 
 class JobDetailsScreen extends StatefulWidget {
@@ -546,7 +547,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                   isPrimary: false,
                                   titleColor: Color(0xFF526366),
                                   bordercolor: AppColors.borderColor,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.to(() => EditTaskScreen());
+                                  },
                                   title: "Edit Task"),
                             ]
                           ],
@@ -565,7 +568,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               isPrimary: false,
                               titleColor: Color(0xFF526366),
                               bordercolor: AppColors.borderColor,
-                              onTap: () {},
+                              onTap: () {
+                                Get.to(EditTaskScreen());
+                              },
                               title: "Edit Task"),
                         ],
                         const SizedBox(height: 40),
