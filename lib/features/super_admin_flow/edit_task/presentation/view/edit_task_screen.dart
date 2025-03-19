@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -7,14 +9,31 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
-import 'package:planiq/features/super_admin_flow/add_new_task/presentation/widgets/task_contact_detail.dart';
-import 'package:planiq/features/super_admin_flow/add_new_task/presentation/widgets/task_detail_fields.dart';
-import 'package:planiq/features/super_admin_flow/add_new_task/presentation/widgets/task_extra_details.dart';
 import 'package:planiq/features/super_admin_flow/edit_task/controller/edit_task_controller.dart';
+import 'package:planiq/features/super_admin_flow/edit_task/presentation/widget/edit_task_contract_details.dart';
+import 'package:planiq/features/super_admin_flow/edit_task/presentation/widget/edit_task_detail_fields.dart';
+import 'package:planiq/features/super_admin_flow/edit_task/presentation/widget/edit_task_extra_details.dart';
 
-class EditTaskScreen extends StatelessWidget {
-  EditTaskScreen({super.key});
-  final EditTaskController taskController = Get.put(EditTaskController());
+class EditTaskScreen extends StatefulWidget {
+  const EditTaskScreen({super.key, required this.jobID});
+  final String jobID;
+  @override
+  State<EditTaskScreen> createState() => _EditTaskScreenState();
+}
+
+class _EditTaskScreenState extends State<EditTaskScreen> {
+  final EditTaskController taskController = Get.find<EditTaskController>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((callback) {
+      taskController.getJobDetails(widget.jobID).then((onValue) {
+        setState(() {});
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,12 +68,20 @@ class EditTaskScreen extends StatelessWidget {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.file(
-                                    taskController.images[index],
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.cover,
-                                  ),
+                                  child: taskController.images[index]
+                                          .contains("http")
+                                      ? Image.network(
+                                          taskController.images[index],
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.file(
+                                          File(taskController.images[index]),
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          fit: BoxFit.cover,
+                                        ),
                                 ),
                                 Positioned(
                                   top: 5,
@@ -159,11 +186,11 @@ class EditTaskScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       VerticalSpace(height: 24.h),
-                      TaskDetailFields(),
+                      EditTaskDetailFields(),
                       VerticalSpace(height: 24.h),
-                      TaskExtraDetails(),
+                      EditTaskExtraDetails(),
                       VerticalSpace(height: 24.h),
-                      TaskContactDetail(),
+                      EditTaskContactDetail(),
                       VerticalSpace(height: 50.h),
                     ],
                   ))

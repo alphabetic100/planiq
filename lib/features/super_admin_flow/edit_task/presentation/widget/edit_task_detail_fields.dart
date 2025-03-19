@@ -11,11 +11,11 @@ import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/icon_path.dart';
 import 'package:planiq/core/utils/helpers/app_helper.dart';
 import 'package:planiq/core/utils/validators/app_validator.dart';
-import 'package:planiq/features/super_admin_flow/add_new_task/controller/new_task_controller.dart';
+import 'package:planiq/features/super_admin_flow/edit_task/controller/edit_task_controller.dart';
 
-class TaskDetailFields extends StatelessWidget {
-  TaskDetailFields({super.key});
-  final NewTaskController taskController = Get.find<NewTaskController>();
+class EditTaskDetailFields extends StatelessWidget {
+  EditTaskDetailFields({super.key});
+  final EditTaskController taskController = Get.find<EditTaskController>();
   @override
   Widget build(BuildContext context) {
     return Column(

@@ -548,7 +548,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                   titleColor: Color(0xFF526366),
                                   bordercolor: AppColors.borderColor,
                                   onTap: () {
-                                    Get.to(() => EditTaskScreen());
+                                    Get.to(() => EditTaskScreen(
+                                          jobID: widget.jobId,
+                                        ));
                                   },
                                   title: "Edit Task"),
                             ]
@@ -569,7 +571,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               titleColor: Color(0xFF526366),
                               bordercolor: AppColors.borderColor,
                               onTap: () {
-                                Get.to(EditTaskScreen());
+                                Get.to(EditTaskScreen(
+                                  jobID: widget.jobId,
+                                ));
                               },
                               title: "Edit Task"),
                         ],

@@ -6,11 +6,11 @@ import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/custom_text_field.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
 import 'package:planiq/core/utils/constants/app_sizer.dart';
-import 'package:planiq/features/super_admin_flow/add_new_task/controller/new_task_controller.dart';
+import 'package:planiq/features/super_admin_flow/edit_task/controller/edit_task_controller.dart';
 
-class TaskExtraDetails extends StatelessWidget {
-  TaskExtraDetails({super.key});
-  final NewTaskController taskController = Get.find<NewTaskController>();
+class EditTaskExtraDetails extends StatelessWidget {
+  EditTaskExtraDetails({super.key});
+  final EditTaskController taskController = Get.find<EditTaskController>();
   final TextEditingController addChecklistCT = TextEditingController();
   final TextEditingController addToolsCT = TextEditingController();
   @override
