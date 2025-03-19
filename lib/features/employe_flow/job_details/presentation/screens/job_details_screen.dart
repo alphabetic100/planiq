@@ -386,25 +386,29 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       ),
 
                       // Required Tools
-                      CustomText(
-                        text: 'Required Tools',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      VerticalSpace(height: 20), // Tool Tags
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 10,
-                        children: List.generate(details.requiredTools.length,
-                            (index) {
-                          return ToolTagWidget(
-                              text: details.requiredTools[index]);
-                        }),
-                      ),
+                      if (details.status != "COMPLETED") ...[
+                        CustomText(
+                          text: 'Required Tools',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        VerticalSpace(height: 20), // Tool Tags
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 10,
+                          children: List.generate(details.requiredTools.length,
+                              (index) {
+                            return ToolTagWidget(
+                                text: details.requiredTools[index]);
+                          }),
+                        ),
+                      ],
 
                       if (!widget.isFromAdmin) ...[
-                        if (details.status == "WIP") ...[
-                          AdditionalNoteSection(),
+                        if (details.status == "COMPLETED") ...[
+                          AdditionalNoteSection(
+                            details: details,
+                          ),
                         ],
                       ],
                       const SizedBox(height: 24),

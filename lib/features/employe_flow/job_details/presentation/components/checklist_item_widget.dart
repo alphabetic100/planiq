@@ -34,11 +34,13 @@ class ChecklistItemWidget extends StatelessWidget {
               size: 25,
             ),
             const SizedBox(width: 12),
-            CustomText(
-              text: text,
-              color: AppColors.textSecondary,
-              fontSize: 14,
-              fontWeight: FontWeight.normal,
+            Expanded(
+              child: CustomText(
+                text: text,
+                color: Color(0xFF7A9599),
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ],
         ),
