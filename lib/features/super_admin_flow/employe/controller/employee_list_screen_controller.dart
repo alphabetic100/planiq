@@ -13,7 +13,6 @@ class EmployeeListScreenController extends GetxController {
   final TextEditingController searchController = TextEditingController();
   final isExpanded = false.obs;
 
-
   RxList<Datum> employees = <Datum>[].obs;
   RxList<Datum> filteredEmployees = <Datum>[].obs;
 
@@ -26,7 +25,8 @@ class EmployeeListScreenController extends GetxController {
       log(response.responseData.toString());
 
       if (response.isSuccess) {
-        final allEmployees = AllEmployeeData.fromJson(response.responseData).data.data;
+        final allEmployees =
+            AllEmployeeData.fromJson(response.responseData).data.data;
         employees.assignAll(allEmployees);
         filteredEmployees.assignAll(allEmployees);
       }
@@ -65,8 +65,14 @@ class EmployeeListScreenController extends GetxController {
       filteredEmployees.assignAll(employees);
     } else {
       filteredEmployees.assignAll(
-        employees.where((employee) =>
-            employee.name.toLowerCase().contains(query.toLowerCase())).toList(),
+        employees
+            .where((employee) =>
+                    employee.name.toLowerCase().contains(query.toLowerCase()) ||
+                    employee.personId
+                        .toLowerCase()
+                        .contains(query.toLowerCase()) // Search by ID
+                )
+            .toList(),
       );
     }
   }
