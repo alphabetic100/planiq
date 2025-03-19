@@ -21,8 +21,8 @@ class EditTaskController extends GetxController {
   Rx<JobDetailsModel?> jobDetails = Rx<JobDetailsModel?>(null);
   final GlobalKey<FormState> formstate = GlobalKey<FormState>();
   final GlobalKey<FormState> formstate2 = GlobalKey<FormState>();
-  RxList taskChecklist = ["Get Wormd up"].obs;
-  RxList taskToolsList = ["Hammer"].obs;
+  RxList<String> taskChecklist = <String>[].obs;
+  RxList taskToolsList = [].obs;
   var images = <String>[].obs;
   RxString title = "".obs;
   RxString location = "".obs;
@@ -108,6 +108,8 @@ class EditTaskController extends GetxController {
           customerNumber.value = details.customerPhone;
           managerName.value = details.managerName;
           managerNumber.value = details.managerPhone;
+          taskChecklist.value =
+              details.progress.map((step) => step.progress.toString()).toList();
         }
       } else {
         errorSnakbar(errorMessage: response.errorMessage);
@@ -118,7 +120,7 @@ class EditTaskController extends GetxController {
   }
 
 // Create Task
-  Future<void> updateTask() async {
+  Future<void> updateTask(String taskID) async {
     try {
       showProgressIndicator();
       Dio dioClient = Dio(BaseOptions(
@@ -147,22 +149,28 @@ class EditTaskController extends GetxController {
       final bodyData = jsonEncode(requestBody);
       List<dio.MultipartFile> imageList = [];
       for (var image in images) {
-        String fileName = AppHelperFunctions.generateUniqueFileName(image);
-        dio.MultipartFile file = await dio.MultipartFile.fromFile(
-          image,
-          filename: fileName,
-        );
-        imageList.add(file);
+        if (image.contains("http")) {
+          log("Http found $image");
+          continue;
+        } else {
+          String fileName = AppHelperFunctions.generateUniqueFileName(image);
+          dio.MultipartFile file = await dio.MultipartFile.fromFile(
+            image,
+            filename: fileName,
+          );
+          imageList.add(file);
+        }
       }
-
+      log("Im here ");
       final formData = dio.FormData.fromMap(
         {
           "bodyData": bodyData,
           "image": imageList,
         },
       );
+      final requestURl = "${AppUrls.allJobs}/$taskID";
 
-      final response = await dioClient.put(AppUrls.allJobs,
+      final response = await dioClient.put(requestURl,
           data: formData,
           options: Options(headers: {
             "Authorization": AuthService.token,
@@ -178,5 +186,4 @@ class EditTaskController extends GetxController {
       log("something went wrong, error: $e");
     }
   }
- 
 }

@@ -11,8 +11,9 @@ import 'package:planiq/core/utils/validators/app_validator.dart';
 import 'package:planiq/features/super_admin_flow/edit_task/controller/edit_task_controller.dart';
 
 class EditTaskContactDetail extends StatelessWidget {
-  EditTaskContactDetail({super.key});
+  EditTaskContactDetail({super.key, required this.taskId});
   final EditTaskController taskController = Get.find<EditTaskController>();
+  final String taskId;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -106,14 +107,14 @@ class EditTaskContactDetail extends StatelessWidget {
               }
               if (taskController.formstate.currentState!.validate() &&
                   taskController.taskChecklist.isNotEmpty) {
-                taskController.updateTask();
+                taskController.updateTask(taskId);
               } else {
                 errorSnakbar(
                     errorMessage: "Please fill all the required fields");
               }
               // Get.to(() => AllEmployeListScreen());
             },
-            title: "Add Task")
+            title: "Save Changes")
       ],
     );
   }

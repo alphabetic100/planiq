@@ -39,7 +39,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     return Scaffold(
       appBar: CustomAppBar(
         appbarHeight: 70.h,
-        title: "Add New Task",
+        title: "Edit Task",
         backButton: true,
       ),
       body: SingleChildScrollView(
@@ -190,7 +190,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                       VerticalSpace(height: 24.h),
                       EditTaskExtraDetails(),
                       VerticalSpace(height: 24.h),
-                      EditTaskContactDetail(),
+                      EditTaskContactDetail(
+                        taskId: widget.jobID,
+                      ),
                       VerticalSpace(height: 50.h),
                     ],
                   ))

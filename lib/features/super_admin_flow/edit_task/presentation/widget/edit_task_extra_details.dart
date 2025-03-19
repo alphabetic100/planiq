@@ -139,7 +139,8 @@ class EditTaskExtraDetails extends StatelessWidget {
                     child: Container(
                       // Container will now adapt to content size
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                        horizontal: 12,
+                      ),
                       decoration: BoxDecoration(
                         color: Color(0xFFEFF7F9),
                         borderRadius: BorderRadius.circular(25),
@@ -162,8 +163,7 @@ class EditTaskExtraDetails extends StatelessWidget {
                                   taskController.taskToolsList[index]);
                             },
                             icon: Icon(Icons.delete_forever),
-                            padding:
-                                EdgeInsets.zero, // Reduce padding of IconButton
+                            padding: EdgeInsets.zero,
                             constraints:
                                 BoxConstraints(), // Minimize constraints
                           )
