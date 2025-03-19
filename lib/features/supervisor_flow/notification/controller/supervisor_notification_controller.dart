@@ -8,12 +8,61 @@ import 'package:planiq/features/supervisor_flow/notification/model/supervisor_no
 
 class SupervisorNotificationController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
+
+  RxString statusFilter = "All".obs;
+  RxString dateFilter = "Today".obs;
+  RxString customDate = "".obs;
+
   Rx<SupervisorNotificationModel?> notifications =
       Rx<SupervisorNotificationModel?>(null);
-  Future<void> getAdminNotification() async {
+
+  void updateStatusFilter(String value) {
+    statusFilter.value = value;
+  }
+
+  void updateDateFilter(String value) {
+    dateFilter.value = value;
+  }
+
+  Future<void> getFilteredNotifications({
+    required String statusFilter,
+    required String dateFilter,
+  }) async {
     try {
-      final response = await networkCaller.getRequest(AppUrls.notification,
+      String requestUrlWithParams =
+          statusFilter.toLowerCase() == "my notification"
+              ? AppUrls.notification
+              : AppUrls.superviserNotification;
+      bool isFirstParam = true;
+
+      if (statusFilter.isNotEmpty && statusFilter != "All") {
+        requestUrlWithParams += "?search=$statusFilter";
+        isFirstParam = false;
+      }
+
+      if (dateFilter.isNotEmpty) {
+        requestUrlWithParams += isFirstParam
+            ? "?dateFilter=$dateFilter"
+            : "&dateFilter=$dateFilter";
+      }
+
+      final response = await networkCaller.getRequest(requestUrlWithParams,
           token: AuthService.token);
+
+      if (response.isSuccess) {
+        notifications.value =
+            SupervisorNotificationModel.fromJson(response.responseData);
+      }
+    } catch (e) {
+      log("Error: $e");
+    }
+  }
+
+  Future<void> customFilter(String date) async {
+    try {
+      final requestUrl = "${AppUrls.notification}?dateFilter=custom&date=$date";
+      final response =
+          await networkCaller.getRequest(requestUrl, token: AuthService.token);
       if (response.isSuccess) {
         log(response.responseData.toString());
         notifications.value =
@@ -27,6 +76,6 @@ class SupervisorNotificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getAdminNotification();
+    getFilteredNotifications(statusFilter: "All", dateFilter: "Today");
   }
 }
