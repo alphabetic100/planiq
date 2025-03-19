@@ -139,23 +139,33 @@ class AdminOverviewDrawer extends StatelessWidget {
             ),
           ),
           Spacer(),
-          ListTile(
+          InkWell(
             onTap: () {
-              Get.dialog(ShowLogoutDialog());
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return ShowLogoutDialog();
+                  });
             },
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.logout,
-                  color: AppColors.error,
-                ),
-                HorizontalSpace(width: 10.w),
-                CustomText(
-                  text: "Logout",
-                  color: AppColors.error,
-                )
-              ],
+            child: Container(
+              height: 60.h,
+              color: AppColors.white,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.logout_outlined,
+                    color: AppColors.error,
+                  ),
+                  HorizontalSpace(width: 5.w),
+                  CustomText(
+                    text: "Logout",
+                    color: Color(0xFFFC2D2D),
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                  )
+                ],
+              ),
             ),
           )
         ],

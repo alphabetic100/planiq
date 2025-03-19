@@ -53,7 +53,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       jobScreenController.getJobDetails(widget.jobId);
-      if (widget.status != "UNASSIGNED") {
+      if (widget.status != "UNASSIGNED" && widget.status == "DECLINED") {
         jobScreenController.getAssignedJobDetails(widget.jobId).then((onValue) {
           isFromSupervisor = AuthService.userId ==
               jobScreenController
@@ -126,7 +126,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       if (widget.isFromAdmin) ...[
                         if (jobScreenController.employeeDetail.value !=
                             null) ...[
-                          details.status != "UNASSIGNED"
+                          details.status != "UNASSIGNED" &&
+                                  details.status != "DECLINED"
                               ? AditionalAdminPart(
                                   user: jobScreenController
                                       .employeeDetail.value!.data,

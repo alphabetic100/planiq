@@ -46,9 +46,7 @@ class AssignTaskController extends GetxController {
           token: AuthService.token, body: requestBody);
       hideProgressIndicatro();
       if (response.isSuccess) {
-        successSnakbr(
-            successMessage:
-                "Task assigned successful. \nUserID: $userId\nTaskID: $jobId");
+        successSnakbr(successMessage: "Task assigned successful.");
         Get.back();
         Get.back();
       } else {
