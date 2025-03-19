@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
 import 'package:planiq/core/common/widgets/custom_text.dart';
 import 'package:planiq/core/common/widgets/custom_text_field.dart';
 import 'package:planiq/core/utils/constants/app_colors.dart';
-import 'package:planiq/features/employe_flow/job_details/controller/payment_method_controller.dart';
+import 'package:planiq/features/employe_flow/job_details/controller/job_detail_screen_controller.dart';
 
 class JobCompleateDialog extends StatelessWidget {
-  JobCompleateDialog({super.key});
-  final PaymentMethodController methodController =
-      Get.put(PaymentMethodController());
+  JobCompleateDialog({super.key, required this.jobID});
+  final JobDetailScreenController jobController =
+      Get.find<JobDetailScreenController>();
+
+  final String jobID;
   @override
   Widget build(BuildContext context) {
+    final TextEditingController paymentController = TextEditingController();
+    final TextEditingController extraNoteCT = TextEditingController();
     return Dialog(
       backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -41,6 +46,9 @@ class JobCompleateDialog extends StatelessWidget {
             ),
             VerticalSpace(height: 10),
             CustomTextField(
+              controller: paymentController,
+              keyboardType: TextInputType.numberWithOptions(),
+              numberOnly: true,
               prefixIcon: SizedBox(
                 width: 40,
                 child: Center(
@@ -59,6 +67,7 @@ class JobCompleateDialog extends StatelessWidget {
             ),
             VerticalSpace(height: 10),
             CustomTextField(
+              controller: extraNoteCT,
               maxLines: 3,
               hintText: "Write your note here...",
             ),
@@ -69,11 +78,11 @@ class JobCompleateDialog extends StatelessWidget {
             ),
             VerticalSpace(height: 10),
             Obx(() {
-              final selected = methodController.selectedType.value;
+              final selected = jobController.selectedType.value;
               return Column(
                 children: [
                   GestureDetector(
-                    onTap: () => methodController.changeMethod("CASH"),
+                    onTap: () => jobController.changeMethod("CASH"),
                     child: Container(
                       height: 50,
                       padding: EdgeInsets.only(left: 10),
@@ -94,7 +103,7 @@ class JobCompleateDialog extends StatelessWidget {
                                 selected, // FIXED: should match selected type
                             onChanged: (value) {
                               if (value != null) {
-                                methodController.changeMethod(value);
+                                jobController.changeMethod(value);
                               }
                             },
                             fillColor: WidgetStateProperty.all(
@@ -110,7 +119,7 @@ class JobCompleateDialog extends StatelessWidget {
                   ),
                   VerticalSpace(height: 20),
                   GestureDetector(
-                    onTap: () => methodController.changeMethod("BANCONTACT"),
+                    onTap: () => jobController.changeMethod("BANCONTACT"),
                     child: Container(
                       height: 50,
                       padding: EdgeInsets.only(left: 10),
@@ -130,7 +139,7 @@ class JobCompleateDialog extends StatelessWidget {
                             groupValue: selected, // FIXED
                             onChanged: (value) {
                               if (value != null) {
-                                methodController.changeMethod(value);
+                                jobController.changeMethod(value);
                               }
                             },
                             fillColor: WidgetStateProperty.all(
@@ -148,7 +157,13 @@ class JobCompleateDialog extends StatelessWidget {
               );
             }),
             VerticalSpace(height: 20),
-            CustomButton(onTap: () {}, title: "Confirm")
+            CustomButton(
+                onTap: () {
+                  Get.back();
+                  jobController.compleateTask(jobID,
+                      paymentController.text.trim(), extraNoteCT.text.trim());
+                },
+                title: "Confirm")
           ],
         ),
       ),

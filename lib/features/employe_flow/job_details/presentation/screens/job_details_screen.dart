@@ -25,6 +25,7 @@ import 'package:planiq/features/employe_flow/job_details/presentation/components
 import 'package:planiq/features/employe_flow/job_details/presentation/components/tool_tag_widget.dart';
 import 'package:planiq/features/employe_flow/notification/presentation/components/notification_card.dart';
 import 'package:planiq/features/super_admin_flow/assign_task/presentation/screen/assign_task_screen.dart';
+import 'package:planiq/features/super_admin_flow/edit_task/presentation/view/edit_task_screen.dart';
 import 'package:planiq/features/super_admin_flow/jobs/helper/job_status_helper.dart';
 
 class JobDetailsScreen extends StatefulWidget {
@@ -385,25 +386,29 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       ),
 
                       // Required Tools
-                      CustomText(
-                        text: 'Required Tools',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      VerticalSpace(height: 20), // Tool Tags
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 10,
-                        children: List.generate(details.requiredTools.length,
-                            (index) {
-                          return ToolTagWidget(
-                              text: details.requiredTools[index]);
-                        }),
-                      ),
+                      if (details.status != "COMPLETED") ...[
+                        CustomText(
+                          text: 'Required Tools',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        VerticalSpace(height: 20), // Tool Tags
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 10,
+                          children: List.generate(details.requiredTools.length,
+                              (index) {
+                            return ToolTagWidget(
+                                text: details.requiredTools[index]);
+                          }),
+                        ),
+                      ],
 
                       if (!widget.isFromAdmin) ...[
-                        if (details.status == "WIP") ...[
-                          AdditionalNoteSection(),
+                        if (details.status == "COMPLETED") ...[
+                          AdditionalNoteSection(
+                            details: details,
+                          ),
                         ],
                       ],
                       const SizedBox(height: 24),
@@ -481,7 +486,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                           showDialog(
                                               context: context,
                                               builder: (context) {
-                                                return JobCompleateDialog();
+                                                return JobCompleateDialog(
+                                                  jobID: widget.jobId,
+                                                );
                                               });
                                         }
                                       },
@@ -546,7 +553,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                   isPrimary: false,
                                   titleColor: Color(0xFF526366),
                                   bordercolor: AppColors.borderColor,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Get.to(() => EditTaskScreen(
+                                          jobID: widget.jobId,
+                                        ));
+                                  },
                                   title: "Edit Task"),
                             ]
                           ],
@@ -565,7 +576,11 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                               isPrimary: false,
                               titleColor: Color(0xFF526366),
                               bordercolor: AppColors.borderColor,
-                              onTap: () {},
+                              onTap: () {
+                                Get.to(EditTaskScreen(
+                                  jobID: widget.jobId,
+                                ));
+                              },
                               title: "Edit Task"),
                         ],
                         const SizedBox(height: 40),
