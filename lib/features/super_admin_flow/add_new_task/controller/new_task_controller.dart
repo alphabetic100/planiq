@@ -18,8 +18,8 @@ class NewTaskController extends GetxController {
   final ImagePicker _picker = ImagePicker();
   final GlobalKey<FormState> formstate = GlobalKey<FormState>();
   final GlobalKey<FormState> formstate2 = GlobalKey<FormState>();
-  RxList taskChecklist = ["Get Wormd up"].obs;
-  RxList taskToolsList = ["Hammer"].obs;
+  RxList taskChecklist = <String>[].obs;
+  RxList taskToolsList = <String>[].obs;
   var images = <File>[].obs;
   RxString title = "".obs;
   RxString location = "".obs;

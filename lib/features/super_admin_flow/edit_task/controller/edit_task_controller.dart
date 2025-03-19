@@ -71,8 +71,27 @@ class EditTaskController extends GetxController {
     }
   }
 
-  void removeImage(int index) {
-    images.removeAt(index);
+  void removeImage(int index, String jobId) async {
+    if (images[index].contains("http")) {
+      try {
+        showProgressIndicator();
+        final requestUrl = "${AppUrls.deletePhoto}$jobId";
+        final response = await networkCaller
+            .deleteRequest(requestUrl, token: AuthService.token, body: {
+          "imageUrl": images[index],
+        });
+        hideProgressIndicatro();
+        if (response.isSuccess) {
+          getJobDetails(jobId);
+          update();
+          log("Deleted image url: ${images[index]}");
+        }
+      } catch (e) {
+        log("Something went wrong, error: $e");
+      }
+    } else {
+      images.removeAt(index);
+    }
   }
 
 //Get task details first

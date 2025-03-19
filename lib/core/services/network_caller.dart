@@ -37,8 +37,13 @@ class NetworkCaller {
         method: 'PATCH', body: body, token: token);
   }
 
-  Future<ResponseData> deleteRequest(String endpoint, {String? token}) async {
-    return await _sendRequest(endpoint, method: 'DELETE', token: token);
+  Future<ResponseData> deleteRequest(
+    String endpoint, {
+    String? token,
+    Map<String, dynamic>? body,
+  }) async {
+    return await _sendRequest(endpoint,
+        method: 'DELETE', token: token, body: body);
   }
 
   /// 🔹 Centralized Request Handler

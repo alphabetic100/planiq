@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
@@ -8,7 +7,6 @@ import 'package:planiq/core/common/widgets/success_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
 import 'package:planiq/features/super_admin_flow/employe/model/all_employee_model.dart';
-
 import '../../../../core/services/network_caller.dart';
 
 class AssignTaskController extends GetxController {
@@ -17,18 +15,20 @@ class AssignTaskController extends GetxController {
   final isExpanded = false.obs;
 
   Rx<AllEmployeeData?> employes = Rx<AllEmployeeData?>(null);
+  RxList<Datum> filteredEmployees = <Datum>[].obs; // For search results
 
   Future<void> getAllEmployes() async {
     try {
-      final resonse = await networkCaller.getRequest(AppUrls.register,
+      final response = await networkCaller.getRequest(AppUrls.register,
           token: AuthService.token);
-      log(resonse.responseData.toString());
+      log(response.responseData.toString());
 
-      if (resonse.isSuccess) {
-        employes.value = AllEmployeeData.fromJson(resonse.responseData);
+      if (response.isSuccess) {
+        employes.value = AllEmployeeData.fromJson(response.responseData);
+        filteredEmployees.assignAll(employes.value!.data.data); // Assign all initially
       }
     } catch (e) {
-      log("something went wrong, error:$e");
+      log("Something went wrong, error: $e");
     }
   }
 
@@ -46,9 +46,7 @@ class AssignTaskController extends GetxController {
           token: AuthService.token, body: requestBody);
       hideProgressIndicatro();
       if (response.isSuccess) {
-        successSnakbr(
-            successMessage:
-                "Task assigned successful. \nUserID: $userId\nTaskID: $jobId");
+        successSnakbr(successMessage: "Task assigned successfully.");
         Get.back();
         Get.back();
       } else {
@@ -59,15 +57,20 @@ class AssignTaskController extends GetxController {
     }
   }
 
-  void toggleExpanded() {
-    if (searchController.text.isEmpty) {
-      isExpanded.value = !isExpanded.value;
+  void searchEmployees(String query) {
+    if (query.isEmpty) {
+      filteredEmployees.assignAll(employes.value?.data.data ?? []);
+    } else {
+      filteredEmployees.assignAll(
+        employes.value!.data.data.where((employee) =>
+            employee.name.toLowerCase().contains(query.toLowerCase()) ||
+            employee.personId.toLowerCase().contains(query.toLowerCase())).toList(),
+      );
     }
   }
 
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
     getAllEmployes();
   }

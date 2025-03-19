@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
@@ -30,9 +28,15 @@ class AssignTaskScreen extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           VerticalSpace(height: 20),
           CustomTextField(
+            onChange: (value) {
+              assignTaskController.searchEmployees(value);
+            },
             hintText: "Enter User ID or Name",
             suffixIcon: SearchButton(
-              onTap: () {},
+              onTap: () {
+                assignTaskController.searchEmployees(
+                    assignTaskController.searchController.text);
+              },
               backGroundColor: AppColors.primaryColor,
               iconColor: AppColors.white,
             ),
@@ -46,9 +50,9 @@ class AssignTaskScreen extends StatelessWidget {
                   color: AppColors.primaryColor,
                 ),
               );
-            } else if (assignTaskController.employes.value!.data.data.isEmpty) {
+            } else if (assignTaskController.filteredEmployees.isEmpty) {
               return Center(
-                child: CustomText(text: "No employe list"),
+                child: CustomText(text: "No employee found"),
               );
             } else {
               return RefreshIndicator(
@@ -56,22 +60,20 @@ class AssignTaskScreen extends StatelessWidget {
                 backgroundColor: AppColors.secondaryColor,
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount:
-                      assignTaskController.employes.value!.data.data.length,
+                  itemCount: assignTaskController.filteredEmployees.length,
                   itemBuilder: (context, index) {
-                    final employe =
-                        assignTaskController.employes.value!.data.data[index];
-                    log(employe.toString());
+                    final employee =
+                        assignTaskController.filteredEmployees[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),
                       child: EmployeeCard(
                         isFromassign: true,
                         taskID: jobID,
-                        profileImage: employe.profileImage,
-                        id: employe.id,
-                        name: employe.name,
-                        employeID: employe.personId,
-                        role: employe.role,
+                        profileImage: employee.profileImage,
+                        id: employee.id,
+                        name: employee.name,
+                        employeID: employee.personId,
+                        role: employee.role,
                       ),
                     );
                   },

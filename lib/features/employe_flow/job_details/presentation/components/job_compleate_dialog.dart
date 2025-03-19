@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/app_spacer.dart';
 import 'package:planiq/core/common/widgets/custom_button.dart';
@@ -12,12 +11,11 @@ class JobCompleateDialog extends StatelessWidget {
   JobCompleateDialog({super.key, required this.jobID});
   final JobDetailScreenController jobController =
       Get.find<JobDetailScreenController>();
-
+  final TextEditingController paymentController = TextEditingController();
+  final TextEditingController extraNoteCT = TextEditingController();
   final String jobID;
   @override
   Widget build(BuildContext context) {
-    final TextEditingController paymentController = TextEditingController();
-    final TextEditingController extraNoteCT = TextEditingController();
     return Dialog(
       backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

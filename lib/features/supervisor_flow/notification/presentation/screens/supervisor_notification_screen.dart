@@ -179,8 +179,15 @@ class SupervisorNotificationScreen extends StatelessWidget {
               if (value != null) {
                 notificationController.updateStatusFilter(value);
                 notificationController.getFilteredNotifications(
-                  statusFilter:
-                      value.toLowerCase() == "all" ? "" : value.toLowerCase(),
+                  statusFilter: value.toLowerCase() == "all"
+                      ? ""
+                      : value.toLowerCase() == "scheduled"
+                          ? "ACCEPTED"
+                          : value.toLowerCase() == "wip"
+                              ? "WIP"
+                              : value.toLowerCase() == "completed"
+                                  ? "COMPLETED"
+                                  : value.toUpperCase(),
                   dateFilter: notificationController.dateFilter.value,
                 );
               }

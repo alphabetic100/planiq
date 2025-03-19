@@ -58,7 +58,7 @@ class TaskContactDetail extends StatelessWidget {
           onChange: (value) {
             taskController.customerNumber.value = value;
           },
-          validator: AppValidator.validatePhoneNumber,
+          validator: AppValidator.validateField,
         ),
         VerticalSpace(height: 16),
         CustomText(
@@ -96,7 +96,7 @@ class TaskContactDetail extends StatelessWidget {
           onChange: (value) {
             taskController.managerNumber.value = value;
           },
-          validator: AppValidator.validatePhoneNumber,
+          validator: AppValidator.validateField,
         ),
         VerticalSpace(height: 48.h),
         CustomButton(
