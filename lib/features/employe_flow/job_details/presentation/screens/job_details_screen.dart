@@ -53,13 +53,15 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
       jobScreenController.getJobDetails(widget.jobId);
-      if (widget.status != "UNASSIGNED" && widget.status == "DECLINED") {
+      if (widget.status != "UNASSIGNED" && widget.status != "DECLINED") {
         jobScreenController.getAssignedJobDetails(widget.jobId).then((onValue) {
           isFromSupervisor = AuthService.userId ==
               jobScreenController
                   .employeeDetail.value!.data.tasks[0].user.personId;
           setState(() {});
         });
+      } else {
+        developer.log("false statement");
       }
     });
   }
