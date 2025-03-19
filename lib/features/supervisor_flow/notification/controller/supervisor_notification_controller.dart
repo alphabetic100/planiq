@@ -60,7 +60,8 @@ class SupervisorNotificationController extends GetxController {
 
   Future<void> customFilter(String date) async {
     try {
-      final requestUrl = "${AppUrls.notification}?dateFilter=custom&date=$date";
+      final requestUrl =
+          "${AppUrls.superviserNotification}?dateFilter=custom&date=$date";
       final response =
           await networkCaller.getRequest(requestUrl, token: AuthService.token);
       if (response.isSuccess) {

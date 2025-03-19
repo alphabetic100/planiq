@@ -149,52 +149,49 @@ class _CustomCalendarWidgetState extends State<CustomCalendarWidget> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TableCalendar(
-              firstDay: DateTime.utc(1920, 1, 1),
-              lastDay: DateTime.utc(2100, 12, 31),
-              focusedDay: _focusedDay,
-              calendarFormat: _calendarFormat,
-              selectedDayPredicate: (day) {
-                return isSameDay(_selectedDay, day);
-              },
-              onDaySelected: (selectedDay, focusedDay) {
-                setState(() {
-                  _selectedDay = selectedDay;
-                  _focusedDay = focusedDay;
-                  Get.back();
-                });
-                if (widget.onDaySelected != null) {
-                  widget.onDaySelected!(selectedDay);
-                }
-              },
-              onPageChanged: (focusedDay) {
-                setState(() {
-                  _focusedDay = focusedDay;
-                });
-              },
-              headerVisible: false,
-              daysOfWeekStyle: const DaysOfWeekStyle(
-                weekdayStyle: TextStyle(color: Color(0xFF5B7180)),
-                weekendStyle: TextStyle(color: Color(0xFF5B7180)),
-              ),
-              daysOfWeekHeight: 30,
-              rowHeight: 44,
-              calendarStyle: CalendarStyle(
-                defaultTextStyle: TextStyle(color: Color(0xFF5B7180)),
-                outsideDaysVisible: false,
-                todayDecoration: BoxDecoration(
-                  color: Colors.transparent,
-                  shape: BoxShape.circle,
+                firstDay: DateTime.utc(1920, 1, 1),
+                lastDay: DateTime.utc(2100, 12, 31),
+                focusedDay: _focusedDay,
+                calendarFormat: _calendarFormat,
+                selectedDayPredicate: (day) {
+                  return isSameDay(_selectedDay, day);
+                },
+                onDaySelected: (selectedDay, focusedDay) {
+                  setState(() {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                    Get.back();
+                  });
+                  if (widget.onDaySelected != null) {
+                    widget.onDaySelected!(selectedDay);
+                  }
+                },
+                onPageChanged: (focusedDay) {
+                  setState(() {
+                    _focusedDay = focusedDay;
+                  });
+                },
+                headerVisible: false,
+                daysOfWeekStyle: const DaysOfWeekStyle(
+                  weekdayStyle: TextStyle(color: Color(0xFF5B7180)),
+                  weekendStyle: TextStyle(color: Color(0xFF5B7180)),
                 ),
-                todayTextStyle: const TextStyle(
-                  color: Color(0xFF5B7180),
-                  fontWeight: FontWeight.bold,
-                ),
-                selectedDecoration: BoxDecoration(
+                daysOfWeekHeight: 30,
+                rowHeight: 44,
+                calendarStyle: CalendarStyle(
+                  defaultTextStyle: TextStyle(color: Color(0xFF5B7180)),
+                  outsideDaysVisible: false,
+                  todayDecoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  todayTextStyle: const TextStyle(
+                    color: Color(0xFF5B7180),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  selectedDecoration: BoxDecoration(
                     color: Color(0xFF0071C2),
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(8)),
-              ),
-            ),
+                  ),
+                )),
           ),
       ],
     );
