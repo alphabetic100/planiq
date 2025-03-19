@@ -14,6 +14,7 @@ class JobDetailScreenController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
   Rx<JobDetailsModel?> jobDetails = Rx<JobDetailsModel?>(null);
   Rx<AssignedTaskModel?> employeeDetail = Rx<AssignedTaskModel?>(null);
+  RxString selectedType = "".obs;
 
   Future<void> getJobDetails(String jobID) async {
     if (jobID.isEmpty) {
@@ -93,6 +94,8 @@ class JobDetailScreenController extends GetxController {
             successMessage: "You have successfully accepted the task!");
         refreshScreen(jobID);
         update();
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
       }
     } catch (e) {
       log("Something went wrong, error: $e");
@@ -111,6 +114,8 @@ class JobDetailScreenController extends GetxController {
             successMessage: "You have successfully started the task!");
         refreshScreen(jobID);
         update();
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
       }
     } catch (e) {
       log("Something went wrong, error: $e");
@@ -128,6 +133,37 @@ class JobDetailScreenController extends GetxController {
         successSnakbr(successMessage: "You have decline the task!");
         refreshScreen(jobID);
         update();
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
+  }
+
+  Future<void> compleateTask(
+      String jobID, String paymentAmount, String extraNote) async {
+    if (selectedType.value == "") {
+      errorSnakbar(errorMessage: "Please select the payment mathod");
+      return;
+    }
+    try {
+      showProgressIndicator();
+      final requestUrl = "${AppUrls.tasks}/payment/$jobID";
+      final response = await networkCaller.postRequest(requestUrl,
+          token: AuthService.token,
+          body: {
+            "amount": paymentAmount,
+            "note": extraNote,
+            "paymentMethod": selectedType.value
+          });
+      hideProgressIndicatro();
+      if (response.isSuccess) {
+        successSnakbr(successMessage: "You have compleated the task!");
+        refreshScreen(jobID);
+        update();
+      } else {
+        errorSnakbar(errorMessage: response.errorMessage);
       }
     } catch (e) {
       log("Something went wrong, error: $e");
@@ -169,5 +205,9 @@ class JobDetailScreenController extends GetxController {
     } catch (e) {
       log("Something went wrong, error: $e");
     }
+  }
+
+  void changeMethod(String methode) {
+    selectedType.value = methode;
   }
 }

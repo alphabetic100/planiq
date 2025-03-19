@@ -486,7 +486,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                           showDialog(
                                               context: context,
                                               builder: (context) {
-                                                return JobCompleateDialog();
+                                                return JobCompleateDialog(
+                                                  jobID: widget.jobId,
+                                                );
                                               });
                                         }
                                       },
