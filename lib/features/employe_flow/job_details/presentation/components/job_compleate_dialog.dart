@@ -12,12 +12,11 @@ class JobCompleateDialog extends StatelessWidget {
   JobCompleateDialog({super.key, required this.jobID});
   final JobDetailScreenController jobController =
       Get.find<JobDetailScreenController>();
-
+  final TextEditingController paymentController = TextEditingController();
+  final TextEditingController extraNoteCT = TextEditingController();
   final String jobID;
   @override
   Widget build(BuildContext context) {
-    final TextEditingController paymentController = TextEditingController();
-    final TextEditingController extraNoteCT = TextEditingController();
     return Dialog(
       backgroundColor: AppColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

@@ -24,7 +24,7 @@ class SupervisorOverviewDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
-      color: AppColors.white,
+      color: Color(0xffF1F2F6),
       child: Column(
         children: [
           DrawerHeader(

@@ -154,6 +154,7 @@ class EditTaskExtraDetails extends StatelessWidget {
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Color(0xFF526366),
+                            textOverflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(
                               width: 8), // Small space between text and icon

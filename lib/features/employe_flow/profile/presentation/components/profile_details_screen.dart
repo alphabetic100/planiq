@@ -84,7 +84,7 @@ class ProfileDetailsScreen extends StatelessWidget {
                                             width: 40,
                                             height: 40,
                                             decoration: BoxDecoration(
-                                              color: Color(0xFF0071C2),
+                                              color: AppColors.primaryColor,
                                               shape: BoxShape.circle,
                                             ),
                                             child: Icon(

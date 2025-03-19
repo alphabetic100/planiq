@@ -38,7 +38,7 @@ class ReportIssueBottomSheet extends StatelessWidget {
                     ))
               ],
             ),
-            VerticalSpace(height: 40),
+            VerticalSpace(height: 20),
             CustomText(text: "Report Issue"),
             VerticalSpace(height: 20),
             CustomTextField(
@@ -49,14 +49,14 @@ class ReportIssueBottomSheet extends StatelessWidget {
             Spacer(),
             CustomButton(
                 onTap: () {
+                  Get.back();
                   if (reportIssueCT.text.isEmpty) {
                     errorSnakbar(
                         errorMessage: "Please write a issue for submit");
                   } else {
-
-                    jobDetailScreenController.reportIssue(reportIssueCT.text.trim(), jobID);
+                    jobDetailScreenController.reportIssue(
+                        reportIssueCT.text.trim(), jobID);
                   }
-                  Get.back();
                 },
                 title: "Submit Issue"),
             VerticalSpace(height: 20.h),

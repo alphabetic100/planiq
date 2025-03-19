@@ -87,8 +87,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                   top: 5,
                                   right: 5,
                                   child: GestureDetector(
-                                    onTap: () =>
-                                        taskController.removeImage(index),
+                                    onTap: () => taskController.removeImage(
+                                        index, widget.jobID),
                                     child: Container(
                                         decoration: BoxDecoration(
                                           color: Colors.red,
