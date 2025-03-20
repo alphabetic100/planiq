@@ -182,6 +182,9 @@ class TaskDetailFields extends StatelessWidget {
             taskController.adminNote.value = value;
           },
           validator: AppValidator.validateField,
+          onSubmit: (value) {
+            FocusScope.of(context).unfocus();
+          },
         ),
       ],
     );

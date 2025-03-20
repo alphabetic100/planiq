@@ -26,10 +26,13 @@ class EmployeHomeScreen extends StatelessWidget {
         Obx(() {
           final home = homeController.home.value;
           if (home == null) {
-            return Center(
-                child: CircularProgressIndicator(
-              color: AppColors.primaryColor,
-            ));
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.55,
+              child: Center(
+                  child: CircularProgressIndicator(
+                color: AppColors.primaryColor,
+              )),
+            );
           } else if (home.data.data.result.isEmpty) {
             return Expanded(
               child: RefreshIndicator(

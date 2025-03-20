@@ -80,6 +80,7 @@ class TaskExtraDetails extends StatelessWidget {
           isPrimary: false,
           isChild: true,
           onTap: () {
+            FocusScope.of(context).unfocus();
             showDialog(
                 context: context,
                 builder: (context) {
@@ -181,6 +182,7 @@ class TaskExtraDetails extends StatelessWidget {
           isPrimary: false,
           isChild: true,
           onTap: () {
+            FocusScope.of(context).unfocus();
             showDialog(
                 context: context,
                 builder: (context) {

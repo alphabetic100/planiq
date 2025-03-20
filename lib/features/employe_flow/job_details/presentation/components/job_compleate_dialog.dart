@@ -158,7 +158,7 @@ class JobCompleateDialog extends StatelessWidget {
             CustomButton(
                 onTap: () {
                   Get.back();
-                  jobController.compleateTask(jobID,
+                  jobController.makePaynemt(jobID,
                       paymentController.text.trim(), extraNoteCT.text.trim());
                 },
                 title: "Confirm")

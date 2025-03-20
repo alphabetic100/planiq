@@ -37,6 +37,7 @@ class NewTaskController extends GetxController {
 
 // Create Task
   Future<void> createNewTask() async {
+    log(date.value);
     try {
       showProgressIndicator();
       Dio dioClient = Dio(BaseOptions(
@@ -48,7 +49,9 @@ class NewTaskController extends GetxController {
       final requestBody = {
         "title": title.value,
         "location": location.value,
-        "date": date.value,
+        "date": AppHelperFunctions.convertDateFormat(
+                AppHelperFunctions.backendFomater(date.value)) ??
+            "",
         "time": time.value,
         "locationLink": mapLink.value,
         "description": description.value,

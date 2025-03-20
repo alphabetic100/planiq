@@ -92,7 +92,7 @@ class CustomJobCard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 8.0),
                       decoration: BoxDecoration(
-                        color: (!isFromAdmin && status == "Compleated")
+                        color: (!isFromAdmin && status == "COMPLETED")
                             ? AppColors.primaryColor
                             : statusColor(isFromAdmin
                                     ? status
@@ -107,7 +107,7 @@ class CustomJobCard extends StatelessWidget {
                               : decodeEmployeStatus(status),
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w600,
-                          color: (!isFromAdmin && status == "Compleated")
+                          color: (!isFromAdmin && status == "COMPLETED")
                               ? AppColors.white
                               : statusColor(isFromAdmin
                                   ? status
