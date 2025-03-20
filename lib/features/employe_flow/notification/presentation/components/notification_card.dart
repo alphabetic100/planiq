@@ -98,6 +98,8 @@ decodeEmployeStatus(String status) {
       return "Work In Progress";
     case "DECLINED":
       return "Declined";
+    case "COMPLETED":
+      return "Completed";
     default:
       return status;
   }

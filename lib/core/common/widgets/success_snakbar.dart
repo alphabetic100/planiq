@@ -12,7 +12,7 @@ successSnakbr({String? successMessage}) {
       colorText: AppColors.white,
       margin: EdgeInsets.all(10),
       borderRadius: 10,
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 2),
       messageText: Text(
         successMessage ?? "Operation Successful",
         style: TextStyle(

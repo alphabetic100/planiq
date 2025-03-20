@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
@@ -7,6 +9,7 @@ import 'package:planiq/core/common/widgets/success_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
+import 'package:planiq/core/utils/helpers/app_helper.dart';
 import 'package:planiq/features/employe_flow/job_details/model/assigned_task_model.dart';
 import 'package:planiq/features/employe_flow/job_details/model/job_details_model.dart';
 
@@ -15,7 +18,7 @@ class JobDetailScreenController extends GetxController {
   Rx<JobDetailsModel?> jobDetails = Rx<JobDetailsModel?>(null);
   Rx<AssignedTaskModel?> employeeDetail = Rx<AssignedTaskModel?>(null);
   RxString selectedType = "".obs;
-
+  RxBool isPaymentSuccess = false.obs;
   Future<void> getJobDetails(String jobID) async {
     if (jobID.isEmpty) {
       log("jobid is empty");
@@ -122,6 +125,7 @@ class JobDetailScreenController extends GetxController {
     }
   }
 
+//Decline task for employee
   Future<void> declineTask(String jobID) async {
     try {
       showProgressIndicator();
@@ -141,14 +145,14 @@ class JobDetailScreenController extends GetxController {
     }
   }
 
-  Future<void> compleateTask(
+//Recive payment request for employee
+  Future<void> makePaynemt(
       String jobID, String paymentAmount, String extraNote) async {
     if (selectedType.value == "") {
       errorSnakbar(errorMessage: "Please select the payment mathod");
       return;
     }
     try {
-      showProgressIndicator();
       final requestUrl = "${AppUrls.tasks}/payment/$jobID";
       final response = await networkCaller.postRequest(requestUrl,
           token: AuthService.token,
@@ -157,19 +161,23 @@ class JobDetailScreenController extends GetxController {
             "note": extraNote,
             "paymentMethod": selectedType.value
           });
-      hideProgressIndicatro();
+
       if (response.isSuccess) {
-        successSnakbr(successMessage: "You have compleated the task!");
+        isPaymentSuccess.value = true;
+        successSnakbr(successMessage: "Payment created successfully!");
         refreshScreen(jobID);
         update();
       } else {
+        isPaymentSuccess.value = false;
         errorSnakbar(errorMessage: response.errorMessage);
       }
     } catch (e) {
+      isPaymentSuccess.value = false;
       log("Something went wrong, error: $e");
     }
   }
 
+//Report issue for employee
   Future<void> reportIssue(String issue, String jobID) async {
     try {
       final String requestURL = "${AppUrls.reportIssue}$jobID";
@@ -187,6 +195,7 @@ class JobDetailScreenController extends GetxController {
     }
   }
 
+// Update job progress as employee
   Future<void> updateJobProgress(String title, String jobID) async {
     try {
       final requestUrl = "${AppUrls.updateProgress}$jobID";
@@ -207,7 +216,58 @@ class JobDetailScreenController extends GetxController {
     }
   }
 
+//change payment mathode
   void changeMethod(String methode) {
     selectedType.value = methode;
+  }
+
+  //Compleate Task
+  Future<void> completeTask(
+      String jobID, String notes, List<String> workPhoto) async {
+    final Dio dioClient = Dio(
+      BaseOptions(
+        connectTimeout: const Duration(seconds: 60),
+        receiveTimeout: const Duration(seconds: 60),
+        validateStatus: (status) {
+          return status! < 500;
+        },
+      ),
+    );
+
+    try {
+      // Request url
+      final requestUrl = "${AppUrls.completeTask}$jobID";
+      //List of images to sent
+      List<dio.MultipartFile> images = [];
+      for (var image in workPhoto) {
+        if (image.isNotEmpty) {
+          final temp = await dio.MultipartFile.fromFile(
+            image,
+            filename: AppHelperFunctions.generateUniqueFileName(image),
+          );
+          images.add(temp);
+        } else {
+          continue;
+        }
+        final dio.FormData requestForm = dio.FormData.fromMap({
+          "notes": notes,
+          "workPhoto": images,
+        });
+
+        final response = await dioClient.patch(requestUrl,
+            data: requestForm,
+            options: dio.Options(headers: {
+              "Authorization": AuthService.token,
+              'Content-Type': 'multipart/form-data',
+            }));
+
+        if (response.statusCode == 200 || response.statusCode == 201) {
+          successSnakbr(
+              successMessage: "Task has been compleated successfully");
+        } else {}
+      }
+    } catch (e) {
+      log("Something went wrong, error: $e");
+    }
   }
 }
