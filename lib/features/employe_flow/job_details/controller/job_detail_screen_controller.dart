@@ -156,6 +156,7 @@ class JobDetailScreenController extends GetxController {
       return;
     }
     try {
+      showProgressIndicator();
       final requestUrl = "${AppUrls.tasks}/payment/$jobID";
       final response = await networkCaller.postRequest(requestUrl,
           token: AuthService.token,
@@ -164,12 +165,9 @@ class JobDetailScreenController extends GetxController {
             "note": extraNote,
             "paymentMethod": selectedType.value
           });
-
+      hideProgressIndicatro();
       if (response.isSuccess) {
         isPaymentSuccess.value = true;
-        successSnakbr(successMessage: "Payment created successfully!");
-        refreshScreen(jobID);
-        update();
       } else {
         isPaymentSuccess.value = false;
         errorSnakbar(errorMessage: response.errorMessage);
