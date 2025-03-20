@@ -50,12 +50,13 @@ class AdditionalNoteSection extends StatelessWidget {
                 Divider(
                   color: Color(0xD9D9D999).withOpacity(0.6),
                 ),
-                _paymentDetails("Payment Method :", "Cash", FontWeight.bold),
-                _paymentDetails(
-                    "Payment Amount :", "€ 142.18", FontWeight.bold),
+                _paymentDetails("Payment Method :",
+                    details.payment[0].paymentMethod, FontWeight.bold),
+                _paymentDetails("Payment Amount :",
+                    "€ ${details.payment[0].amount}", FontWeight.bold),
                 details.notes != null
-                    ? _paymentDetails(
-                        "Extra note :", details.notes ?? "", FontWeight.w500)
+                    ? _paymentDetails("Extra note :", details.payment[0].note,
+                        FontWeight.w500)
                     : SizedBox.shrink(),
               ],
             ),
@@ -85,8 +86,24 @@ class AdditionalNoteSection extends StatelessWidget {
                       ),
                     ),
                   );
-                })
-          ]
+                }),
+            if (details.notes != null) ...[
+              if (details.notes!.isNotEmpty) ...[
+                VerticalSpace(height: 20),
+                CustomText(
+                  text: "AdiAdditional Notes",
+                  fontSize: 18,
+                ),
+                VerticalSpace(height: 10),
+                CustomText(
+                  text: details.notes ?? "",
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14,
+                )
+              ],
+            ],
+          ],
         ],
       );
     } else {

@@ -122,7 +122,12 @@ class AdminNotificationScreen extends StatelessWidget {
                       isAccepted: notification.title
                               .toLowerCase()
                               .contains("congratulations") ||
-                          notification.title.toLowerCase().contains("accepted"),
+                          notification.title
+                              .toLowerCase()
+                              .contains("accepted") ||
+                          notification.title
+                              .toLowerCase()
+                              .contains("completed"),
                       date: DateTime.now(),
                       onTap: () => log('Notification tapped'),
                     );

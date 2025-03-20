@@ -1,3 +1,4 @@
+// Updated JobDetailsModel to include Payment field
 class JobDetailsModel {
   final bool success;
   final int statusCode;
@@ -45,6 +46,7 @@ class JobData {
   final String status;
   final String createdAt;
   final String updatedAt;
+  final List<Payment> payment; // Added Payment field
 
   JobData({
     required this.id,
@@ -70,6 +72,7 @@ class JobData {
     required this.status,
     required this.createdAt,
     required this.updatedAt,
+    required this.payment, // Required Payment field
   });
 
   factory JobData.fromJson(Map<String, dynamic> json) {
@@ -100,6 +103,10 @@ class JobData {
       status: json['status'] ?? '',
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
+      payment: (json['Payment'] as List?)
+              ?.map((e) => Payment.fromJson(e))
+              .toList() ??
+          [],
     );
   }
 }
@@ -117,6 +124,42 @@ class ProgressStep {
     return ProgressStep(
       progress: json['progress'] ?? '',
       isCheck: json['isCheck'] ?? false,
+    );
+  }
+}
+
+// New Payment class added
+class Payment {
+  final String id;
+  final String jobId;
+  final String userId;
+  final String amount;
+  final String note;
+  final String paymentMethod;
+  final String createdAt;
+  final String updatedAt;
+
+  Payment({
+    required this.id,
+    required this.jobId,
+    required this.userId,
+    required this.amount,
+    required this.note,
+    required this.paymentMethod,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Payment.fromJson(Map<String, dynamic> json) {
+    return Payment(
+      id: json['id'] ?? '',
+      jobId: json['jobId'] ?? '',
+      userId: json['userId'] ?? '',
+      amount: json['amount'] ?? '',
+      note: json['note'] ?? '',
+      paymentMethod: json['paymentMethod'] ?? '',
+      createdAt: json['createdAt'] ?? '',
+      updatedAt: json['updatedAt'] ?? '',
     );
   }
 }
