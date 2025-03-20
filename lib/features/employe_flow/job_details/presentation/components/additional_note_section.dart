@@ -52,8 +52,12 @@ class AdditionalNoteSection extends StatelessWidget {
                 ),
                 _paymentDetails("Payment Method :",
                     details.payment[0].paymentMethod, FontWeight.bold),
-                _paymentDetails("Payment Amount :",
-                    "€ ${details.payment[0].amount}", FontWeight.bold),
+                _paymentDetails(
+                    "Payment Amount :",
+                    details.payment[0].amount.isNotEmpty
+                        ? "€ ${details.payment[0].amount}"
+                        : "N/A",
+                    FontWeight.bold),
                 details.notes != null
                     ? _paymentDetails("Extra note :", details.payment[0].note,
                         FontWeight.w500)

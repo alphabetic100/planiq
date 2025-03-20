@@ -20,6 +20,7 @@ class CustomTextField extends StatefulWidget {
     this.isPhoneField = false,
     this.numberOnly = false,
     this.keyboardType,
+    this.onSubmit,
   });
 
   final String? hintText;
@@ -31,6 +32,7 @@ class CustomTextField extends StatefulWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final Function(String value)? onChange;
+  final Function(String value)? onSubmit;
   final VoidCallback? onTap;
   final bool readOnly;
   final bool isPhoneField;
@@ -48,6 +50,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return TextFormField(
       readOnly: widget.readOnly,
       onChanged: widget.onChange,
+      onFieldSubmitted: widget.onSubmit,
       onTap: widget.onTap,
       maxLines: widget.maxLines,
       controller: widget.controller,

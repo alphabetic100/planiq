@@ -392,6 +392,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                           }).then((onValue) {
                                         if (jobScreenController
                                             .isPaymentSuccess.value) {
+                                          developer.log("message");
                                           jobScreenController.updateJobProgress(
                                               details.progress[index].progress,
                                               widget.jobId);
@@ -507,7 +508,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                                     .value
                                                     .isNotEmpty &&
                                                 additionalNotesController
-                                                    .images.isNotEmpty
+                                                    .images.isNotEmpty &&
+                                                details.progress.every(
+                                                    (test) => test.isCheck)
                                             ? AppColors.primaryColor
                                             : AppColors.white,
                                         color: additionalNotesController
@@ -515,7 +518,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                                     .value
                                                     .isNotEmpty &&
                                                 additionalNotesController
-                                                    .images.isNotEmpty
+                                                    .images.isNotEmpty &&
+                                                details.progress.every(
+                                                    (test) => test.isCheck)
                                             ? AppColors.primaryColor
                                             : AppColors.primaryColor
                                                 .withOpacity(0.5),
@@ -525,7 +530,9 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                                   .value
                                                   .isNotEmpty &&
                                               additionalNotesController
-                                                  .images.isNotEmpty) {
+                                                  .images.isNotEmpty &&
+                                              details.progress.every(
+                                                  (test) => test.isCheck)) {
                                             jobScreenController.completeTask(
                                                 widget.jobId,
                                                 additionalNotesController
@@ -535,7 +542,7 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                           } else {
                                             errorSnakbar(
                                                 errorMessage:
-                                                    "Please select yoru work photos and a note");
+                                                    "Please select yoru work photos and a note after compleating the all prgress,");
                                           }
                                         },
                                         title: "Mark as Complete"),

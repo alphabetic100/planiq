@@ -39,36 +39,54 @@ class EmployeNotificationScreen extends StatelessWidget {
                     ),
                   );
                 } else if (notifications.data.data.isEmpty) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.9,
-                    child: Center(
-                      child: CustomText(text: "No notifications are available"),
+                  return RefreshIndicator(
+                    color: AppColors.primaryColor,
+                    backgroundColor: AppColors.secondaryColor,
+                    onRefresh: () =>
+                        notificationController.getEmployeeNotification(),
+                    child: ListView(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.9,
+                          child: Center(
+                            child: CustomText(
+                                text: "No notifications are available"),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 } else {
                   return Column(
                     children: [
                       VerticalSpace(height: 20.h),
-                      ListView.builder(
-                          itemCount: notifications.data.data.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            final notification = notifications.data.data[index];
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 10.0.h),
-                              child: NotificationCard(
-                                catagory: notification.job.status.isEmpty
-                                    ? "error"
-                                    : 'general',
-                                title: notification.title,
-                                subtitle: notification.body,
-                                date: notification.createdAt.toString(),
-                                job: notification.job,
-                                jobId: notification.jobId,
-                              ),
-                            );
-                          }),
+                      RefreshIndicator(
+                        color: AppColors.primaryColor,
+                        backgroundColor: AppColors.secondaryColor,
+                        onRefresh: () =>
+                            notificationController.getEmployeeNotification(),
+                        child: ListView.builder(
+                            itemCount: notifications.data.data.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              final notification =
+                                  notifications.data.data[index];
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 10.0.h),
+                                child: NotificationCard(
+                                  catagory: notification.job.status.isEmpty
+                                      ? "error"
+                                      : 'general',
+                                  title: notification.title,
+                                  subtitle: notification.body,
+                                  date: notification.createdAt.toString(),
+                                  job: notification.job,
+                                  jobId: notification.jobId,
+                                ),
+                              );
+                            }),
+                      ),
                     ],
                   );
                 }

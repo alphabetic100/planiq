@@ -226,18 +226,18 @@ class JobDetailScreenController extends GetxController {
       String jobID, String notes, List<String> workPhoto) async {
     final Dio dioClient = Dio(
       BaseOptions(
-        connectTimeout: const Duration(seconds: 60),
-        receiveTimeout: const Duration(seconds: 60),
-        validateStatus: (status) {
-          return status! < 500;
-        },
+        connectTimeout: const Duration(seconds: 20),
+        receiveTimeout: const Duration(seconds: 40),
+        validateStatus: (status) => status! < 500,
       ),
     );
 
     try {
-      // Request url
+      showProgressIndicator();
+      // Request URL
       final requestUrl = "${AppUrls.completeTask}$jobID";
-      //List of images to sent
+
+      // List of images to send
       List<dio.MultipartFile> images = [];
       for (var image in workPhoto) {
         if (image.isNotEmpty) {
@@ -246,28 +246,36 @@ class JobDetailScreenController extends GetxController {
             filename: AppHelperFunctions.generateUniqueFileName(image),
           );
           images.add(temp);
-        } else {
-          continue;
         }
-        final dio.FormData requestForm = dio.FormData.fromMap({
-          "notes": notes,
-          "workPhoto": images,
-        });
+      }
 
-        final response = await dioClient.patch(requestUrl,
-            data: requestForm,
-            options: dio.Options(headers: {
-              "Authorization": AuthService.token,
-              'Content-Type': 'multipart/form-data',
-            }));
+      // Create request form (after collecting all images)
+      final dio.FormData requestForm = dio.FormData.fromMap({
+        "notes": notes,
+        "workPhoto": images,
+      });
 
-        if (response.statusCode == 200 || response.statusCode == 201) {
-          successSnakbr(
-              successMessage: "Task has been compleated successfully");
-        } else {}
+      // Send API request (after exiting loop)
+      final response = await dioClient.patch(
+        requestUrl,
+        data: requestForm,
+        options: dio.Options(headers: {
+          "Authorization": AuthService.token,
+          'Content-Type': 'multipart/form-data',
+        }),
+      );
+      hideProgressIndicatro();
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        successSnakbr(successMessage: "Task has been completed successfully");
+        refreshScreen(jobID);
+        update();
+      } else {
+        errorSnakbar(errorMessage: "Failed to complete the task.");
       }
     } catch (e) {
       log("Something went wrong, error: $e");
+      errorSnakbar(
+          errorMessage: "An error occurred while completing the task.");
     }
   }
 }
