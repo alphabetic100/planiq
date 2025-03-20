@@ -85,8 +85,10 @@ class AddNewEmployeeController extends GetxController {
 
       log(bodyData.toString());
 
-      final image = await dio.MultipartFile.fromFile(employeeImage.value,
-          filename: "profile${DateTime.now().millisecondsSinceEpoch}.jpg");
+      final image = employeeImage.value.isNotEmpty
+          ? await dio.MultipartFile.fromFile(employeeImage.value,
+              filename: "profile${DateTime.now().millisecondsSinceEpoch}.jpg")
+          : null;
 
       final dio.FormData formData = dio.FormData.fromMap({
         "bodyData": jsonEncode(bodyData),
@@ -115,6 +117,7 @@ class AddNewEmployeeController extends GetxController {
       }
     } catch (e) {
       log("Something went wrong, error: $e");
+      hideProgressIndicatro();
     }
 
     clearForm();

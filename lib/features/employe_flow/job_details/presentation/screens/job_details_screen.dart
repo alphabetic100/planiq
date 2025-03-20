@@ -392,9 +392,14 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                                         if (jobScreenController
                                             .isPaymentSuccess.value) {
                                           developer.log("message");
-                                          jobScreenController.updateJobProgress(
-                                              details.progress[index].progress,
-                                              widget.jobId);
+                                          Future.delayed(
+                                              Duration(milliseconds: 200), () {
+                                            jobScreenController
+                                                .updateJobProgress(
+                                                    details.progress[index]
+                                                        .progress,
+                                                    widget.jobId);
+                                          });
                                         } else {}
                                       });
                                     }
