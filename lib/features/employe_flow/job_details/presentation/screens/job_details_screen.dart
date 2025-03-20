@@ -435,7 +435,8 @@ class _JobDetailsScreenState extends State<JobDetailsScreen> {
                       ],
 
                       if (!widget.isFromAdmin) ...[
-                        if (details.status == "WIP") ...[
+                        if (details.status == "WIP" ||
+                            details.status == "COMPLETED") ...[
                           AdditionalNoteSection(
                             details: details,
                           ),

@@ -54,13 +54,13 @@ class AdditionalNoteSection extends StatelessWidget {
                 _paymentDetails(
                     "Payment Amount :", "€ 142.18", FontWeight.bold),
                 details.notes != null
-                    ? _paymentDetails("Payment Method :", details.notes ?? "",
-                        FontWeight.w500)
+                    ? _paymentDetails(
+                        "Extra note :", details.notes ?? "", FontWeight.w500)
                     : SizedBox.shrink(),
               ],
             ),
           ),
-          if (details.workPhoto.isEmpty) ...[
+          if (details.workPhoto.isNotEmpty) ...[
             VerticalSpace(height: 20),
             CustomText(
               text: "Uploaded work photos",
@@ -69,8 +69,8 @@ class AdditionalNoteSection extends StatelessWidget {
             VerticalSpace(height: 10),
             GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
-                itemCount: 5,
+                    crossAxisCount: 3, childAspectRatio: 12 / 13),
+                itemCount: details.workPhoto.length,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
@@ -79,8 +79,10 @@ class AdditionalNoteSection extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
+                        image: DecorationImage(
+                            image: NetworkImage(details.workPhoto[index]),
+                            fit: BoxFit.fill),
                       ),
-                      child: Image.asset(IconPath.profileIcon),
                     ),
                   );
                 })
