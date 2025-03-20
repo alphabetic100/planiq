@@ -138,6 +138,12 @@ class AppHelperFunctions {
     return wrappedList;
   }
 
+  static String formatDateTime(String dateTime) {
+  DateTime parsedDate = DateTime.parse(dateTime);
+  String formattedDate = DateFormat('E - dd/MM/yyyy').format(parsedDate);
+  return formattedDate;
+}
+
   static String getCurrentDateTime() {
     DateTime now = DateTime.now();
     // Format the date as "Monday, January 17"

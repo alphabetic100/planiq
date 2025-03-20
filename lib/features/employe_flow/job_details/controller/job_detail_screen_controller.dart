@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
@@ -17,6 +18,8 @@ class JobDetailScreenController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
   Rx<JobDetailsModel?> jobDetails = Rx<JobDetailsModel?>(null);
   Rx<AssignedTaskModel?> employeeDetail = Rx<AssignedTaskModel?>(null);
+  final TextEditingController paymentAmoutCT = TextEditingController();
+  final TextEditingController extraNoteCT = TextEditingController();
   RxString selectedType = "".obs;
   RxBool isPaymentSuccess = false.obs;
   Future<void> getJobDetails(String jobID) async {
@@ -153,6 +156,7 @@ class JobDetailScreenController extends GetxController {
       return;
     }
     try {
+      showProgressIndicator();
       final requestUrl = "${AppUrls.tasks}/payment/$jobID";
       final response = await networkCaller.postRequest(requestUrl,
           token: AuthService.token,
@@ -161,12 +165,9 @@ class JobDetailScreenController extends GetxController {
             "note": extraNote,
             "paymentMethod": selectedType.value
           });
-
+      hideProgressIndicatro();
       if (response.isSuccess) {
         isPaymentSuccess.value = true;
-        successSnakbr(successMessage: "Payment created successfully!");
-        refreshScreen(jobID);
-        update();
       } else {
         isPaymentSuccess.value = false;
         errorSnakbar(errorMessage: response.errorMessage);

@@ -51,9 +51,8 @@ class _EmployeProfileDetailsScreenState
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((callback) {
-      employeeController.getProfileDetails(widget.employeeID);
+      employeeController.getProfileDetails(widget.employeeID, widget.taskID);
     });
-    log("============================${widget.employeeID}");
   }
 
   @override

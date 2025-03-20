@@ -7,6 +7,7 @@ import 'package:planiq/core/common/widgets/success_snakbar.dart';
 import 'package:planiq/core/services/Auth_service.dart';
 import 'package:planiq/core/services/network_caller.dart';
 import 'package:planiq/core/utils/constants/app_urls.dart';
+import 'package:planiq/features/employe_flow/job_details/controller/job_detail_screen_controller.dart';
 import 'package:planiq/features/super_admin_flow/employe/model/employe_details_model.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/screen/edit_employe_details_screen.dart';
 import 'package:planiq/features/super_admin_flow/employe/presentation/widget/show_block_employee_dialog.dart';
@@ -18,7 +19,7 @@ class EmployeeProfileController extends GetxController {
   RxString employeeID = "".obs;
   RxString employeeName = "".obs;
 
-  Future<void> getProfileDetails(String profileID) async {
+  Future<void> getProfileDetails(String profileID, String jobID) async {
     try {
       showProgressIndicator();
       final requestUrl = "${AppUrls.register}/$profileID";
@@ -29,6 +30,8 @@ class EmployeeProfileController extends GetxController {
       hideProgressIndicatro();
       if (response.isSuccess) {
         profile.value = EmployeDetailsModel.fromJson(response.responseData);
+        JobDetailScreenController().refreshScreen(jobID);
+        update();
       } else {
         errorSnakbar(errorMessage: response.errorMessage);
       }

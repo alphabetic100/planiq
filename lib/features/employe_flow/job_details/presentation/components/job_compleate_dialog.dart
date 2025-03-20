@@ -11,8 +11,7 @@ class JobCompleateDialog extends StatelessWidget {
   JobCompleateDialog({super.key, required this.jobID});
   final JobDetailScreenController jobController =
       Get.find<JobDetailScreenController>();
-  final TextEditingController paymentController = TextEditingController();
-  final TextEditingController extraNoteCT = TextEditingController();
+
   final String jobID;
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class JobCompleateDialog extends StatelessWidget {
             ),
             VerticalSpace(height: 10),
             CustomTextField(
-              controller: paymentController,
+              controller: jobController.paymentAmoutCT,
               keyboardType: TextInputType.numberWithOptions(),
               numberOnly: true,
               prefixIcon: SizedBox(
@@ -65,7 +64,7 @@ class JobCompleateDialog extends StatelessWidget {
             ),
             VerticalSpace(height: 10),
             CustomTextField(
-              controller: extraNoteCT,
+              controller: jobController.extraNoteCT,
               maxLines: 3,
               hintText: "Write your note here...",
             ),
@@ -158,8 +157,12 @@ class JobCompleateDialog extends StatelessWidget {
             CustomButton(
                 onTap: () {
                   Get.back();
-                  jobController.makePaynemt(jobID,
-                      paymentController.text.trim(), extraNoteCT.text.trim());
+                  jobController.makePaynemt(
+                      jobID,
+                      jobController.paymentAmoutCT.text.trim(),
+                      jobController.extraNoteCT.text.trim());
+                  jobController.paymentAmoutCT.clear();
+                  jobController.extraNoteCT.clear();
                 },
                 title: "Confirm")
           ],
