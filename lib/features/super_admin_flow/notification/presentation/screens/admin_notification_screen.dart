@@ -240,7 +240,10 @@ class AdminNotificationScreen extends StatelessWidget {
                 notificationController.filterNotification(
                   isStatusFilter:
                       notificationController.statusFilter.value.isNotEmpty,
-                  statusFilter: notificationController.statusFilter.value,
+                  statusFilter:
+                      notificationController.statusFilter.value.contains("All")
+                          ? ""
+                          : notificationController.statusFilter.value,
                   dateFilter: dateCategoryMap[value] ?? "",
                 );
               }
