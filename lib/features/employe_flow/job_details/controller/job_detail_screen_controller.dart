@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:planiq/core/common/widgets/custom_progress_indicator.dart';
 import 'package:planiq/core/common/widgets/error_snakbar.dart';
@@ -17,6 +18,8 @@ class JobDetailScreenController extends GetxController {
   final NetworkCaller networkCaller = NetworkCaller();
   Rx<JobDetailsModel?> jobDetails = Rx<JobDetailsModel?>(null);
   Rx<AssignedTaskModel?> employeeDetail = Rx<AssignedTaskModel?>(null);
+  final TextEditingController paymentAmoutCT = TextEditingController();
+  final TextEditingController extraNoteCT = TextEditingController();
   RxString selectedType = "".obs;
   RxBool isPaymentSuccess = false.obs;
   Future<void> getJobDetails(String jobID) async {
